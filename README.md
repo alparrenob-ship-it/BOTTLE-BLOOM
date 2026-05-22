@@ -1,4 +1,4 @@
-# BOTTLE-BLOOM
+# BOTTLEBLOOM
 Sistema inteligente de clasificación, reutilización y transformación de botellas PET en EcoBottles con biofertilizantes mediante Inteligencia Artificial y Blockchain en el campus ZooBotánica de Eight Academy.
 # Integrantes
 Pamela Rubio – Líder
