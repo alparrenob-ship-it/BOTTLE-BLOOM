@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Escanear Botella — Bottle Bloom</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <!-- QR Code library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+<!-- Loading -->
+<div class="loading-overlay" id="loader">
+  <div class="loader"></div>
+  <p>Iniciando escáner...</p>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="https://raw.githubusercontent.com/alparrenob-ship-it/BOTTLE-BLOOM/main/ISOTIPO.png" alt="Logo" onerror="this.style.display='none'" />
+    Bottle Bloom
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">Inicio</a>
+    <a href="index.html#como-funciona">Cómo funciona</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="scanner.html" class="nav-cta active">Escanear</a>
+  </div>
+  <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="scanner-page">
+  <!-- Header -->
+  <div class="scanner-header">
+    <h1>🔍 Escáner de Botellas PET</h1>
+    <p>Sistema de clasificación inteligente con Inteligencia Artificial</p>
+  </div>
+
+  <div class="scanner-container">
+
+    <!-- Scanner Card -->
+    <div class="scanner-card">
+      <h2 style="font-size:1.1rem;font-weight:800;margin-bottom:1rem;">📸 Área de escaneo</h2>
+
+      <div class="scanner-area" id="scannerArea" onclick="startScan()">
+        <div class="scan-line"></div>
+        <div class="scan-overlay" id="scanOverlay">
+          <div class="scan-icon">🍶</div>
+          <p><strong>Haz clic para simular escaneo</strong><br/>o carga una imagen de tu botella PET</p>
+        </div>
+        <!-- Webcam feed / preview -->
+        <video id="webcamFeed" autoplay muted playsinline style="display:none;width:100%;height:100%;object-fit:cover;border-radius:8px;"></video>
+        <canvas id="captureCanvas" style="display:none;"></canvas>
+      </div>
+
+      <!-- Buttons -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-top:1rem;">
+        <button class="upload-btn" onclick="startScan()" id="scanBtn">
+          🤖 Analizar con IA
+        </button>
+        <button class="upload-btn" onclick="openCamera()" id="camBtn" style="background:var(--green-800);">
+          📷 Usar Cámara
+        </button>
+      </div>
+
+      <!-- File input hidden -->
+      <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="handleImageUpload(event)" />
+      <button class="upload-btn" onclick="document.getElementById('fileInput').click()" style="background:var(--gray-700);margin-top:0.8rem;">
+        📁 Cargar imagen desde archivo
+      </button>
+
+      <!-- Progress -->
+      <div id="scanProgress" style="display:none;margin-top:1.2rem;">
+        <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.5rem;">
+          <div class="loader" style="width:20px;height:20px;border-width:2px;"></div>
+          <span id="scanStatus" style="font-size:0.88rem;font-weight:600;color:var(--green-700);">Iniciando análisis...</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill" style="width:0%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Result Card -->
+    <div class="result-card" id="resultCard">
+      <div class="result-header">
+        <div class="result-dot" id="resultDot">🟢</div>
+        <div>
+          <h2 id="resultTitle">Botella Reutilizable</h2>
+          <p id="resultSubtitle">Análisis completado por IA Bottle Bloom v1.0</p>
+        </div>
+      </div>
+
+      <div class="ai-confidence">
+        <label>Confianza del modelo IA: <strong id="confidenceVal">94%</strong></label>
+        <div class="progress-bar"><div class="progress-fill" id="confidenceBar" style="width:0%;"></div></div>
+      </div>
+
+      <div class="result-grid">
+        <div class="result-stat">
+          <label>Estado físico</label>
+          <strong id="statEstado">Excelente</strong>
+        </div>
+        <div class="result-stat">
+          <label>Tipo de PET</label>
+          <strong id="statTipo">PET #1 Transparente</strong>
+        </div>
+        <div class="result-stat">
+          <label>Contaminación</label>
+          <strong id="statContam">0% — Limpia</strong>
+        </div>
+        <div class="result-stat">
+          <label>Volumen</label>
+          <strong id="statVol">500 ml</strong>
+        </div>
+      </div>
+
+      <div class="ecoin-reward">
+        <div class="ecoin-icon">🪙</div>
+        <div>
+          <strong id="ecoCoinsEarned">+50 EcoCoins ganados</strong>
+          <span>¡Gracias por contribuir al medio ambiente!</span>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+        <button class="btn btn-green" onclick="generateQR()" style="flex:1;">📲 Generar Pasaporte QR</button>
+        <button class="btn" onclick="registerBlockchain()" style="flex:1;background:var(--gray-900);color:var(--white);">⛓️ Registrar en Blockchain</button>
+      </div>
+    </div>
+
+    <!-- QR Card -->
+    <div class="qr-card" id="qrCard">
+      <h3>📲 Pasaporte Ecológico Digital</h3>
+      <div id="qrcode"></div>
+      <p style="font-size:0.82rem;color:var(--gray-400);margin-top:0.8rem;">ID único: <code id="bottleId" style="background:var(--gray-100);padding:0.2rem 0.5rem;border-radius:4px;font-size:0.8rem;"></code></p>
+      <p style="font-size:0.82rem;color:var(--gray-400);margin-top:0.3rem;">Escanea el QR para ver el historial completo de esta EcoBottle</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-top:1.2rem;">
+        <button class="btn btn-green" onclick="downloadQR()">⬇️ Descargar QR</button>
+        <button class="btn" onclick="scanAnother()" style="background:var(--gray-100);color:var(--gray-900);">🔄 Escanear otra</button>
+      </div>
+    </div>
+
+    <!-- Blockchain notification -->
+    <div id="blockchainNotif" style="display:none;background:linear-gradient(135deg,#0F172A,#1E293B);color:var(--white);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.5rem;animation:fadeInUp .4s ease;">
+      <h3 style="font-size:1rem;font-weight:800;margin-bottom:0.8rem;">⛓️ Registrado en Blockchain Flow</h3>
+      <div style="font-family:monospace;font-size:0.75rem;opacity:0.7;word-break:break-all;">
+        <p>Block: <span id="blockHash"></span></p>
+        <p>Timestamp: <span id="blockTime"></span></p>
+        <p>Network: Flow Testnet</p>
+        <p>Status: <span style="color:#4ADE80;font-weight:700;">✓ CONFIRMADO</span></p>
+      </div>
+    </div>
+
+    <!-- Instructions -->
+    <div class="scanner-card" style="background:var(--green-50);border:1px solid var(--green-100);">
+      <h3 style="font-size:1rem;font-weight:800;margin-bottom:1rem;color:var(--green-800);">💡 Cómo usar el escáner</h3>
+      <ol style="list-style:none;display:flex;flex-direction:column;gap:0.6rem;">
+        <li style="display:flex;gap:0.8rem;align-items:flex-start;font-size:0.88rem;">
+          <span style="background:var(--green-600);color:var(--white);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:800;flex-shrink:0;">1</span>
+          <span>Haz clic en <strong>"Analizar con IA"</strong> para simular el análisis de una botella PET aleatoria</span>
+        </li>
+        <li style="display:flex;gap:0.8rem;align-items:flex-start;font-size:0.88rem;">
+          <span style="background:var(--green-600);color:var(--white);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:800;flex-shrink:0;">2</span>
+          <span>O usa <strong>"Usar Cámara"</strong> para fotografiar una botella real con tu dispositivo</span>
+        </li>
+        <li style="display:flex;gap:0.8rem;align-items:flex-start;font-size:0.88rem;">
+          <span style="background:var(--green-600);color:var(--white);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:800;flex-shrink:0;">3</span>
+          <span>Espera el análisis y revisa la <strong>clasificación de la IA</strong></span>
+        </li>
+        <li style="display:flex;gap:0.8rem;align-items:flex-start;font-size:0.88rem;">
+          <span style="background:var(--green-600);color:var(--white);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:800;flex-shrink:0;">4</span>
+          <span>Genera el <strong>Pasaporte QR</strong> y regístralo en Blockchain para trazabilidad</span>
+        </li>
+      </ol>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">🌿 Bottle Bloom</div>
+  <div class="footer-links">
+    <a href="index.html">Inicio</a>
+    <a href="dashboard.html">Dashboard</a>
+  </div>
+  <p>© 2025 Bottle Bloom · Eight Academy</p>
+</footer>
+
+<script src="js/scanner.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
