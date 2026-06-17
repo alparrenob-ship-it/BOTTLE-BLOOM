@@ -1,0 +1,250 @@
+/* Presentation polish: demo controls, responsive layout, and mobile fixes */
+
+.btn-reset {
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.35);
+  color: var(--white);
+  white-space: nowrap;
+}
+
+.btn-reset:hover {
+  background: rgba(255,255,255,0.22);
+  transform: translateY(-1px);
+}
+
+.demo-status {
+  margin: 0 0 1.2rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--green-100);
+  border-radius: var(--radius-sm);
+  background: var(--green-50);
+  color: var(--green-800);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.dash-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.chart-wrap-short {
+  height: 200px;
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.prototype-band {
+  background: var(--white);
+}
+
+.prototype-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.prototype-panel {
+  border: 1px solid var(--green-100);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  background: var(--green-50);
+}
+
+.prototype-panel h3 {
+  font-size: 1rem;
+  font-weight: 800;
+  margin-bottom: 0.8rem;
+  color: var(--green-800);
+}
+
+.prototype-panel ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  list-style: none;
+}
+
+.prototype-panel li {
+  color: var(--gray-700);
+  font-size: 0.9rem;
+}
+
+.prototype-panel li::before {
+  content: "✓";
+  color: var(--green-600);
+  font-weight: 900;
+  margin-right: 0.45rem;
+}
+
+@media (max-width: 900px) {
+  .dash-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .btn-reset {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 15px;
+  }
+
+  .nav-links {
+    width: min(82vw, 300px);
+    align-items: flex-start;
+  }
+
+  .hero {
+    min-height: auto;
+    padding: 6rem 1rem 3rem;
+  }
+
+  .hero h1 {
+    font-size: 2.25rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .hero-btns,
+  .hero-btns .btn,
+  .scanner-card .btn,
+  .qr-card .btn {
+    width: 100%;
+  }
+
+  .hero-btns .btn,
+  .scanner-card .btn,
+  .qr-card .btn,
+  .upload-btn {
+    justify-content: center;
+    min-height: 46px;
+    text-align: center;
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.8rem;
+  }
+
+  .hero-stat strong {
+    font-size: 1.45rem;
+  }
+
+  .hero-stat span {
+    font-size: 0.68rem;
+  }
+
+  .scanner-container,
+  .dash-container {
+    padding: 1.2rem;
+  }
+
+  .scanner-card,
+  .result-card,
+  .qr-card,
+  .dash-card,
+  .metric-card {
+    border-radius: 12px;
+    padding: 1.2rem;
+  }
+
+  .scanner-card > div[style*="grid-template-columns:1fr 1fr"],
+  .result-card > div[style*="display:flex"],
+  .qr-card > div[style*="grid-template-columns:1fr 1fr"] {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .scanner-area {
+    aspect-ratio: 3 / 4;
+    max-height: 430px;
+  }
+
+  .result-header,
+  .ecoin-reward,
+  .block-item {
+    align-items: flex-start;
+  }
+
+  .block-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+  }
+
+  .block-time {
+    grid-column: 2;
+  }
+
+  .block-info span {
+    word-break: break-word;
+  }
+
+  .prototype-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .navbar {
+    padding: 0.75rem 1rem;
+  }
+
+  .nav-logo {
+    font-size: 1.05rem;
+  }
+
+  .nav-logo img {
+    width: 34px;
+    height: 34px;
+  }
+
+  .scanner-header,
+  .dash-header {
+    padding: 2rem 1.2rem;
+  }
+
+  .scanner-header h1,
+  .dash-header h1 {
+    font-size: 1.65rem;
+    line-height: 1.15;
+  }
+
+  .metrics-grid,
+  .steps-grid,
+  .tech-grid,
+  .team-grid,
+  .class-grid,
+  .achievements-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .metric-card {
+    align-items: flex-start;
+  }
+
+  .coin-display .coin-amount {
+    font-size: 2.35rem;
+  }
+
+  .footer-links {
+    flex-wrap: wrap;
+    gap: 0.8rem 1.1rem;
+  }
+}
