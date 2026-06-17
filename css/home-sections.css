@@ -1,0 +1,240 @@
+/* Bottle Bloom home sections: dark visual system based on the original concept image */
+
+.home-page main,
+.home-page section:not(.bb-home-hero) {
+  position: relative;
+  overflow: hidden;
+}
+
+.home-page section:not(.bb-home-hero) {
+  background:
+    radial-gradient(circle at 85% 12%, rgba(153, 216, 13, 0.11), transparent 24rem),
+    radial-gradient(circle at 5% 90%, rgba(16, 165, 245, 0.08), transparent 28rem),
+    linear-gradient(135deg, #050906 0%, #08110A 48%, #030604 100%);
+  border-top: 1px solid rgba(153,216,13,0.14);
+  color: #FFFFFF;
+}
+
+.home-page section:not(.bb-home-hero)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(153,216,13,0.045) 1px, transparent 1px),
+    linear-gradient(rgba(153,216,13,0.035) 1px, transparent 1px);
+  background-size: 76px 76px;
+  opacity: 0.32;
+  pointer-events: none;
+}
+
+.home-page section:not(.bb-home-hero)::after {
+  content: "";
+  position: absolute;
+  right: clamp(1rem, 4vw, 4rem);
+  top: clamp(1.2rem, 4vw, 3rem);
+  width: clamp(72px, 9vw, 120px);
+  height: clamp(72px, 9vw, 120px);
+  background: url("https://raw.githubusercontent.com/alparrenob-ship-it/BOTTLE-BLOOM/main/ISOTIPO.png") center/contain no-repeat;
+  opacity: 0.08;
+  filter: drop-shadow(0 0 18px rgba(153,216,13,0.35));
+  pointer-events: none;
+}
+
+.home-page .section-header,
+.home-page .steps-grid,
+.home-page .class-grid,
+.home-page .prototype-grid,
+.home-page .tech-grid,
+.home-page .team-grid,
+.home-page section > .fade-in,
+.home-page footer > * {
+  position: relative;
+  z-index: 1;
+}
+
+.home-page .section-label {
+  background: rgba(153,216,13,0.12);
+  border: 1px solid rgba(153,216,13,0.42);
+  color: #B6EF1A;
+  box-shadow: 0 0 22px rgba(153,216,13,0.11);
+}
+
+.home-page .section-header h2 {
+  color: #F8FFF2;
+  text-shadow: 0 0 24px rgba(153,216,13,0.08);
+}
+
+.home-page .section-header p {
+  color: rgba(255,255,255,0.68);
+}
+
+.home-page #como-funciona .steps-grid {
+  max-width: 1120px;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.home-page .step-card,
+.home-page .class-card,
+.home-page .prototype-panel,
+.home-page .team-card,
+.home-page #tecnologia .tech-card {
+  background: linear-gradient(180deg, rgba(16,22,18,0.94), rgba(5,8,6,0.96));
+  border: 1px solid rgba(153,216,13,0.28);
+  box-shadow: inset 0 0 24px rgba(0,0,0,0.62), 0 16px 42px rgba(0,0,0,0.3);
+  color: #FFFFFF;
+}
+
+.home-page .step-card:hover,
+.home-page .class-card:hover,
+.home-page .prototype-panel:hover,
+.home-page .team-card:hover,
+.home-page #tecnologia .tech-card:hover {
+  border-color: rgba(182,239,26,0.72);
+  box-shadow: inset 0 0 28px rgba(153,216,13,0.08), 0 22px 54px rgba(0,0,0,0.38), 0 0 26px rgba(153,216,13,0.13);
+}
+
+.home-page .step-num {
+  background: #99D80D;
+  color: #061006;
+  box-shadow: 0 0 20px rgba(153,216,13,0.5);
+}
+
+.home-page .step-icon,
+.home-page .class-dot,
+.home-page .tech-icon {
+  filter: drop-shadow(0 0 16px rgba(153,216,13,0.25));
+}
+
+.home-page .step-card h3,
+.home-page .class-card h3,
+.home-page .prototype-panel h3,
+.home-page .team-card h3,
+.home-page #tecnologia .tech-card h3 {
+  color: #FFFFFF;
+}
+
+.home-page .step-card p,
+.home-page .class-card p,
+.home-page .prototype-panel li,
+.home-page .team-card span,
+.home-page #tecnologia .tech-card p {
+  color: rgba(255,255,255,0.68);
+}
+
+.home-page .class-card.green {
+  border-color: rgba(81, 255, 87, 0.52);
+  background: linear-gradient(180deg, rgba(22,59,28,0.86), rgba(5,10,6,0.96));
+}
+
+.home-page .class-card.yellow {
+  border-color: rgba(246, 201, 14, 0.58);
+  background: linear-gradient(180deg, rgba(92,65,3,0.88), rgba(11,8,3,0.96));
+}
+
+.home-page .class-card.red {
+  border-color: rgba(239, 68, 68, 0.58);
+  background: linear-gradient(180deg, rgba(87,23,20,0.88), rgba(10,4,4,0.96));
+}
+
+.home-page .prototype-band {
+  background:
+    radial-gradient(circle at 75% 20%, rgba(16,165,245,0.11), transparent 24rem),
+    linear-gradient(135deg, #060B08, #081507 58%, #030604);
+}
+
+.home-page .prototype-panel {
+  padding: 2rem;
+  min-height: 260px;
+}
+
+.home-page .prototype-panel li::before {
+  color: #B6EF1A;
+  text-shadow: 0 0 12px rgba(153,216,13,0.5);
+}
+
+.home-page #tecnologia {
+  background:
+    radial-gradient(circle at 35% 20%, rgba(16,165,245,0.11), transparent 22rem),
+    radial-gradient(circle at 78% 72%, rgba(153,216,13,0.14), transparent 25rem),
+    linear-gradient(135deg, #040706, #0B1110 52%, #050806);
+}
+
+.home-page #tecnologia .tech-grid {
+  max-width: 1000px;
+}
+
+.home-page #tecnologia .tech-card {
+  min-height: 230px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.home-page #equipo {
+  background:
+    radial-gradient(circle at 20% 35%, rgba(153,216,13,0.1), transparent 22rem),
+    linear-gradient(135deg, #050906, #09110B 55%, #030604);
+}
+
+.home-page .team-card {
+  min-height: 190px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.home-page .team-avatar {
+  background: linear-gradient(135deg, #99D80D, #1B4332 65%, #10A5F5);
+  box-shadow: 0 0 28px rgba(153,216,13,0.28);
+}
+
+.home-page section[style*="linear-gradient"] {
+  border-top: 1px solid rgba(153,216,13,0.26);
+  background:
+    radial-gradient(circle at 50% 20%, rgba(153,216,13,0.2), transparent 30rem),
+    linear-gradient(135deg, #101907, #071008 52%, #030604) !important;
+}
+
+.home-page section[style*="linear-gradient"] .btn-primary {
+  background: linear-gradient(135deg, #B6EF1A, #88C900);
+  color: #071006;
+}
+
+.home-page section[style*="linear-gradient"] .btn-outline {
+  border-color: rgba(153,216,13,0.72);
+  color: #FFFFFF;
+  background: rgba(255,255,255,0.04);
+}
+
+.home-page footer {
+  background: #030604;
+  border-top: 1px solid rgba(153,216,13,0.25);
+}
+
+.home-page .footer-logo {
+  color: #B6EF1A;
+}
+
+.home-page .footer-links a:hover {
+  color: #B6EF1A;
+}
+
+@media (max-width: 1180px) {
+  .home-page #como-funciona .steps-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .home-page section:not(.bb-home-hero) {
+    padding: 4rem 1.2rem;
+  }
+
+  .home-page #como-funciona .steps-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-page .prototype-panel {
+    min-height: auto;
+  }
+}
