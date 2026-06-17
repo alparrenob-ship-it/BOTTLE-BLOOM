@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BottleBloom | Unete al cambio</title>
+  <meta name="theme-color" content="#050505" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/bottlebloom-app.css" />
+</head>
+<body>
+  <main class="auth-page">
+    <section class="auth-shell">
+      <div class="auth-hero">
+        <div class="logo-lockup">
+          <img src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom" />
+          <div class="brand-copy"><div class="brand-name">Bottle<span>Bloom</span></div><div class="brand-subtitle">Cuida hoy, transforma mañana</div></div>
+        </div>
+        <h1>Convierte reciclaje en <span>impacto real</span></h1>
+        <p>Registra botellas, gana Eight Coins, desbloquea NFTs y mide tu impacto ecologico desde una web app futurista.</p>
+        <div class="auth-stats">
+          <div class="auth-stat"><strong>8+</strong><small>coins por registro</small></div>
+          <div class="auth-stat"><strong>0.35</strong><small>kg CO2 por botella</small></div>
+          <div class="auth-stat"><strong>5</strong><small>NFTs ecologicos</small></div>
+        </div>
+      </div>
+      <form class="auth-card" id="registerForm" novalidate>
+        <div class="logo-lockup" style="justify-content:center"><img src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom" /></div>
+        <h2>Crear perfil Eco Guerrero</h2>
+        <p>Completa tus datos para entrar al dashboard BottleBloom.</p>
+        <div class="form-grid">
+          <div class="field"><label>Nombre completo</label><input name="fullName" autocomplete="name" required /><small></small></div>
+          <div class="field"><label>Correo electronico</label><input name="email" type="email" autocomplete="email" required /><small></small></div>
+          <div class="field"><label>Edad</label><input name="age" type="number" min="6" max="100" required /><small></small></div>
+          <div class="field"><label>Institucion</label><input name="institution" required /><small></small></div>
+          <button class="btn primary full hidden" id="nextBtn" type="submit">Siguiente</button>
+        </div>
+      </form>
+    </section>
+  </main>
+  <script type="module" src="js/bottlebloom-app.js"></script>
+</body>
+</html>
