@@ -132,7 +132,6 @@
 .flow-card,
 .info-card,
 .team-card,
-.live-impact,
 .bottle-hero-card {
   border: 1px solid rgba(92,255,92,.26);
   border-radius: 18px;
@@ -233,18 +232,6 @@
   filter: drop-shadow(0 0 32px rgba(92,255,92,.36)) drop-shadow(0 0 24px rgba(66,217,255,.18));
 }
 
-.live-impact {
-  position: absolute;
-  right: 0;
-  bottom: 18px;
-  width: min(360px, 48%);
-  padding: 18px;
-}
-.live-impact h3 { color: #5cff5c; font-family: Orbitron, Inter, sans-serif; text-transform: uppercase; font-size: .92rem; margin-bottom: 12px; }
-.live-impact-row { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid rgba(92,255,92,.14); }
-.live-impact-row span { color: rgba(255,255,255,.68); }
-.live-impact-row strong { color: #fff; }
-
 .landing-section {
   position: relative;
   z-index: 1;
@@ -297,7 +284,6 @@
   .landing-links { display: none; }
   .landing-hero { grid-template-columns: 1fr; }
   .hero-visual { min-height: auto; }
-  .live-impact { position: relative; width: 100%; margin-top: 16px; }
   .tech-strip, .metric-strip, .info-grid { grid-template-columns: repeat(2, 1fr); }
   .flow-strip { grid-template-columns: repeat(3, 1fr); }
   .team-grid, .ods-grid { grid-template-columns: repeat(2, 1fr); }
