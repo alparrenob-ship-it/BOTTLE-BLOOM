@@ -79,20 +79,26 @@
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(320px, .82fr) minmax(360px, 1fr);
-  gap: clamp(24px, 4vw, 70px);
+  grid-template-columns: minmax(0, .8fr) minmax(360px, 1fr);
+  gap: clamp(22px, 3.5vw, 56px);
   align-items: center;
   min-height: calc(100vh - 92px);
   padding: clamp(28px, 5vw, 74px) clamp(18px, 5vw, 76px);
   overflow: hidden;
 }
 
+.hero-copy {
+  min-width: 0;
+  max-width: 680px;
+}
+
 .hero-copy h1 {
   font-family: Orbitron, Inter, sans-serif;
-  font-size: clamp(2.9rem, 6vw, 6rem);
-  line-height: .96;
+  font-size: clamp(2.55rem, 4.8vw, 4.9rem);
+  line-height: 1.02;
   letter-spacing: 0;
-  max-width: 760px;
+  max-width: 100%;
+  overflow-wrap: normal;
 }
 
 .hero-copy h1 span {
@@ -103,9 +109,9 @@
 .hero-copy p {
   margin: 22px 0;
   color: rgba(255,255,255,.76);
-  font-size: clamp(1rem, 1.5vw, 1.22rem);
+  font-size: clamp(1rem, 1.35vw, 1.14rem);
   line-height: 1.62;
-  max-width: 600px;
+  max-width: 560px;
 }
 
 .hero-actions {
@@ -141,12 +147,13 @@
   position: relative;
   display: grid;
   align-items: center;
-  min-height: 560px;
+  min-height: 520px;
+  min-width: 0;
 }
 
 .bottle-hero-card {
   position: relative;
-  min-height: 520px;
+  min-height: 500px;
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -181,8 +188,8 @@
 .bottle-hero-card img {
   position: relative;
   z-index: 1;
-  max-height: 488px;
-  width: min(76%, 500px);
+  max-height: 468px;
+  width: min(76%, 480px);
   object-fit: contain;
   filter: drop-shadow(0 0 32px rgba(92,255,92,.36)) drop-shadow(0 0 24px rgba(66,217,255,.18));
 }
@@ -262,7 +269,7 @@
   .landing-hero { padding-top: 28px; }
   .hero-actions, .section-head, .landing-footer { flex-direction: column; align-items: stretch; }
   .info-grid, .team-grid, .ods-grid { grid-template-columns: 1fr; }
-  .hero-copy h1 { font-size: clamp(2.45rem, 15vw, 4.6rem); }
+  .hero-copy h1 { font-size: clamp(2.35rem, 12vw, 4.1rem); }
   .bottle-hero-card { min-height: 360px; }
   .bottle-hero-card img { width: min(86%, 360px); max-height: 330px; }
   .flow-image-card img { min-width: 680px; max-height: 430px; }
