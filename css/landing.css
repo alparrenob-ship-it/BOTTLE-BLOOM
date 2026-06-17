@@ -79,8 +79,8 @@
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, .8fr) minmax(360px, 1fr);
-  gap: clamp(22px, 3.5vw, 56px);
+  grid-template-columns: minmax(0, 1fr) minmax(250px, 380px);
+  gap: clamp(18px, 3vw, 42px);
   align-items: center;
   min-height: calc(100vh - 92px);
   padding: clamp(28px, 5vw, 74px) clamp(18px, 5vw, 76px);
@@ -89,7 +89,7 @@
 
 .hero-copy {
   min-width: 0;
-  max-width: 680px;
+  max-width: 760px;
 }
 
 .hero-copy h1 {
@@ -147,51 +147,53 @@
   position: relative;
   display: grid;
   align-items: center;
-  min-height: 520px;
+  justify-items: center;
+  min-height: 430px;
   min-width: 0;
 }
 
 .bottle-hero-card {
   position: relative;
-  min-height: 500px;
+  width: min(100%, 380px);
+  min-height: 430px;
   display: grid;
   place-items: center;
   overflow: hidden;
   border-color: rgba(66,217,255,.24);
   background:
-    radial-gradient(circle at 50% 48%, rgba(92,255,92,.22), transparent 17rem),
-    radial-gradient(circle at 62% 30%, rgba(66,217,255,.16), transparent 16rem),
+    radial-gradient(circle at 50% 48%, rgba(92,255,92,.22), transparent 13rem),
+    radial-gradient(circle at 62% 30%, rgba(66,217,255,.16), transparent 12rem),
     linear-gradient(145deg, rgba(12,24,17,.64), rgba(3,7,5,.94));
 }
 
 .bottle-hero-card::before {
   content: "";
   position: absolute;
-  inset: 10% 7%;
+  inset: 12% 6%;
   border-radius: 50%;
   border: 1px solid rgba(92,255,92,.16);
-  box-shadow: inset 0 0 44px rgba(92,255,92,.08), 0 0 80px rgba(66,217,255,.08);
+  box-shadow: inset 0 0 34px rgba(92,255,92,.08), 0 0 54px rgba(66,217,255,.08);
 }
 
 .bottle-hero-card::after {
   content: "";
   position: absolute;
-  left: 12%;
-  right: 12%;
-  bottom: 22px;
-  height: 110px;
+  left: 14%;
+  right: 14%;
+  bottom: 18px;
+  height: 80px;
   border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(92,255,92,.32), transparent 68%);
+  background: radial-gradient(ellipse, rgba(92,255,92,.3), transparent 68%);
   filter: blur(12px);
 }
 
 .bottle-hero-card img {
   position: relative;
   z-index: 1;
-  max-height: 468px;
-  width: min(76%, 480px);
+  max-height: 410px;
+  width: min(82%, 330px);
   object-fit: contain;
-  filter: drop-shadow(0 0 32px rgba(92,255,92,.36)) drop-shadow(0 0 24px rgba(66,217,255,.18));
+  filter: drop-shadow(0 0 30px rgba(92,255,92,.34)) drop-shadow(0 0 20px rgba(66,217,255,.16));
 }
 
 .landing-section {
@@ -260,7 +262,7 @@
   .hero-visual { min-height: auto; }
   .info-grid { grid-template-columns: repeat(2, 1fr); }
   .team-grid, .ods-grid { grid-template-columns: repeat(2, 1fr); }
-  .bottle-hero-card { min-height: 480px; }
+  .bottle-hero-card { min-height: 430px; }
 }
 
 @media (max-width: 680px) {
@@ -270,7 +272,7 @@
   .hero-actions, .section-head, .landing-footer { flex-direction: column; align-items: stretch; }
   .info-grid, .team-grid, .ods-grid { grid-template-columns: 1fr; }
   .hero-copy h1 { font-size: clamp(2.35rem, 12vw, 4.1rem); }
-  .bottle-hero-card { min-height: 360px; }
-  .bottle-hero-card img { width: min(86%, 360px); max-height: 330px; }
+  .bottle-hero-card { width: 100%; min-height: 360px; }
+  .bottle-hero-card img { width: min(78%, 300px); max-height: 330px; }
   .flow-image-card img { min-width: 680px; max-height: 430px; }
 }
