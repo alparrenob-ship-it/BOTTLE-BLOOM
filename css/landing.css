@@ -133,7 +133,7 @@
 .info-card,
 .team-card,
 .live-impact,
-.station-visual {
+.bottle-hero-card {
   border: 1px solid rgba(92,255,92,.26);
   border-radius: 18px;
   background: linear-gradient(145deg, rgba(12,24,17,.72), rgba(5,5,5,.78));
@@ -190,58 +190,48 @@
   min-height: 620px;
 }
 
-.station-visual {
+.bottle-hero-card {
   position: relative;
-  min-height: 520px;
-  padding: 28px;
+  min-height: 560px;
+  display: grid;
+  place-items: center;
   overflow: hidden;
-  border-color: rgba(66,217,255,.22);
+  border-color: rgba(66,217,255,.24);
   background:
-    radial-gradient(circle at 20% 38%, rgba(92,255,92,.24), transparent 18rem),
-    linear-gradient(145deg, rgba(12,24,17,.7), rgba(3,7,5,.94));
+    radial-gradient(circle at 50% 48%, rgba(92,255,92,.22), transparent 17rem),
+    radial-gradient(circle at 62% 30%, rgba(66,217,255,.16), transparent 16rem),
+    linear-gradient(145deg, rgba(12,24,17,.64), rgba(3,7,5,.94));
 }
 
-.station-visual::before {
+.bottle-hero-card::before {
   content: "";
   position: absolute;
-  inset: auto -30px -46px 16%;
-  height: 160px;
+  inset: 10% 7%;
   border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(92,255,92,.28), transparent 68%);
-  filter: blur(10px);
+  border: 1px solid rgba(92,255,92,.16);
+  box-shadow: inset 0 0 44px rgba(92,255,92,.08), 0 0 80px rgba(66,217,255,.08);
 }
 
-.station-top {
-  width: min(100%, 540px);
-  min-height: 350px;
-  margin-left: auto;
-  border-radius: 34px 34px 12px 12px;
-  padding: 24px;
-  background: linear-gradient(135deg, #0d0d0d, #171717 58%, #060606);
-  border: 1px solid rgba(92,255,92,.26);
-  box-shadow: 0 30px 60px rgba(0,0,0,.46), 0 0 32px rgba(92,255,92,.22);
+.bottle-hero-card::after {
+  content: "";
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: 22px;
+  height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(92,255,92,.32), transparent 68%);
+  filter: blur(12px);
 }
 
-.station-title {
-  color: #5cff5c;
-  text-align: center;
-  font-family: Orbitron, Inter, sans-serif;
-  text-transform: uppercase;
-  padding: 10px;
-  border-radius: 10px;
-  background: #050505;
-  border: 1px solid rgba(92,255,92,.28);
+.bottle-hero-card img {
+  position: relative;
+  z-index: 1;
+  max-height: 520px;
+  width: min(78%, 520px);
+  object-fit: contain;
+  filter: drop-shadow(0 0 32px rgba(92,255,92,.36)) drop-shadow(0 0 24px rgba(66,217,255,.18));
 }
-
-.station-panels { display: grid; grid-template-columns: .8fr 1fr .85fr; gap: 12px; margin-top: 18px; min-height: 210px; }
-.station-panel { border: 1px solid rgba(92,255,92,.22); border-radius: 12px; background: #050805; display: grid; place-items: center; text-align: center; padding: 12px; color: #5cff5c; }
-.station-bottle { width: 54px; height: 150px; border-radius: 16px 16px 24px 24px; border: 3px solid rgba(255,255,255,.72); background: linear-gradient(90deg, rgba(255,255,255,.13), rgba(92,255,92,.24), rgba(66,217,255,.12)); box-shadow: 0 0 28px rgba(92,255,92,.42); }
-.station-brand img { width: 106px; margin: 0 auto 8px; }
-.station-bins { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-left: auto; width: min(100%, 540px); }
-.station-bin { min-height: 96px; display: grid; place-items: center; padding: 10px; color: #fff; font-weight: 900; text-align: center; border-radius: 10px; font-size: .78rem; text-transform: uppercase; }
-.station-bin.green { background: linear-gradient(180deg, #2faf2f, #174d17); }
-.station-bin.blue { background: linear-gradient(180deg, #157999, #0c3747); }
-.station-bin.dark { background: linear-gradient(180deg, #10261a, #07100a); border: 1px solid rgba(92,255,92,.25); }
 
 .live-impact {
   position: absolute;
@@ -311,6 +301,7 @@
   .tech-strip, .metric-strip, .info-grid { grid-template-columns: repeat(2, 1fr); }
   .flow-strip { grid-template-columns: repeat(3, 1fr); }
   .team-grid, .ods-grid { grid-template-columns: repeat(2, 1fr); }
+  .bottle-hero-card { min-height: 480px; }
 }
 
 @media (max-width: 680px) {
@@ -319,6 +310,7 @@
   .landing-hero { padding-top: 28px; }
   .hero-actions, .section-head, .landing-footer { flex-direction: column; align-items: stretch; }
   .tech-strip, .metric-strip, .flow-strip, .info-grid, .team-grid, .ods-grid { grid-template-columns: 1fr; }
-  .station-panels, .station-bins { grid-template-columns: 1fr; }
   .hero-copy h1 { font-size: clamp(2.45rem, 15vw, 4.6rem); }
+  .bottle-hero-card { min-height: 360px; }
+  .bottle-hero-card img { width: min(86%, 360px); max-height: 330px; }
 }
