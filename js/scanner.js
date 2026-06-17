@@ -99,7 +99,7 @@ function startScan() {
     area.classList.remove('scanning');
     progress.style.display = 'none';
     btn.disabled = false;
-    btn.textContent = '🤖 Analizar con IA';
+    btn.textContent = '🤖 Simular análisis IA';
     showResult();
   }, 2600);
 }
