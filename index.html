@@ -3,128 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bottle Bloom — Sistema Inteligente de Reciclaje PET</title>
-  <meta name="description" content="Bottle Bloom: demo interactiva para clasificar botellas PET, generar QR, sumar EcoCoins y visualizar impacto ambiental." />
-  <meta property="og:title" content="Bottle Bloom" />
-  <meta property="og:description" content="Reciclaje PET inteligente con QR, EcoCoins y dashboard ambiental." />
-  <meta property="og:image" content="assets/preview.svg" />
+  <title>BottleBloom | Registro</title>
+  <meta name="theme-color" content="#050505" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/presentation.css" />
-  <link rel="stylesheet" href="css/home-sections.css" />
-  <link rel="stylesheet" href="css/architecture.css" />
-  <link rel="stylesheet" href="css/identity.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Kalam:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/bottlebloom-app.css" />
 </head>
-<body class="home-page">
-
-<div class="loading-overlay" id="loader"><div class="loader"></div><p>Bottle Bloom cargando...</p></div>
-
-<nav class="navbar home-nav">
-  <a href="index.html" class="nav-logo home-logo brand-only"><img class="brand-logo-img" src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="Bottle Bloom" /></a>
-  <div class="nav-links" id="navLinks">
-    <a href="index.html" class="active">Inicio</a>
-    <a href="#como-funciona">Cómo funciona</a>
-    <a href="#tecnologia">Tecnología</a>
-    <a href="dashboard.html">Impacto</a>
-    <a href="#equipo">Academia</a>
-    <a href="demo.html">Tienda</a>
-    <a href="#equipo">Comunidad</a>
-    <a href="scanner.html" class="nav-cta home-cta">Únete al cambio</a>
-    <a href="dashboard.html" class="home-profile" aria-label="Perfil">●</a>
-  </div>
-  <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
-</nav>
-
-<section class="bb-home-hero">
-  <div class="bb-hero-copy">
-    <h1>Transformamos botellas en <span>vida.</span></h1>
-    <p><strong>Bottle Bloom</strong> utiliza IA, QR y Blockchain para convertir botellas PET en EcoBottles con biofertilizante y generar un impacto real.</p>
-    <div class="bb-hero-actions"><a href="scanner.html" class="btn bb-primary-action">▢ Escanear botella</a><a href="#como-funciona" class="btn bb-secondary-action">▷ Ver cómo funciona</a></div>
-  </div>
-
-  <div class="bb-feature-row">
-    <div class="bb-mini-feature"><span>🧠</span><div><strong>IA</strong><small>Inteligencia Artificial</small></div></div>
-    <div class="bb-mini-feature"><span>▦</span><div><strong>QR inteligente</strong><small>Pasaporte ecológico de cada botella</small></div></div>
-    <div class="bb-mini-feature"><span>🔗</span><div><strong>Blockchain</strong><small>Trazabilidad segura y transparente</small></div></div>
-    <div class="bb-mini-feature"><span>🌱</span><div><strong>Impacto positivo</strong><small>Menos residuos, más vida</small></div></div>
-  </div>
-
-  <div class="bb-station-wrap" aria-label="Ilustración de estación Bottle Bloom">
-    <div class="bb-station">
-      <div class="bb-station-top">Bottle Bloom Station</div>
-      <div class="bb-station-main">
-        <div class="bb-scan-panel"><strong>Escanea tu botella</strong><span>Colócala dentro del marco</span><div class="bb-bottle-mini"></div><button>Escanear</button></div>
-        <div class="bb-bottle-chamber"><div class="bb-glow-line"></div><div class="bb-bottle-large"></div></div>
-        <div class="bb-brand-panel"><img class="bb-station-logo" src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="Bottle Bloom" /><small>Transformamos botellas en vida.</small><div class="bb-ticket">QR</div></div>
+<body>
+  <main class="auth-page">
+    <section class="auth-shell">
+      <div class="auth-hero">
+        <div class="logo-lockup">
+          <img src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom" />
+          <div class="brand-copy"><div class="brand-name">Bottle<span>Bloom</span></div><div class="brand-subtitle">Cuida hoy, transforma mañana</div></div>
+        </div>
+        <h1>Convierte reciclaje en <span>impacto real</span></h1>
+        <p>Registra botellas, gana Eight Coins, desbloquea NFTs y mide tu impacto ecologico desde una web app futurista.</p>
+        <div class="auth-stats">
+          <div class="auth-stat"><strong>8+</strong><small>coins por registro</small></div>
+          <div class="auth-stat"><strong>0.35</strong><small>kg CO2 por botella</small></div>
+          <div class="auth-stat"><strong>5</strong><small>NFTs ecologicos</small></div>
+        </div>
       </div>
-      <div class="bb-bin-row"><div class="bb-bin green"><strong>♻</strong><span>Reutilización</span><small>EcoBottle</small></div><div class="bb-bin yellow"><strong>♻</strong><span>Reciclaje</span><small>Industrial</small></div><div class="bb-bin red"><strong>×</strong><span>Descarte</span><small>Contaminado</small></div></div>
-    </div>
-    <div class="bb-fertilizer-tank"><div></div><span>Biofertilizante orgánico</span></div>
-  </div>
-
-  <div class="bb-impact-strip">
-    <div><span>🍶</span><div><strong>1024+</strong><small>Botellas clasificadas</small></div></div>
-    <div><span>🧴</span><div><strong>317+</strong><small>EcoBottles creadas</small></div></div>
-    <div><span>🌿</span><div><strong>18.7 kg</strong><small>CO₂ reducido</small></div></div>
-    <div><span>💧</span><div><strong>45 L</strong><small>Biofertilizante producido</small></div></div>
-    <div><span>★</span><div><strong>850+</strong><small>EcoCoins generadas</small></div></div>
-    <div><span>🌱</span><div><strong>230+</strong><small>Plantas beneficiadas</small></div></div>
-  </div>
-
-  <aside class="home-impact-panel" aria-label="Impacto en tiempo real">
-    <h3>Tu impacto en tiempo real</h3>
-    <div class="impact-row"><span>♻</span><small>CO₂ reducido</small><strong>18.7 kg</strong></div>
-    <div class="impact-row"><span>💧</span><small>Biofertilizante producido</small><strong>45 Litros</strong></div>
-    <div class="impact-row"><span>🌱</span><small>Plantas beneficiadas</small><strong>230+</strong></div>
-    <div class="impact-row"><span>🪙</span><small>EcoCoins generadas</small><strong>850+</strong></div>
-    <a class="btn bb-primary-action" href="dashboard.html">Ver dashboard completo →</a>
-  </aside>
-
-  <div class="home-flow-strip">
-    <div class="home-flow-title">¿Cómo funciona?</div>
-    <article class="home-flow-card"><div class="num">1</div><div class="icon">📷</div><strong>Escaneo</strong><small>Escaneamos tu botella PET con IA.</small></article>
-    <article class="home-flow-card"><div class="num">2</div><div class="icon">🟢🟡🔴</div><strong>Clasificación</strong><small>La IA determina si es apta, requiere limpieza o descarte.</small></article>
-    <article class="home-flow-card"><div class="num">3</div><div class="icon">🫧</div><strong>Limpieza</strong><small>Las botellas aptas pasan por EcoWash.</small></article>
-    <article class="home-flow-card"><div class="num">4</div><div class="icon">▦</div><strong>Registro</strong><small>Generamos un QR único para tu EcoBottle.</small></article>
-    <article class="home-flow-card"><div class="num">5</div><div class="icon">🔗</div><strong>Blockchain</strong><small>Registramos la botella de forma segura.</small></article>
-    <article class="home-flow-card"><div class="num">6</div><div class="icon">🧴</div><strong>Transformación</strong><small>Se llena con biofertilizante orgánico.</small></article>
-    <article class="home-flow-card"><div class="num">7</div><div class="icon">🌱</div><strong>Impacto</strong><small>Generas impacto, EcoCoins y ayudas al planeta.</small></article>
-  </div>
-
-  <div class="home-reward-strip">
-    <div><h3>Sé parte del cambio</h3><p>Cada botella cuenta, cada acción transforma el planeta.</p></div>
-    <div class="reward-mascots"><img src="assets/MASCOTA%20PLANTA.png" alt="Mascota planta" /><img src="assets/MASCOTA%20BOTELLA.png" alt="Mascota botella" /><img src="assets/MASCOTA%20PLANTA.png" alt="Mascota ecológica" /></div>
-    <div><h3>¡Recicla, transforma y gana recompensas!</h3><p><a class="btn bb-secondary-action" href="demo.html">Descubrir recompensas →</a></p></div>
-  </div>
-</section>
-
-<section id="como-funciona">
-  <div class="section-header fade-in"><span class="section-label">Cómo funciona</span><h2>¿Cómo funciona Bottle Bloom?</h2><p>Tecnología, sostenibilidad y comunidad en un solo flujo: desde la botella PET hasta el impacto medible.</p></div>
-  <div class="how-system fade-in">
-    <div class="how-timeline">
-      <article class="how-step"><div class="step-badge">1</div><div class="step-visual"><span class="step-symbol">🍶</span></div><h3>Insertas tu botella</h3><p>El estudiante coloca la botella PET en la estación Bottle Bloom.</p></article>
-      <article class="how-step"><div class="step-badge">2</div><div class="step-visual"><span class="step-symbol">📷</span></div><h3>Escaneo con IA</h3><p>La cámara analiza forma, transparencia, color y estado general.</p></article>
-      <article class="how-step"><div class="step-badge">3</div><div class="step-visual"><span class="step-symbol">🟢🟡🔴</span></div><h3>Clasificación</h3><p>La IA decide si la botella se reutiliza, se limpia o se descarta.</p></article>
-      <article class="how-step"><div class="step-badge">4</div><div class="step-visual"><span class="step-symbol">💧</span></div><h3>Limpieza ecológica</h3><p>Las botellas reutilizables pasan por Eco Wash con agua reciclada.</p></article>
-      <article class="how-step"><div class="step-badge">5</div><div class="step-visual"><span class="step-symbol">🌿</span></div><h3>Biofertilizante</h3><p>La EcoBottle se llena con biofertilizante producido en el campus.</p></article>
-      <article class="how-step"><div class="step-badge">6</div><div class="step-visual"><span class="step-symbol">▦</span></div><h3>QR único</h3><p>Cada EcoBottle recibe un pasaporte ecológico con su historia.</p></article>
-      <article class="how-step"><div class="step-badge">7</div><div class="step-visual"><span class="step-symbol">🔗</span></div><h3>Blockchain</h3><p>El registro queda trazable y transparente para la comunidad.</p></article>
-      <article class="how-step"><div class="step-badge">8</div><div class="step-visual"><img src="assets/MASCOTA%20PLANTA.png" alt="EcoCoins e impacto" /></div><h3>Impacto y EcoCoins</h3><p>El usuario gana recompensas y visualiza su impacto ambiental.</p></article>
-    </div>
-    <div class="how-tech-results"><div class="tech-result-panel"><h3>Tecnologías que lo hacen posible</h3><div class="tech-result-grid"><div class="tech-result-item"><span>AI</span><strong>Inteligencia artificial</strong></div><div class="tech-result-item"><span>▦</span><strong>Códigos QR</strong></div><div class="tech-result-item"><span>🔗</span><strong>Blockchain Flow</strong></div><div class="tech-result-item"><span>🌿</span><strong>Biofertilizante</strong></div></div></div><div class="tech-result-panel"><h3>Resultados que generamos</h3><div class="tech-result-grid"><div class="tech-result-item"><span>♻</span><strong>Menos contaminación</strong></div><div class="tech-result-item"><span>🌱</span><strong>Aprovechamiento</strong></div><div class="tech-result-item"><span>👥</span><strong>Comunidad</strong></div><div class="tech-result-item"><span>📈</span><strong>Impacto medible</strong></div></div></div></div>
-  </div>
-</section>
-
-<section id="tecnologia"><div class="section-header fade-in"><span class="section-label">Tecnología</span><h2>Tecnología que regenera</h2><p>Bottle Bloom combina Inteligencia Artificial, QR inteligente y Blockchain para crear un sistema sostenible, transparente y educativo.</p></div><div class="tech-grid"><div class="tech-card fade-in"><div class="tech-icon">🤖</div><h3>IA</h3><p>Análisis de botella, tipo PET, estado y color.</p></div><div class="tech-card fade-in"><div class="tech-icon">▦</div><h3>QR</h3><p>Identidad única y pasaporte ecológico.</p></div><div class="tech-card fade-in"><div class="tech-icon">🔗</div><h3>Blockchain</h3><p>Registro seguro y trazabilidad transparente.</p></div><div class="tech-card fade-in"><div class="tech-icon">🪙</div><h3>EcoCoins / NFTs</h3><p>Recompensas, mascotas digitales y ranking.</p></div></div></section>
-
-<section id="equipo"><div class="section-header fade-in"><span class="section-label">Equipo</span><h2>Conoce a nuestro equipo</h2><p>Estudiantes comprometidos con transformar botellas en vida.</p></div><div class="team-showcase fade-in"><div class="team-photo-grid"><article class="team-photo-card"><img class="member-photo" src="assets/PAMELA%20RUBIO.jpeg" alt="Pamela Rubio" /><h3>Pamela Rubio</h3><span>Líder</span><p>Coordina el proyecto y organiza la visión del equipo.</p></article><article class="team-photo-card"><img class="member-photo" src="assets/EMILY%20OROZCO.jpeg" alt="Emily Orozco" /><h3>Emily Orozco</h3><span>Secretaria</span><p>Documenta avances y apoya la presentación del flujo.</p></article><article class="team-photo-card"><img class="member-photo" src="assets/THOMAS%20HERMIDA.jpeg" alt="Thomas Hermida" /><h3>Thomas Hermida</h3><span>Expositor</span><p>Comunica la solución y conecta la idea con la audiencia.</p></article><article class="team-photo-card"><img class="member-photo" src="assets/EMANUEL%20GERARDO.jpeg" alt="Emanuel Gerardo" /><h3>Emanuel Gerardo</h3><span>Diseñador</span><p>Da forma visual a la experiencia Bottle Bloom.</p></article><article class="team-photo-card"><img class="member-photo" src="assets/JUAN%20DIEGO%20MORENO.jpeg" alt="Juan Diego Moreno" /><h3>Juan Diego Moreno</h3><span>Investigador</span><p>Investiga tecnología, sostenibilidad e impacto ambiental.</p></article></div></div></section>
-
-<section style="background:linear-gradient(135deg,var(--green-900),var(--green-700));text-align:center;padding:4rem 2rem;"><div class="fade-in"><h2 style="font-size:2rem;font-weight:900;color:var(--white);margin-bottom:1rem;">Listo para presentar</h2><p style="color:rgba(255,255,255,0.8);margin-bottom:2rem;max-width:560px;margin-left:auto;margin-right:auto;">Prueba el escáner, genera un QR, reinicia la demo desde el dashboard y comparte el enlace publicado.</p><div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;"><a href="scanner.html" class="btn btn-primary">🔍 Escanear ahora</a><a href="dashboard.html" class="btn btn-outline">📊 Ver estadísticas</a></div></div></section>
-
-<footer><div class="footer-logo"><img class="brand-logo-img" src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="Bottle Bloom" /></div><p>Sistema inteligente de clasificación y reutilización de botellas PET</p><div class="footer-links"><a href="index.html">Inicio</a><a href="scanner.html">Escanear</a><a href="dashboard.html">Dashboard</a><a href="demo.html">Demo</a><a href="https://github.com/alparrenob-ship-it/BOTTLE-BLOOM" target="_blank">GitHub</a></div><p>© 2025 Bottle Bloom · Eight Academy · ODS 13</p></footer>
-
-<script src="js/app.js"></script>
+      <form class="auth-card" id="registerForm" novalidate>
+        <div class="logo-lockup" style="justify-content:center"><img src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom" /></div>
+        <h2>Crear perfil Eco Guerrero</h2>
+        <p>Completa tus datos para entrar al dashboard BottleBloom.</p>
+        <div class="form-grid">
+          <div class="field"><label>Nombre completo</label><input name="fullName" autocomplete="name" required /><small></small></div>
+          <div class="field"><label>Correo electronico</label><input name="email" type="email" autocomplete="email" required /><small></small></div>
+          <div class="field"><label>Edad</label><input name="age" type="number" min="6" max="100" required /><small></small></div>
+          <div class="field"><label>Institucion</label><input name="institution" required /><small></small></div>
+          <button class="btn primary full hidden" id="nextBtn" type="submit">Siguiente</button>
+        </div>
+      </form>
+    </section>
+  </main>
+  <script type="module" src="js/bottlebloom-app.js"></script>
 </body>
 </html>
