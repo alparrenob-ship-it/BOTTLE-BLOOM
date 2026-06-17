@@ -4,6 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard Ecológico — Bottle Bloom</title>
+  <meta name="description" content="Dashboard ecológico de Bottle Bloom con métricas demo, EcoCoins, ranking y trazabilidad simulada." />
+  <meta property="og:title" content="Bottle Bloom Dashboard" />
+  <meta property="og:description" content="Impacto ambiental, EcoCoins y registros demo de botellas PET." />
+  <meta property="og:image" content="assets/preview.svg" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="css/style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -36,11 +41,15 @@
 <div class="dash-page">
   <!-- Header -->
   <div class="dash-header">
-    <h1>📊 Dashboard Ecológico</h1>
-    <p>Impacto ambiental en tiempo real del campus ZooBotánica · Eight Academy</p>
+    <div>
+      <h1>📊 Dashboard Ecológico</h1>
+      <p>Impacto ambiental demo del campus ZooBotánica · Eight Academy</p>
+    </div>
+    <button class="btn btn-reset" type="button" onclick="resetDemoData()">↺ Reiniciar demo</button>
   </div>
 
   <div class="dash-container">
+    <p class="demo-status" id="demoResetStatus" aria-live="polite">Los datos combinan una base demo con los escaneos guardados en este navegador.</p>
 
     <!-- Metrics -->
     <div class="metrics-grid">
@@ -49,7 +58,7 @@
         <div class="metric-info">
           <label>Total botellas</label>
           <strong id="m1">247</strong>
-          <span>↑ +23 esta semana</span>
+          <span>Base demo + sesión local</span>
         </div>
       </div>
       <div class="metric-card">
@@ -57,7 +66,7 @@
         <div class="metric-info">
           <label>Reutilizadas</label>
           <strong id="m2">148</strong>
-          <span>↑ 60% del total</span>
+          <span>Estimado del 60%</span>
         </div>
       </div>
       <div class="metric-card">
@@ -65,7 +74,7 @@
         <div class="metric-info">
           <label>kg CO₂ ahorrado</label>
           <strong id="m3">74.1</strong>
-          <span>↑ Equivale a 3 árboles</span>
+          <span>Impacto demo acumulado</span>
         </div>
       </div>
       <div class="metric-card">
@@ -73,22 +82,20 @@
         <div class="metric-info">
           <label>EcoCoins totales</label>
           <strong id="m4">9,850</strong>
-          <span>↑ Distribuidos entre 34 usuarios</span>
+          <span>Recompensas simuladas</span>
         </div>
       </div>
     </div>
 
     <!-- Charts Row -->
     <div class="dash-grid">
-      <!-- Classification chart -->
       <div class="dash-card">
-        <h3>Clasificación IA — Distribución</h3>
+        <h3>Clasificación demo — Distribución</h3>
         <div class="chart-wrap">
           <canvas id="classChart"></canvas>
         </div>
       </div>
 
-      <!-- Weekly trend -->
       <div class="dash-card">
         <h3>Botellas procesadas por semana</h3>
         <div class="chart-wrap">
@@ -96,10 +103,9 @@
         </div>
       </div>
 
-      <!-- Impact trend — full width -->
       <div class="dash-card full">
         <h3>Impacto ambiental acumulado (CO₂ kg ahorrado)</h3>
-        <div class="chart-wrap" style="height:200px;">
+        <div class="chart-wrap chart-wrap-short">
           <canvas id="impactChart"></canvas>
         </div>
       </div>
@@ -107,20 +113,18 @@
 
     <!-- Bottom Row -->
     <div class="dash-grid">
-      <!-- Blockchain log -->
       <div class="dash-card">
-        <h3>⛓️ Registro Blockchain reciente</h3>
+        <h3>⛓️ Registro Blockchain simulado</h3>
         <div class="block-list" id="blockList">
           <!-- filled by JS -->
         </div>
       </div>
 
-      <!-- EcoCoins leaderboard -->
       <div class="dash-card">
-        <h3>🪙 EcoCoins — Ranking</h3>
+        <h3>🪙 EcoCoins — Ranking demo</h3>
         <div class="coin-display">
           <div class="coin-amount" id="userCoins">450</div>
-          <div class="coin-label">Tus EcoCoins esta semana</div>
+          <div class="coin-label">Tus EcoCoins en este navegador</div>
         </div>
         <div class="leaderboard" id="leaderboard">
           <!-- filled by JS -->
@@ -131,7 +135,7 @@
     <!-- Achievements -->
     <div class="dash-card" style="margin-bottom:2rem;">
       <h3>🏆 Logros desbloqueados</h3>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin-top:0.5rem;" id="achievements">
+      <div class="achievements-grid" id="achievements">
         <!-- filled by JS -->
       </div>
     </div>
