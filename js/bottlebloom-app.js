@@ -15,7 +15,7 @@ const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
 const routes = {
-  'index.html': initRegister,
+  'unete.html': initRegister,
   'home.html': initHome,
   'scan.html': initScan,
   'registro.html': initRegistro,
@@ -258,10 +258,16 @@ async function initProfile() {
   setText('#profileStreak', user.currentStreak || 1);
   setText('#profileMaxStreak', user.maxStreak || 1);
   setText('#profileImpact', `${computeImpact(bottles.length).co2.toFixed(2)} kg CO2`);
-  setText('#profileNfts', unlockedNfts(bottles, user).length);
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-    await saveUserProfile({ ...user, name: form.name.value, email: form.email.value, age: form.age.value, institution: form.institution.value });
+  setText('#profileNfts', computeNfts(bottles.length, user.coins || 0, user.maxStreak || 1, 0).filter(n => n.unlocked).length);
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    await saveUserProfile({
+      ...user,
+      name: form.name.value.trim(),
+      email: form.email.value.trim(),
+      age: form.age.value,
+      institution: form.institution.value.trim()
+    });
     location.reload();
   });
 }
@@ -269,35 +275,36 @@ async function initProfile() {
 async function initRetos() {
   await loadTopbar();
   const bottles = await getBottles(500);
+  const user = await getUserProfile();
+  const excellent = bottles.filter(b => b.type === 'PET' && b.state === 'Bueno').length;
   const impact = computeImpact(bottles.length);
-  const challenges = [
-    ['Registrar 3 botellas', 'Completa tres registros en BottleBloom.', bottles.length, 3, 25],
-    ['Reducir 1 kg de CO2', 'Acumula impacto ambiental medible.', impact.co2, 1, 25],
-    ['Reutilizar una botella', 'Consigue una botella con reutilizacion alta.', bottles.filter(b => b.reuse === 'Alta').length, 1, 25],
-    ['Completar 3 dias de racha', 'Mantente activo durante tres dias.', 1, 3, 25],
-    ['Escanear una botella excelente', 'PET en buen estado con resultado apto.', bottles.filter(b => b.type === 'PET' && b.state === 'Bueno').length, 1, 20]
+  const retos = [
+    ['Registrar 3 botellas', 'Completa tres registros en la estacion BottleBloom.', bottles.length, 3, 25],
+    ['Reducir 1 kg de CO2', 'Acumula impacto ambiental verificable.', impact.co2, 1, 25],
+    ['Reutilizar una botella', 'Logra una clasificacion de reutilizacion alta.', bottles.filter(b => b.reuse === 'Alta').length, 1, 25],
+    ['Completar 3 dias de racha', 'Mantente activo tres dias seguidos.', user.currentStreak || 1, 3, 25],
+    ['Escanear una botella excelente', 'Obtiene PET en buen estado.', excellent, 1, 20]
   ];
-  $('#challengeList').innerHTML = challenges.map(([title, desc, current, target, reward]) => challengeHtml(title, desc, current, target, reward)).join('');
+  const list = $('#challengeList');
+  list.innerHTML = retos.map(([title, desc, value, goal, reward]) => {
+    const pct = Math.min(100, Math.round((value / goal) * 100));
+    const state = pct >= 100 ? 'completado' : pct > 0 ? 'en progreso' : 'pendiente';
+    return `<article class="challenge-card"><div class="card-title"><h3>${title}</h3><span class="pill">${state}</span></div><p>${desc}</p><div class="progress" style="--value:${pct}%"><i></i></div><div class="meta"><span>${Number(value).toFixed(value % 1 ? 2 : 0)} / ${goal}</span><strong>+${reward} Eight Coins</strong></div></article>`;
+  }).join('');
   startCountdown();
 }
 
-function challengeHtml(title, desc, current, target, reward) {
-  const pct = Math.min(100, Math.round((current / target) * 100));
-  const status = pct >= 100 ? 'completado' : pct > 0 ? 'en progreso' : 'pendiente';
-  return `<article class="challenge-card"><div class="card-title"><h3>${title}</h3><span class="pill">${status}</span></div><p>${desc}</p><div class="progress" style="--value:${pct}%"><i></i></div><div class="meta"><span>${current}/${target}</span><strong>+${reward} Eight Coins</strong></div></article>`;
-}
-
 function startCountdown() {
-  const el = $('#challengeTimer');
-  if (!el) return;
+  const timer = $('#challengeTimer');
+  if (!timer) return;
   setInterval(() => {
     const now = new Date();
-    const next = new Date(now); next.setHours(24,0,0,0);
-    const ms = next - now;
-    const h = String(Math.floor(ms / 3600000)).padStart(2,'0');
-    const m = String(Math.floor(ms % 3600000 / 60000)).padStart(2,'0');
-    const s = String(Math.floor(ms % 60000 / 1000)).padStart(2,'0');
-    el.textContent = `${h}:${m}:${s}`;
+    const tomorrow = new Date(now); tomorrow.setHours(24,0,0,0);
+    const diff = tomorrow - now;
+    const h = String(Math.floor(diff / 3600000)).padStart(2,'0');
+    const m = String(Math.floor(diff % 3600000 / 60000)).padStart(2,'0');
+    const s = String(Math.floor(diff % 60000 / 1000)).padStart(2,'0');
+    timer.textContent = `${h}:${m}:${s}`;
   }, 1000);
 }
 
@@ -305,46 +312,49 @@ async function initImpacto() {
   await loadTopbar();
   const bottles = await getBottles(500);
   const impact = computeImpact(bottles.length);
-  await saveImpact(impact);
-  setText('#impactBottles', impact.bottles);
+  setText('#impactBottles', bottles.length);
   setText('#impactCo2', `${impact.co2.toFixed(2)} kg`);
   setText('#impactTrees', impact.trees.toFixed(1));
   setText('#impactWater', `${impact.water} L`);
   setText('#impactKm', `${impact.km.toFixed(1)} km`);
-  renderImpactBars(impact);
-}
-
-function renderImpactBars(impact) {
-  const rows = [['Botellas recuperadas', impact.bottles, 30], ['CO2 evitado', impact.co2, 10], ['Agua ahorrada', impact.water, 300], ['Km no recorridos', impact.km, 10]];
-  $('#impactChart').innerHTML = rows.map(([label, value, max]) => `<div class="chart-row"><span>${label}</span><div class="progress" style="--value:${Math.min(100, value / max * 100)}%"><i></i></div><strong>${Number(value).toFixed(value % 1 ? 1 : 0)}</strong></div>`).join('');
+  const rows = $('#impactChart');
+  rows.innerHTML = [
+    ['Botellas recuperadas', bottles.length, Math.max(5, bottles.length * 20)],
+    ['CO2 evitado', impact.co2, Math.max(1, impact.co2 * 2)],
+    ['Agua ahorrada', impact.water, Math.max(10, impact.water * 1.5)]
+  ].map(([label, value, max]) => `<div class="chart-row"><span>${label}</span><div class="progress" style="--value:${Math.min(100, value/max*100)}%"><i></i></div><strong>${Number(value).toFixed(value % 1 ? 2 : 0)}</strong></div>`).join('');
 }
 
 async function initEightCoins() {
-  const user = await loadTopbar();
+  await loadTopbar();
+  const user = await getUserProfile();
   setText('#coinBalance', Number(user.coins || 0).toLocaleString());
-  const history = await getCoinsHistory();
-  $('#coinHistory').innerHTML = history.map(h => `<div class="coin-row"><div><strong>${h.action}</strong><p>${formatDate(h.date)}</p></div><span class="pill">+${h.coins}</span></div>`).join('') || emptyState('Aun no hay movimientos de Eight Coins.');
+  const history = await getCoinsHistory(80);
+  const list = $('#coinHistory');
+  list.innerHTML = history.map(item => `<div class="coin-row"><div><strong>${item.action}</strong><div class="meta">${formatDate(item.date)}</div></div><span class="pill">+${item.amount}</span></div>`).join('') || emptyState('Aun no hay movimientos de Eight Coins.');
 }
 
 async function initNfts() {
-  const user = await loadTopbar();
+  await loadTopbar();
+  const user = await getUserProfile();
   const bottles = await getBottles(500);
-  const nfts = nftDefinitions(bottles, user);
-  $('#nftGrid').innerHTML = nfts.map(n => `<article class="nft-card ${n.unlocked ? '' : 'locked'}"><div class="nft-art"><img src="${n.image}" alt="${n.name}"></div><h3>${n.name}</h3><p>${n.rarity}</p><div class="meta"><span>${n.condition}</span><strong>${n.unlocked ? 'Desbloqueado' : 'Bloqueado'}</strong></div></article>`).join('');
+  const nfts = computeNfts(bottles.length, user.coins || 0, user.maxStreak || 1, 0);
+  $('#nftList').innerHTML = nfts.map(n => `<article class="nft-card ${n.unlocked ? '' : 'locked'}"><div class="nft-art"><img src="${n.image}" alt="${n.name}"></div><h3>${n.name}</h3><p>${n.rarity}</p><div class="meta"><span>${n.condition}</span><strong>${n.unlocked ? 'Desbloqueado' : 'Bloqueado'}</strong></div></article>`).join('');
 }
 
-function nftDefinitions(bottles, user) {
-  const challengesDone = bottles.length >= 3 ? 3 : bottles.length;
+function computeImpact(count) {
+  return { co2: count * 0.35, trees: count / 5, water: count * 10, km: count / 4 };
+}
+
+function computeNfts(bottles, coins, streak, completedChallenges) {
   return [
-    { name: 'Primer Brote', rarity: 'Comun', condition: 'Registrar 1 botella', unlocked: bottles.length >= 1, image: 'assets/MASCOTA%20PLANTA.png' },
-    { name: 'Reutilizador', rarity: 'Raro', condition: 'Registrar 5 botellas', unlocked: bottles.length >= 5, image: 'assets/MASCOTA%20BOTELLA.png' },
-    { name: 'Eco Guerrero', rarity: 'Epico', condition: 'Completar 3 retos', unlocked: challengesDone >= 3, image: 'assets/MASCOTA%20PLANTA.png' },
-    { name: 'Bloom Genesis', rarity: 'Legendario', condition: '15 dias de racha', unlocked: Number(user.currentStreak || 0) >= 15, image: 'assets/MASCOTA%20BOTELLA.png' },
-    { name: 'Eight Elite', rarity: 'Legendario', condition: '1000 Eight Coins', unlocked: Number(user.coins || 0) >= 1000, image: 'assets/MASCOTA%20PLANTA.png' }
+    { name: 'Primer Brote', rarity: 'Comun', condition: 'Registrar 1 botella', unlocked: bottles >= 1, image: 'assets/MASCOTA%20PLANTA.png' },
+    { name: 'Reutilizador', rarity: 'Raro', condition: 'Registrar 5 botellas', unlocked: bottles >= 5, image: 'assets/MASCOTA%20BOTELLA.png' },
+    { name: 'Eco Guerrero', rarity: 'Epico', condition: 'Completar 3 retos', unlocked: completedChallenges >= 3, image: 'assets/MASCOTA%20PLANTA.png' },
+    { name: 'Bloom Genesis', rarity: 'Legendario', condition: '15 dias de racha', unlocked: streak >= 15, image: 'assets/MASCOTA%20BOTELLA.png' },
+    { name: 'Eight Elite', rarity: 'Legendario', condition: '1000 Eight Coins', unlocked: coins >= 1000, image: 'assets/MASCOTA%20PLANTA.png' }
   ];
 }
 
-function unlockedNfts(bottles, user) { return nftDefinitions(bottles, user).filter(n => n.unlocked); }
-function computeImpact(bottles) { return { bottles, co2: bottles * 0.35, trees: bottles / 5, water: bottles * 10, km: bottles / 4 }; }
-function formatDate(value) { return value ? new Date(value).toLocaleString('es-EC', { dateStyle: 'medium', timeStyle: 'short' }) : 'Sin fecha'; }
+function formatDate(date) { return new Date(date || Date.now()).toLocaleDateString('es-EC', { day:'2-digit', month:'short', year:'numeric' }); }
 function emptyState(text) { return `<div class="glass-card"><p>${text}</p></div>`; }
