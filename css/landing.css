@@ -280,7 +280,7 @@
 .info-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .info-card { padding: 20px; min-height: 210px; }
 .info-card b { color: #42d9ff; }
-.ods-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.ods-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
 .ods-card { min-height: 150px; padding: 18px; border-radius: 18px; border: 1px solid rgba(66,217,255,.25); background: rgba(66,217,255,.055); box-shadow: 0 0 22px rgba(66,217,255,.1); }
 .ods-card strong { display: block; color: #5cff5c; font-family: Orbitron, Inter, sans-serif; font-size: 2rem; }
 .ods-card span { display: block; margin-top: 8px; font-weight: 900; }
