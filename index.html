@@ -4,20 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bottle Bloom — Sistema Inteligente de Reciclaje PET</title>
-  <meta name="description" content="Bottle Bloom: estación ecológica inteligente que usa IA y Blockchain para clasificar y transformar botellas PET en EcoBottles con biofertilizantes." />
+  <meta name="description" content="Bottle Bloom: demo interactiva para clasificar botellas PET, generar QR, sumar EcoCoins y visualizar impacto ambiental." />
+  <meta property="og:title" content="Bottle Bloom" />
+  <meta property="og:description" content="Reciclaje PET inteligente con QR, EcoCoins y dashboard ambiental." />
+  <meta property="og:image" content="assets/preview.svg" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/presentation.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-<!-- Loading -->
 <div class="loading-overlay" id="loader">
   <div class="loader"></div>
   <p>Bottle Bloom cargando...</p>
 </div>
 
-<!-- Navbar -->
 <nav class="navbar">
   <a href="index.html" class="nav-logo">
     <img src="https://raw.githubusercontent.com/alparrenob-ship-it/BOTTLE-BLOOM/main/ISOTIPO.png" alt="Bottle Bloom Logo" onerror="this.style.display='none'" />
@@ -26,8 +29,8 @@
   <div class="nav-links" id="navLinks">
     <a href="#como-funciona">Cómo funciona</a>
     <a href="#clasificacion">Clasificación</a>
-    <a href="#tecnologia">Tecnología</a>
-    <a href="#equipo">Equipo</a>
+    <a href="demo.html">Demo</a>
+    <a href="dashboard.html">Dashboard</a>
     <a href="scanner.html" class="nav-cta">Escanear Botella</a>
   </div>
   <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
@@ -35,15 +38,15 @@
   </div>
 </nav>
 
-<!-- Hero -->
 <section class="hero">
   <div class="hero-content">
-    <div class="hero-badge">🌱 Proyecto Hackathon · Eight Academy</div>
-    <h1>Transforma botellas PET en <span>EcoBottles</span> con IA</h1>
-    <p>Bottle Bloom es una estación ecológica inteligente que usa Inteligencia Artificial, QR y Blockchain para clasificar, reutilizar y transformar residuos plásticos en recursos sostenibles.</p>
+    <div class="hero-badge">🌱 Demo publicada · Eight Academy</div>
+    <h1>Transforma botellas PET en <span>EcoBottles</span></h1>
+    <p>Bottle Bloom presenta un flujo ecológico inteligente para clasificar botellas PET, generar pasaportes QR, sumar EcoCoins y visualizar impacto ambiental.</p>
     <div class="hero-btns">
-      <a href="scanner.html" class="btn btn-primary pulse">🔍 Escanear Botella</a>
-      <a href="dashboard.html" class="btn btn-outline">📊 Ver Dashboard</a>
+      <a href="scanner.html" class="btn btn-primary pulse">🔍 Probar escáner</a>
+      <a href="dashboard.html" class="btn btn-outline">📊 Ver dashboard</a>
+      <a href="demo.html" class="btn btn-outline">🧪 Ver prototipo</a>
     </div>
     <div class="hero-stats">
       <div class="hero-stat">
@@ -62,218 +65,159 @@
   </div>
 </section>
 
-<!-- ODS Banner -->
 <div style="background:var(--green-100);padding:1.2rem 2rem;text-align:center;border-bottom:1px solid var(--green-300);">
   <p style="font-size:0.9rem;font-weight:600;color:var(--green-800);">🌍 <strong>ODS 13 — Acción por el Clima</strong> · Reducción de residuos plásticos · Reutilización sostenible · Educación ambiental · Economía circular</p>
 </div>
 
-<!-- Cómo Funciona -->
 <section id="como-funciona">
   <div class="section-header fade-in">
     <span class="section-label">Proceso</span>
     <h2>¿Cómo funciona Bottle Bloom?</h2>
-    <p>9 pasos simples para transformar una botella PET en un recurso ecológico valioso</p>
+    <p>Un recorrido completo desde el escaneo hasta la visualización del impacto ecológico.</p>
   </div>
   <div class="steps-grid">
     <div class="step-card fade-in">
       <div class="step-num">1</div>
       <div class="step-icon">🍶</div>
-      <h3>Depositar botella</h3>
-      <p>El estudiante coloca la botella PET en la estación inteligente</p>
+      <h3>Presentar botella</h3>
+      <p>El estudiante coloca o fotografía una botella PET.</p>
     </div>
     <div class="step-card fade-in">
       <div class="step-num">2</div>
       <div class="step-icon">📱</div>
-      <h3>Escaneo IA</h3>
-      <p>La tablet integrada escanea la botella mediante visión artificial</p>
+      <h3>Escaneo demo</h3>
+      <p>La interfaz usa cámara o imagen como referencia visual.</p>
     </div>
     <div class="step-card fade-in">
       <div class="step-num">3</div>
       <div class="step-icon">🧠</div>
-      <h3>Análisis físico</h3>
-      <p>El sistema analiza estado, contaminación y tipo de plástico</p>
+      <h3>Clasificación</h3>
+      <p>El prototipo simula la decisión de un futuro modelo IA.</p>
     </div>
     <div class="step-card fade-in">
       <div class="step-num">4</div>
-      <div class="step-icon">🏷️</div>
-      <h3>Clasificación IA</h3>
-      <p>La IA clasifica: Reutilizable, Reciclaje industrial o Descarte</p>
+      <div class="step-icon">📲</div>
+      <h3>Pasaporte QR</h3>
+      <p>Cada botella obtiene un identificador ecológico descargable.</p>
     </div>
     <div class="step-card fade-in">
       <div class="step-num">5</div>
-      <div class="step-icon">🫧</div>
-      <h3>Limpieza ecológica</h3>
-      <p>Botellas reutilizables pasan por sistema de lavado ecológico</p>
+      <div class="step-icon">⛓️</div>
+      <h3>Trazabilidad</h3>
+      <p>Se simula un registro tipo blockchain para explicar el flujo.</p>
     </div>
     <div class="step-card fade-in">
       <div class="step-num">6</div>
-      <div class="step-icon">🌿</div>
-      <h3>Biofertilizante</h3>
-      <p>La botella se llena con biofertilizante de los biogestores</p>
-    </div>
-    <div class="step-card fade-in">
-      <div class="step-num">7</div>
-      <div class="step-icon">📲</div>
-      <h3>Código QR</h3>
-      <p>Se genera un QR inteligente como pasaporte ecológico digital</p>
-    </div>
-    <div class="step-card fade-in">
-      <div class="step-num">8</div>
-      <div class="step-icon">⛓️</div>
-      <h3>Registro Blockchain</h3>
-      <p>Datos registrados en Blockchain Flow para trazabilidad total</p>
-    </div>
-    <div class="step-card fade-in">
-      <div class="step-num">9</div>
       <div class="step-icon">🌱</div>
-      <h3>Impacto visible</h3>
-      <p>El usuario visualiza su impacto ecológico y gana EcoCoins</p>
+      <h3>Impacto</h3>
+      <p>El dashboard muestra EcoCoins, ranking y métricas ambientales.</p>
     </div>
   </div>
 </section>
 
-<!-- Clasificación -->
 <section id="clasificacion">
   <div class="section-header fade-in">
-    <span class="section-label">Clasificación IA</span>
-    <h2>Sistema de clasificación inteligente</h2>
-    <p>La inteligencia artificial evalúa cada botella y determina su destino óptimo</p>
+    <span class="section-label">Clasificación</span>
+    <h2>Tres destinos para cada botella</h2>
+    <p>El sistema orienta la reutilización, reciclaje o disposición correcta.</p>
   </div>
   <div class="class-grid">
     <div class="class-card green fade-in">
       <div class="class-dot">🟢</div>
       <h3>Reutilizable</h3>
-      <p>Botella en buen estado. Pasa por limpieza ecológica y se transforma en EcoBottle con biofertilizante.</p>
+      <p>Botella en buen estado, apta para limpieza ecológica y transformación en EcoBottle.</p>
     </div>
     <div class="class-card yellow fade-in">
       <div class="class-dot">🟡</div>
       <h3>Reciclaje Industrial</h3>
-      <p>Botella deformada o dañada. Se envía a reciclaje industrial para su transformación en nuevos materiales.</p>
+      <p>Botella deformada o dañada, enviada a reciclaje especializado.</p>
     </div>
     <div class="class-card red fade-in">
       <div class="class-dot">🔴</div>
       <h3>Descarte Contaminado</h3>
-      <p>Botella con contaminantes peligrosos. Requiere disposición especial para evitar contaminación ambiental.</p>
+      <p>Botella con contaminación alta, destinada a disposición especial.</p>
     </div>
   </div>
 </section>
 
-<!-- Tecnología -->
+<section class="prototype-band">
+  <div class="section-header fade-in">
+    <span class="section-label">Demo / Prototipo</span>
+    <h2>Claro para presentar, listo para evolucionar</h2>
+    <p>La web separa lo que funciona hoy de lo que se conectará después con IA real, Firebase y Flow Blockchain.</p>
+  </div>
+  <div class="prototype-grid">
+    <div class="prototype-panel fade-in">
+      <h3>Funciona hoy</h3>
+      <ul>
+        <li>Escáner demo con cámara o imagen</li>
+        <li>QR descargable</li>
+        <li>Dashboard con métricas</li>
+        <li>EcoCoins y ranking local</li>
+      </ul>
+    </div>
+    <div class="prototype-panel fade-in">
+      <h3>Próxima etapa</h3>
+      <ul>
+        <li>Modelo IA real</li>
+        <li>Firebase para datos persistentes</li>
+        <li>Flow Blockchain real</li>
+        <li>Integración con estación física</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <section id="tecnologia">
   <div class="section-header fade-in">
-    <span class="section-label">Stack tecnológico</span>
+    <span class="section-label">Tecnología</span>
     <h2>Tecnologías que impulsan Bottle Bloom</h2>
-    <p>Una combinación de tecnologías de vanguardia al servicio del medio ambiente</p>
+    <p>Un prototipo web preparado para crecer hacia una solución conectada.</p>
   </div>
   <div class="tech-grid">
     <div class="tech-card fade-in">
-      <div class="tech-icon">🤖</div>
-      <h3>Inteligencia Artificial</h3>
-      <p>Visión artificial para clasificación inteligente de botellas PET</p>
-    </div>
-    <div class="tech-card fade-in">
-      <div class="tech-icon">⛓️</div>
-      <h3>Blockchain Flow</h3>
-      <p>Registro transparente y trazabilidad ecológica de cada EcoBottle</p>
+      <div class="tech-icon">🌐</div>
+      <h3>Frontend Web</h3>
+      <p>HTML, CSS y JavaScript para una demo rápida y accesible.</p>
     </div>
     <div class="tech-card fade-in">
       <div class="tech-icon">📲</div>
       <h3>QR Inteligente</h3>
-      <p>Pasaporte ecológico digital con historial completo de la botella</p>
+      <p>Pasaporte ecológico digital de cada botella escaneada.</p>
+    </div>
+    <div class="tech-card fade-in">
+      <div class="tech-icon">📊</div>
+      <h3>Dashboard</h3>
+      <p>Métricas ambientales, registros y ranking de EcoCoins.</p>
     </div>
     <div class="tech-card fade-in">
       <div class="tech-icon">🔥</div>
-      <h3>Firebase</h3>
-      <p>Base de datos en tiempo real y almacenamiento en la nube</p>
-    </div>
-    <div class="tech-card fade-in">
-      <div class="tech-icon">🌐</div>
-      <h3>Frontend Web</h3>
-      <p>HTML, CSS, JavaScript y Figma para interfaces intuitivas</p>
-    </div>
-    <div class="tech-card fade-in">
-      <div class="tech-icon">🪙</div>
-      <h3>EcoCoins</h3>
-      <p>Sistema de gamificación para incentivar la participación activa</p>
+      <h3>Firebase futuro</h3>
+      <p>Base propuesta para usuarios, historial y recompensas.</p>
     </div>
   </div>
 </section>
 
-<!-- EcoCoins Feature -->
-<section id="ecocoins" style="background:linear-gradient(135deg,var(--green-50),#FEF9C3);">
-  <div class="section-header fade-in">
-    <span class="section-label">Gamificación</span>
-    <h2>Gana EcoCoins con cada botella</h2>
-    <p>El sistema de recompensas que hace del reciclaje una experiencia divertida y motivadora</p>
-  </div>
-  <div style="max-width:700px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;">
-    <div class="card fade-in" style="text-align:center;">
-      <div style="font-size:2.5rem;margin-bottom:0.8rem;">🟢</div>
-      <h3 style="font-weight:800;font-size:1rem;">Botella Reutilizable</h3>
-      <p style="font-size:0.85rem;color:var(--gray-400);margin:.4rem 0;">Máximo impacto positivo</p>
-      <strong style="font-size:1.5rem;color:#92400E;">+50 EcoCoins</strong>
-    </div>
-    <div class="card fade-in" style="text-align:center;">
-      <div style="font-size:2.5rem;margin-bottom:0.8rem;">🟡</div>
-      <h3 style="font-weight:800;font-size:1rem;">Reciclaje Industrial</h3>
-      <p style="font-size:0.85rem;color:var(--gray-400);margin:.4rem 0;">Contribución al reciclaje</p>
-      <strong style="font-size:1.5rem;color:#92400E;">+25 EcoCoins</strong>
-    </div>
-    <div class="card fade-in" style="text-align:center;">
-      <div style="font-size:2.5rem;margin-bottom:0.8rem;">🔴</div>
-      <h3 style="font-weight:800;font-size:1rem;">Descarte Correcto</h3>
-      <p style="font-size:0.85rem;color:var(--gray-400);margin:.4rem 0;">Por reportar correctamente</p>
-      <strong style="font-size:1.5rem;color:#92400E;">+10 EcoCoins</strong>
-    </div>
-  </div>
-</section>
-
-<!-- Equipo -->
 <section id="equipo">
   <div class="section-header fade-in">
-    <span class="section-label">El equipo</span>
+    <span class="section-label">Equipo</span>
     <h2>Las mentes detrás de Bottle Bloom</h2>
-    <p>Eight Academy · Proyecto 2 Hackathon · Campus ZooBotánica</p>
+    <p>Eight Academy · Proyecto Hackathon · Campus ZooBotánica</p>
   </div>
   <div class="team-grid">
-    <div class="team-card fade-in">
-      <div class="team-avatar">👑</div>
-      <h3>Pamela Rubio</h3>
-      <span>Líder</span>
-    </div>
-    <div class="team-card fade-in">
-      <div class="team-avatar">📋</div>
-      <h3>Emily Orozco</h3>
-      <span>Secretaria</span>
-    </div>
-    <div class="team-card fade-in">
-      <div class="team-avatar">🎤</div>
-      <h3>Thomas Hermida</h3>
-      <span>Expositor</span>
-    </div>
-    <div class="team-card fade-in">
-      <div class="team-avatar">🎨</div>
-      <h3>Emanuel Gerardo</h3>
-      <span>Diseñador</span>
-    </div>
-    <div class="team-card fade-in">
-      <div class="team-avatar">🔬</div>
-      <h3>Juan Diego Moreno</h3>
-      <span>Investigador</span>
-    </div>
-    <div class="team-card fade-in">
-      <div class="team-avatar">⭐</div>
-      <h3>Anita Parreño</h3>
-      <span>Mentora</span>
-    </div>
+    <div class="team-card fade-in"><div class="team-avatar">👑</div><h3>Pamela Rubio</h3><span>Líder</span></div>
+    <div class="team-card fade-in"><div class="team-avatar">📋</div><h3>Emily Orozco</h3><span>Secretaria</span></div>
+    <div class="team-card fade-in"><div class="team-avatar">🎤</div><h3>Thomas Hermida</h3><span>Expositor</span></div>
+    <div class="team-card fade-in"><div class="team-avatar">🎨</div><h3>Emanuel Gerardo</h3><span>Diseñador</span></div>
+    <div class="team-card fade-in"><div class="team-avatar">🔬</div><h3>Juan Diego Moreno</h3><span>Investigador</span></div>
+    <div class="team-card fade-in"><div class="team-avatar">⭐</div><h3>Anita Parreño</h3><span>Mentora</span></div>
   </div>
 </section>
 
-<!-- CTA -->
 <section style="background:linear-gradient(135deg,var(--green-900),var(--green-700));text-align:center;padding:4rem 2rem;">
   <div class="fade-in">
-    <h2 style="font-size:2rem;font-weight:900;color:var(--white);margin-bottom:1rem;">¿Listo para hacer el diferencia?</h2>
-    <p style="color:rgba(255,255,255,0.8);margin-bottom:2rem;max-width:500px;margin-left:auto;margin-right:auto;">Empieza a escanear botellas, gana EcoCoins y contribuye a un campus más sostenible</p>
+    <h2 style="font-size:2rem;font-weight:900;color:var(--white);margin-bottom:1rem;">Listo para presentar</h2>
+    <p style="color:rgba(255,255,255,0.8);margin-bottom:2rem;max-width:560px;margin-left:auto;margin-right:auto;">Prueba el escáner, genera un QR, reinicia la demo desde el dashboard y comparte el enlace publicado.</p>
     <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
       <a href="scanner.html" class="btn btn-primary">🔍 Escanear ahora</a>
       <a href="dashboard.html" class="btn btn-outline">📊 Ver estadísticas</a>
@@ -281,7 +225,6 @@
   </div>
 </section>
 
-<!-- Footer -->
 <footer>
   <div class="footer-logo">🌿 Bottle Bloom</div>
   <p>Sistema inteligente de clasificación y reutilización de botellas PET</p>
@@ -289,9 +232,10 @@
     <a href="index.html">Inicio</a>
     <a href="scanner.html">Escanear</a>
     <a href="dashboard.html">Dashboard</a>
+    <a href="demo.html">Demo</a>
     <a href="https://github.com/alparrenob-ship-it/BOTTLE-BLOOM" target="_blank">GitHub</a>
   </div>
-  <p>© 2025 Bottle Bloom · Eight Academy · Proyecto Hackathon 2 · ODS 13</p>
+  <p>© 2025 Bottle Bloom · Eight Academy · ODS 13</p>
 </footer>
 
 <script src="js/app.js"></script>
