@@ -11,6 +11,7 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/presentation.css" />
+  <link rel="stylesheet" href="css/identity.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <!-- QR Code library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -25,9 +26,8 @@
 
 <!-- Navbar -->
 <nav class="navbar">
-  <a href="index.html" class="nav-logo">
-    <img src="https://raw.githubusercontent.com/alparrenob-ship-it/BOTTLE-BLOOM/main/ISOTIPO.png" alt="Logo" onerror="this.style.display='none'" />
-    Bottle Bloom
+  <a href="index.html" class="nav-logo brand-only">
+    <img class="brand-logo-img" src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="Bottle Bloom" />
   </a>
   <div class="nav-links" id="navLinks">
     <a href="index.html">Inicio</a>
@@ -43,11 +43,20 @@
 
 <div class="scanner-page">
   <div class="scanner-header">
+    <img class="bb-station-logo" src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="Bottle Bloom" />
     <h1>🔍 Escáner de Botellas PET</h1>
     <p>Demo interactiva de clasificación inteligente para Bottle Bloom</p>
   </div>
 
   <div class="scanner-container">
+
+    <div class="identity-showcase fade-in">
+      <img src="assets/MASCOTA%20BOTELLA.png" alt="Mascota Bottle Bloom en botella" />
+      <div>
+        <h3>Escanea, clasifica y transforma</h3>
+        <p>La cámara acompaña la presentación visual y el análisis IA se muestra como simulación demo para explicar el recorrido: botella, decisión, pasaporte QR, EcoCoins e impacto ambiental.</p>
+      </div>
+    </div>
 
     <div class="scanner-card">
       <h2 style="font-size:1.1rem;font-weight:800;margin-bottom:1rem;">📸 Área de escaneo</h2>
@@ -182,7 +191,7 @@
 </div>
 
 <footer>
-  <div class="footer-logo">🌿 Bottle Bloom</div>
+  <div class="footer-logo"><img class="brand-logo-img" src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="Bottle Bloom" /></div>
   <div class="footer-links">
     <a href="index.html">Inicio</a>
     <a href="dashboard.html">Dashboard</a>
