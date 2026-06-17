@@ -1,5 +1,20 @@
 // ===== BOTTLE BLOOM — Global App =====
 
+const DEFAULT_STATS = { bottles: 247, co2: 74, coins: 9850 };
+
+function readStats() {
+  try {
+    const stats = JSON.parse(localStorage.getItem('bb_stats') || '{}');
+    return {
+      bottles: Number.isFinite(stats.bottles) ? stats.bottles : DEFAULT_STATS.bottles,
+      co2: Number.isFinite(stats.co2) ? stats.co2 : DEFAULT_STATS.co2,
+      coins: Number.isFinite(stats.coins) ? stats.coins : DEFAULT_STATS.coins,
+    };
+  } catch {
+    return { ...DEFAULT_STATS };
+  }
+}
+
 // Hide loading screen
 window.addEventListener('load', () => {
   setTimeout(() => {
@@ -44,8 +59,7 @@ function animateCounter(el, target, duration = 1800) {
 
 // Hero stats counters (index page only)
 if (document.getElementById('counterBottles')) {
-  // Persist stats in localStorage
-  const stats = JSON.parse(localStorage.getItem('bb_stats') || '{"bottles":247,"co2":74,"coins":9850}');
+  const stats = readStats();
   animateCounter(document.getElementById('counterBottles'), stats.bottles);
   animateCounter(document.getElementById('counterCO2'), stats.co2);
   animateCounter(document.getElementById('counterCoins'), stats.coins);
@@ -53,7 +67,7 @@ if (document.getElementById('counterBottles')) {
 
 // Persist a new scan result into global stats
 function recordScan(type) {
-  const stats = JSON.parse(localStorage.getItem('bb_stats') || '{"bottles":247,"co2":74,"coins":9850}');
+  const stats = readStats();
   stats.bottles += 1;
   stats.co2 = +(stats.co2 + 0.3).toFixed(1);
   const coinsMap = { green: 50, yellow: 25, red: 10 };
