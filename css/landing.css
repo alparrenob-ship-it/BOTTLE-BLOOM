@@ -83,7 +83,7 @@
   gap: clamp(24px, 4vw, 70px);
   align-items: center;
   min-height: calc(100vh - 92px);
-  padding: clamp(28px, 5vw, 74px) clamp(18px, 5vw, 76px) 28px;
+  padding: clamp(28px, 5vw, 74px) clamp(18px, 5vw, 76px) 34px;
   overflow: hidden;
 }
 
@@ -115,6 +115,13 @@
   margin: 30px 0;
 }
 
+.hero-bottom {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 16px;
+  margin-top: -8px;
+}
+
 .tech-strip,
 .metric-strip,
 .flow-strip,
@@ -124,8 +131,8 @@
   gap: 14px;
 }
 
-.tech-strip { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 28px; }
-.metric-strip { grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: 18px; }
+.tech-strip { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.metric-strip { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 
 .tech-card,
 .metric-card,
@@ -141,7 +148,7 @@
 }
 
 .tech-card {
-  min-height: 110px;
+  min-height: 138px;
   padding: 16px;
 }
 
@@ -167,7 +174,14 @@
 .info-card p,
 .team-card small { color: rgba(255,255,255,.68); line-height: 1.46; }
 
-.metric-card { padding: 16px; display: flex; align-items: center; gap: 12px; }
+.metric-card {
+  min-height: 104px;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+}
 .metric-icon {
   width: 52px;
   height: 52px;
@@ -178,20 +192,21 @@
   color: #5cff5c;
   font-family: Orbitron, Inter, sans-serif;
   font-weight: 900;
+  font-size: .82rem;
 }
-.metric-card strong { display: block; font-family: Orbitron, Inter, sans-serif; font-size: 1.35rem; }
-.metric-card span { color: rgba(255,255,255,.7); font-size: .84rem; }
+.metric-card strong { display: block; font-family: Orbitron, Inter, sans-serif; font-size: clamp(1.25rem, 1.8vw, 1.7rem); line-height: 1; }
+.metric-card span { display: block; color: rgba(255,255,255,.7); font-size: .86rem; line-height: 1.35; overflow-wrap: anywhere; }
 
 .hero-visual {
   position: relative;
   display: grid;
   align-items: center;
-  min-height: 620px;
+  min-height: 560px;
 }
 
 .bottle-hero-card {
   position: relative;
-  min-height: 560px;
+  min-height: 520px;
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -226,8 +241,8 @@
 .bottle-hero-card img {
   position: relative;
   z-index: 1;
-  max-height: 520px;
-  width: min(78%, 520px);
+  max-height: 488px;
+  width: min(76%, 500px);
   object-fit: contain;
   filter: drop-shadow(0 0 32px rgba(92,255,92,.36)) drop-shadow(0 0 24px rgba(66,217,255,.18));
 }
