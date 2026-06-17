@@ -47,6 +47,21 @@ let stream = null;
 
 function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 
+function readStoredArray(key) {
+  try {
+    const value = JSON.parse(localStorage.getItem(key) || '[]');
+    return Array.isArray(value) ? value : [];
+  } catch {
+    return [];
+  }
+}
+
+function requireCurrentResult(actionName) {
+  if (currentResult) return true;
+  alert(`Primero escanea una botella para ${actionName}.`);
+  return false;
+}
+
 function startScan() {
   const area = document.getElementById('scannerArea');
   const progress = document.getElementById('scanProgress');
@@ -67,10 +82,10 @@ function startScan() {
   const steps = [
     [300,  10, '📷 Capturando imagen...'],
     [600,  30, '🔍 Detectando contornos PET...'],
-    [1000, 55, '🧠 Procesando con modelo IA...'],
+    [1000, 55, '🧠 Ejecutando simulación de IA...'],
     [1500, 75, '📊 Clasificando material...'],
     [2000, 90, '✅ Finalizando análisis...'],
-    [2400, 100, '✓ Análisis completado'],
+    [2400, 100, '✓ Análisis simulado completado'],
   ];
 
   steps.forEach(([delay, pct, msg]) => {
@@ -90,7 +105,7 @@ function startScan() {
 }
 
 function showResult() {
-  // Pick random classification (weighted: green 50%, yellow 30%, red 20%)
+  // Demo mode: random weighted classification until a real model is connected.
   const roll = Math.random();
   let cls;
   if (roll < 0.5) cls = CLASSIFICATIONS[0];
@@ -110,13 +125,14 @@ function showResult() {
   currentResult.contamActual = contam;
   currentResult.bottleId = 'BB-' + Date.now().toString(36).toUpperCase();
   currentResult.timestamp = new Date().toISOString();
+  currentResult.demoMode = true;
 
   const card = document.getElementById('resultCard');
   card.style.borderTopColor = cls.color;
 
   document.getElementById('resultDot').textContent = cls.dot;
   document.getElementById('resultTitle').textContent = cls.title;
-  document.getElementById('resultSubtitle').textContent = cls.subtitle;
+  document.getElementById('resultSubtitle').textContent = 'Resultado simulado por Bottle Bloom Demo v1.0';
   document.getElementById('statEstado').textContent = cls.estado;
   document.getElementById('statTipo').textContent = type;
   document.getElementById('statContam').textContent = contam;
@@ -126,33 +142,33 @@ function showResult() {
 
   card.classList.add('show');
 
-  // Animate confidence bar
   setTimeout(() => {
     document.getElementById('confidenceBar').style.width = confidence + '%';
   }, 100);
 
-  // Record in localStorage
   recordScanLocal(cls.type, cls.coins);
   window.recordScan && window.recordScan(cls.type);
 }
 
 function recordScanLocal(type, coins) {
-  const history = JSON.parse(localStorage.getItem('bb_history') || '[]');
+  const history = readStoredArray('bb_history');
   history.unshift({
     id: currentResult.bottleId,
     type,
     coins,
     timestamp: new Date().toISOString(),
     label: currentResult.title,
+    demoMode: true,
   });
   localStorage.setItem('bb_history', JSON.stringify(history.slice(0, 100)));
 
-  // Update user coins
-  const userCoins = parseInt(localStorage.getItem('bb_userCoins') || '400') + coins;
+  const userCoins = parseInt(localStorage.getItem('bb_userCoins') || '400', 10) + coins;
   localStorage.setItem('bb_userCoins', userCoins);
 }
 
 function generateQR() {
+  if (!requireCurrentResult('generar el QR')) return;
+
   const qrCard = document.getElementById('qrCard');
   const qrDiv  = document.getElementById('qrcode');
   qrDiv.innerHTML = '';
@@ -166,26 +182,36 @@ function generateQR() {
     confidence: currentResult.confidence + '%',
     volume: currentResult.volume,
     timestamp: currentResult.timestamp,
-    blockchain: 'Flow Testnet',
+    blockchain: 'Simulación local de Flow Testnet',
     project: 'Bottle Bloom — Eight Academy',
+    demoMode: true,
   });
 
-  new QRCode(qrDiv, {
-    text: data,
-    width: 180,
-    height: 180,
-    colorDark: '#1B4332',
-    colorLight: '#FFFFFF',
-    correctLevel: QRCode.CorrectLevel.H,
-  });
+  if (typeof QRCode === 'undefined') {
+    qrDiv.textContent = 'No se pudo cargar la librería de QR. Revisa tu conexión e inténtalo de nuevo.';
+  } else {
+    new QRCode(qrDiv, {
+      text: data,
+      width: 180,
+      height: 180,
+      colorDark: '#1B4332',
+      colorLight: '#FFFFFF',
+      correctLevel: QRCode.CorrectLevel.H,
+    });
+  }
 
   qrCard.classList.add('show');
   qrCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function downloadQR() {
+  if (!requireCurrentResult('descargar el QR')) return;
+
   const canvas = document.querySelector('#qrcode canvas');
-  if (!canvas) return;
+  if (!canvas) {
+    alert('Genera el QR antes de descargarlo.');
+    return;
+  }
   const link = document.createElement('a');
   link.download = `ecobottle-${currentResult.bottleId}.png`;
   link.href = canvas.toDataURL();
@@ -193,6 +219,8 @@ function downloadQR() {
 }
 
 function registerBlockchain() {
+  if (!requireCurrentResult('registrar la botella')) return;
+
   const notif = document.getElementById('blockchainNotif');
   const hash = Array.from({length: 64}, () => '0123456789abcdef'[Math.floor(Math.random()*16)]).join('');
   document.getElementById('blockHash').textContent = '0x' + hash.substring(0, 40) + '...';
@@ -200,8 +228,7 @@ function registerBlockchain() {
   notif.style.display = 'block';
   notif.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-  // Save to blockchain history
-  const chain = JSON.parse(localStorage.getItem('bb_chain') || '[]');
+  const chain = readStoredArray('bb_chain');
   chain.unshift({
     hash: '0x' + hash,
     bottleId: currentResult.bottleId,
@@ -209,6 +236,7 @@ function registerBlockchain() {
     label: currentResult.title,
     timestamp: new Date().toISOString(),
     dot: currentResult.dot,
+    demoMode: true,
   });
   localStorage.setItem('bb_chain', JSON.stringify(chain.slice(0, 50)));
 }
@@ -224,11 +252,15 @@ function scanAnother() {
 // Camera support
 async function openCamera() {
   const feed  = document.getElementById('webcamFeed');
-  const area  = document.getElementById('scannerArea');
   const overlay = document.getElementById('scanOverlay');
 
   if (stream) {
     stopCamera();
+    return;
+  }
+
+  if (!navigator.mediaDevices?.getUserMedia) {
+    alert('Tu navegador no permite usar la cámara aquí. Usa "Cargar imagen" en su lugar.');
     return;
   }
 
