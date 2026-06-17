@@ -1,6 +1,7 @@
 // ===== BOTTLE BLOOM — Global App =====
 
 const DEFAULT_STATS = { bottles: 247, co2: 74, coins: 9850 };
+const DEMO_STORAGE_KEYS = ['bb_stats', 'bb_history', 'bb_chain', 'bb_userCoins'];
 
 function readStats() {
   try {
@@ -14,6 +15,21 @@ function readStats() {
     return { ...DEFAULT_STATS };
   }
 }
+
+function resetDemoData({ reload = true } = {}) {
+  DEMO_STORAGE_KEYS.forEach(key => localStorage.removeItem(key));
+  localStorage.setItem('bb_stats', JSON.stringify(DEFAULT_STATS));
+  localStorage.setItem('bb_userCoins', '450');
+
+  const message = 'Datos demo reiniciados. La presentación vuelve a sus valores iniciales.';
+  const liveRegion = document.getElementById('demoResetStatus');
+  if (liveRegion) liveRegion.textContent = message;
+  else alert(message);
+
+  if (reload) window.location.reload();
+}
+
+window.resetDemoData = resetDemoData;
 
 // Hide loading screen
 window.addEventListener('load', () => {
