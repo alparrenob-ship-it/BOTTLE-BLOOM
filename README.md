@@ -1,87 +1,153 @@
-# BOTTLE BLOOM
-Sistema inteligente de clasificación, reutilización y transformación de botellas PET en EcoBottles con biofertilizantes mediante Inteligencia Artificial y Blockchain en el campus ZooBotánica de Eight Academy.
-# Integrantes
-Pamela Rubio – Líder
-Emily Orozco – Secretaria
-Thomas Hermida – Expositor
-Emanuel Gerardo – Diseñador
-Juan Diego Moreno – Investigador
-Anita Parreño - Mentora
+# Bottle Bloom
 
-# Problema
-Actualmente, en muchas instituciones educativas existe una gran generación de residuos plásticos, especialmente botellas PET, que no siempre son clasificadas o reutilizadas correctamente. Esto provoca acumulación de desechos, contaminación ambiental y desaprovechamiento de materiales que podrían tener una segunda vida útil dentro de proyectos sostenibles y ecológicos.
+Sistema ecológico inteligente para clasificar, reutilizar y transformar botellas PET en EcoBottles con biofertilizantes. El proyecto combina una experiencia web interactiva, generación de QR, dashboard ambiental, gamificación con EcoCoins y una simulación de trazabilidad tipo blockchain para presentar el flujo completo de la solución.
 
-Además, muchas campañas de reciclaje escolares no logran generar un verdadero impacto porque no integran tecnología, trazabilidad ni experiencias interactivas que motiven a los estudiantes. En el campus ZooBotánica de Eight Academy se identificó la necesidad de implementar un sistema más innovador que permita transformar botellas PET en recursos útiles mediante reutilización ecológica, educación ambiental y tecnología inteligente.
+> Estado actual: prototipo web/demo interactiva. La clasificación IA y el registro Blockchain Flow están representados como simulaciones locales para explicar el concepto y validar la experiencia de usuario.
 
-# Solución propuesta
+## Resumen
 
-Bottle Bloom es una estación ecológica inteligente que utiliza Inteligencia Artificial, códigos QR y Blockchain para clasificar, reutilizar y transformar botellas PET en EcoBottles con biofertilizantes ecológicos.
+Bottle Bloom nace para reducir el desperdicio de botellas PET dentro del campus ZooBotánica de Eight Academy. La propuesta convierte el reciclaje en una experiencia educativa, visual y medible: cada botella escaneada recibe una clasificación, suma impacto ecológico, genera EcoCoins y puede obtener un pasaporte QR.
 
-## ¿Cómo funciona?
+## Problema
 
-1. El estudiante coloca la botella PET en la estación.
-2. La tablet integrada escanea la botella mediante IA.
-3. El sistema analiza el estado físico de la botella.
-4. La IA clasifica:
-   - 🟢 Reutilizable
-   - 🟡 Reciclaje industrial
-   - 🔴 Descarte contaminado
-5. Las botellas reutilizables pasan por un sistema de limpieza ecológica.
-6. La botella se llena con biofertilizante generado en los biogestores.
-7. Se genera un código QR inteligente.
-8. La información queda registrada en Blockchain Flow.
-9. El usuario visualiza el impacto ecológico generado.
+En muchas instituciones educativas se generan grandes cantidades de residuos plásticos, especialmente botellas PET. Aunque existen campañas de reciclaje, muchas no logran mantener la participación estudiantil porque no integran tecnología, trazabilidad ni retroalimentación inmediata.
 
-# ODS Relacionado
+Esto provoca tres retos principales:
 
-## ODS 13 — Acción por el Clima
+- acumulación de residuos plásticos,
+- baja reutilización de materiales con potencial ecológico,
+- poca visibilidad del impacto ambiental generado por cada estudiante.
 
-Bottle Bloom promueve:
-- reducción de residuos plásticos,
-- reutilización sostenible,
-- reciclaje inteligente,
-- educación ambiental,
-- y economía circular mediante tecnología innovadora.
+## Solución
 
-# Tecnologías utilizadas
+Bottle Bloom propone una estación ecológica inteligente que guía el proceso desde el depósito de una botella hasta su transformación en una EcoBottle con biofertilizante.
 
-## 🔹 Inteligencia Artificial (IA)
-Visión artificial para clasificación inteligente de botellas PET.
+La solución contempla:
 
-## 🔹 Blockchain Flow
-Registro transparente y trazabilidad ecológica de cada EcoBottle.
+- escaneo de la botella mediante una interfaz web,
+- clasificación en tres categorías ambientales,
+- generación de un pasaporte QR,
+- registro de trazabilidad simulado,
+- dashboard con métricas ecológicas,
+- recompensas con EcoCoins para motivar la participación.
 
-## 🔹 QR Inteligente
-Generación de pasaporte ecológico digital para cada botella.
+## Clasificación
 
-## 🔹 Frontend / UI
-- HTML
-- CSS
+| Categoría | Descripción | Recompensa |
+| --- | --- | --- |
+| Reutilizable | Botella en buen estado, apta para limpieza ecológica y transformación en EcoBottle. | +50 EcoCoins |
+| Reciclaje industrial | Botella deformada o dañada, destinada a reciclaje especializado. | +25 EcoCoins |
+| Descarte contaminado | Botella con contaminación alta, requiere disposición especial. | +10 EcoCoins |
+
+## Flujo de uso
+
+1. El estudiante deposita o presenta una botella PET.
+2. La interfaz permite simular el análisis o cargar una imagen.
+3. El sistema muestra una clasificación ambiental.
+4. La botella recibe EcoCoins según su categoría.
+5. Se genera un pasaporte ecológico en QR.
+6. Se simula un registro de trazabilidad tipo blockchain.
+7. El dashboard muestra impacto, ranking y registros recientes.
+
+## Funcionalidades
+
+- Landing page del proyecto.
+- Escáner demo de botellas PET.
+- Carga de imagen o uso de cámara del dispositivo.
+- Clasificación visual: reutilizable, reciclaje industrial o descarte contaminado.
+- Generación y descarga de QR.
+- Registro blockchain simulado en navegador.
+- Dashboard ecológico con métricas, gráficas y ranking.
+- Historial local usando `localStorage`.
+- Gamificación con EcoCoins y logros.
+
+## Tecnologías
+
+- HTML5
+- CSS3
 - JavaScript
+- Chart.js
+- qrcode.js
 - Figma
-
-## 🔹 Base de datos
-- Firebase
-- Almacenamiento en la nube
-
-## 🔹 Diseño y prototipado
 - Canva
-- Figma
-
-## 🔹 Control de versiones
 - GitHub
 
-# Objetivo del proyecto
+Tecnologías proyectadas para una versión completa:
 
-Diseñar un sistema ecológico inteligente que permita reutilizar botellas PET mediante Inteligencia Artificial y Blockchain, transformándolas en EcoBottles con biofertilizantes ecológicos para fortalecer la educación ambiental y la sostenibilidad dentro del entorno escolar.
+- modelo de visión artificial real,
+- Firebase o base de datos en la nube,
+- integración real con Flow Blockchain,
+- backend para usuarios, registros e historial persistente.
 
-# Características principales
+## Estructura del proyecto
 
-✅ Escaneo inteligente  
-✅ Clasificación IA  
-✅ QR ecológico  
-✅ Blockchain ambiental  
-✅ Dashboard ecológico  
-✅ Gamificación con EcoCoins  
-✅ Reutilización de botellas PET  
-✅ Integración con biogestores  
+```text
+BOTTLE-BLOOM/
+├── index.html          # Página principal
+├── scanner.html        # Escáner demo y generación de QR
+├── dashboard.html      # Métricas ecológicas y gamificación
+├── css/
+│   └── style.css       # Estilos globales
+├── js/
+│   ├── app.js          # Funciones globales y estadísticas
+│   ├── scanner.js      # Lógica del escáner demo
+│   └── dashboard.js    # Gráficas, ranking y registros
+├── README.md
+└── assets visuales     # Logos, prototipos, manual visual y mockups
+```
+
+## Cómo ejecutar
+
+Este proyecto es una web estática. No requiere instalación.
+
+1. Descarga o clona el repositorio.
+2. Abre `index.html` en tu navegador.
+3. Entra a `scanner.html` para probar el flujo de escaneo.
+4. Entra a `dashboard.html` para revisar las métricas.
+
+Para una mejor experiencia, usa un navegador moderno. La cámara puede requerir HTTPS o ejecución desde un entorno local compatible.
+
+## Modo demo
+
+La versión actual está pensada para presentación y validación del concepto. Por eso:
+
+- la clasificación se genera mediante una simulación ponderada,
+- el hash blockchain se crea localmente como demostración,
+- los datos se guardan en `localStorage` del navegador,
+- las métricas base son datos de ejemplo para mostrar el potencial del dashboard.
+
+Esta decisión permite explicar el producto completo sin depender todavía de hardware, backend, modelo IA o red blockchain real.
+
+## Impacto esperado
+
+Bottle Bloom contribuye al ODS 13: Acción por el Clima, promoviendo:
+
+- reducción de residuos plásticos,
+- educación ambiental activa,
+- economía circular,
+- cultura de reutilización,
+- medición del impacto ecológico escolar.
+
+## Próximos pasos
+
+- Conectar un modelo real de visión artificial para analizar botellas PET.
+- Crear una base de datos en la nube para usuarios, botellas y recompensas.
+- Integrar transacciones reales con Flow Blockchain.
+- Diseñar el flujo físico de limpieza y llenado con biofertilizante.
+- Crear perfiles de estudiantes y ranking por cursos.
+- Publicar la demo en GitHub Pages.
+
+## Equipo
+
+| Integrante | Rol |
+| --- | --- |
+| Pamela Rubio | Líder |
+| Emily Orozco | Secretaria |
+| Thomas Hermida | Expositor |
+| Emanuel Gerardo | Diseñador |
+| Juan Diego Moreno | Investigador |
+| Anita Parreño | Mentora |
+
+## Créditos
+
+Proyecto desarrollado para Eight Academy, campus ZooBotánica, como propuesta de innovación ambiental, educación sostenible y tecnología aplicada al reciclaje PET.
