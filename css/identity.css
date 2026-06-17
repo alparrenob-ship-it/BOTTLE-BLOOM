@@ -1,0 +1,189 @@
+/* Bottle Bloom identity assets */
+
+:root {
+  --bb-logo-url: url("../assets/LOGOTIPO%20FONDO%20NEGRO.png");
+  --bb-mascot-bottle-url: url("../assets/MASCOTA%20BOTELLA.png");
+  --bb-mascot-plant-url: url("../assets/MASCOTA%20PLANTA.png");
+}
+
+.brand-logo-img,
+.home-logo .brand-logo-img {
+  width: clamp(170px, 18vw, 280px);
+  height: auto;
+  max-height: 76px;
+  object-fit: contain;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.nav-logo.brand-only {
+  gap: 0;
+}
+
+.nav-logo.brand-only img {
+  height: auto;
+}
+
+.home-logo.brand-only img {
+  width: clamp(220px, 22vw, 340px);
+  max-height: 88px;
+}
+
+.bb-brand-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1.4rem;
+  border: 1px solid rgba(153,216,13,0.32);
+  border-radius: 999px;
+  background: rgba(3, 8, 5, 0.58);
+  box-shadow: inset 0 0 20px rgba(153,216,13,0.08), 0 0 26px rgba(153,216,13,0.08);
+}
+
+.bb-brand-kicker img {
+  width: 170px;
+  height: auto;
+  object-fit: contain;
+}
+
+.bb-brand-kicker span {
+  color: rgba(255,255,255,0.78);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.bb-mascot-bottle,
+.bb-mascot-plant {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  object-fit: contain;
+  filter: drop-shadow(0 22px 34px rgba(0,0,0,0.45)) drop-shadow(0 0 18px rgba(153,216,13,0.22));
+}
+
+.bb-mascot-bottle {
+  right: clamp(0.5rem, 3vw, 3rem);
+  bottom: 3.4rem;
+  width: clamp(120px, 13vw, 220px);
+}
+
+.bb-mascot-plant {
+  left: clamp(0.5rem, 3vw, 3rem);
+  bottom: 3.2rem;
+  width: clamp(120px, 12vw, 200px);
+}
+
+.bb-station-logo {
+  width: min(100%, 170px);
+  height: auto;
+  margin-bottom: 1rem;
+  object-fit: contain;
+}
+
+.bb-brand-panel .bb-station-logo {
+  border-radius: 0;
+}
+
+.identity-showcase {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(180px, 0.8fr) minmax(220px, 1.2fr);
+  gap: 1.2rem;
+  align-items: center;
+  max-width: 920px;
+  margin: 2rem auto 0;
+  padding: 1.5rem;
+  border: 1px solid rgba(153,216,13,0.28);
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(9,18,11,0.88), rgba(3,8,5,0.96));
+  box-shadow: inset 0 0 28px rgba(153,216,13,0.06), 0 20px 50px rgba(0,0,0,0.28);
+}
+
+.identity-showcase img {
+  width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+}
+
+.identity-showcase h3 {
+  color: #F8FFF2;
+  font-size: 1.4rem;
+  font-weight: 900;
+  margin-bottom: 0.6rem;
+}
+
+.identity-showcase p {
+  color: rgba(255,255,255,0.7);
+  line-height: 1.7;
+}
+
+.flow-card.mascot-card {
+  grid-template-columns: 70px 1fr;
+}
+
+.flow-card .flow-img-icon {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 14px rgba(153,216,13,0.25));
+}
+
+@media (max-width: 900px) {
+  .brand-logo-img,
+  .home-logo.brand-only img {
+    width: 190px;
+    max-height: 66px;
+  }
+
+  .bb-brand-kicker {
+    display: grid;
+    justify-items: start;
+    border-radius: 18px;
+  }
+
+  .bb-brand-kicker img {
+    width: 190px;
+  }
+
+  .bb-mascot-bottle,
+  .bb-mascot-plant {
+    opacity: 0.9;
+  }
+
+  .identity-showcase {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .bb-mascot-bottle,
+  .bb-mascot-plant {
+    position: relative;
+    right: auto;
+    left: auto;
+    bottom: auto;
+    width: min(48vw, 170px);
+    margin: 1rem auto 0;
+  }
+
+  .bb-mascot-plant {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .brand-logo-img,
+  .home-logo.brand-only img {
+    width: 150px;
+  }
+
+  .bb-brand-kicker img {
+    width: 160px;
+  }
+}
