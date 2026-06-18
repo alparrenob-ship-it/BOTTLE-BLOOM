@@ -1,1 +1,120 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>BottleBloom | Perfil</title><link rel="stylesheet" href="css/bottlebloom-app.css"></head><body><div class="app-shell"><aside class="sidebar"><div class="side-top"><a class="logo-lockup" href="home.html"><img src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom"><span class="brand-copy brand-name">Bottle<span>Bloom</span></span></a><button class="collapse-btn">BB</button></div><nav class="side-nav"><a href="home.html"><span class="nav-icon">H</span><span class="nav-label">Dashboard</span></a><a href="profile.html"><span class="nav-icon">P</span><span class="nav-label">Perfil</span></a><a href="registro.html"><span class="nav-icon">R</span><span class="nav-label">Registro</span></a><a href="retos.html"><span class="nav-icon">D</span><span class="nav-label">Retos</span></a><a href="eightcoins.html"><span class="nav-icon">8</span><span class="nav-label">Eight Coins</span></a><a href="nfts.html"><span class="nav-icon">N</span><span class="nav-label">NFTs</span></a><a href="impacto.html"><span class="nav-icon">I</span><span class="nav-label">Impacto</span></a></nav></aside><main class="app-main"><header class="topbar"><div class="hello"><h1 id="helloName">Hola, Eco Guerrero</h1><p>Perfil y progreso ecologico</p></div><div class="top-actions"><span class="pill" id="topCoins"></span><span class="pill" id="topLevel"></span><img class="avatar" id="topAvatar" alt="Perfil"></div></header><section class="page-grid profile-layout"><form class="glass-card" id="profileForm"><img class="profile-photo" id="profilePhoto" alt="Perfil"><div class="form-grid"><div class="field"><label>Nombre</label><input name="name"></div><div class="field"><label>Correo</label><input name="email" type="email"></div><div class="field"><label>Edad</label><input name="age" type="number"></div><div class="field"><label>Institucion</label><input name="institution"></div><button class="btn primary full">Guardar cambios</button></div></form><div class="page-grid dashboard-grid"><article class="glass-card stat-card"><span>Nivel ecologico</span><strong id="profileLevel">Nivel 1</strong></article><article class="glass-card stat-card"><span>XP</span><strong id="profileXp">0</strong></article><article class="glass-card stat-card"><span>Racha actual</span><strong id="profileStreak">0</strong></article><article class="glass-card stat-card"><span>Racha maxima</span><strong id="profileMaxStreak">0</strong></article><article class="glass-card stat-card"><span>Eight Coins</span><strong id="profileCoins">0</strong></article><article class="glass-card stat-card"><span>NFTs obtenidos</span><strong id="profileNfts">0</strong></article><article class="glass-card stat-card"><span>Impacto total</span><strong id="profileImpact">0</strong></article></div></section></main></div><script type="module" src="js/bottlebloom-app.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BottleBloom | Mi Perfil</title>
+  <link rel="stylesheet" href="css/bottlebloom-app.css">
+  <link rel="stylesheet" href="css/profile.css">
+</head>
+<body class="profile-page">
+  <div class="profile-shell">
+    <aside class="profile-sidebar" id="profileSidebar">
+      <div class="profile-brand">
+        <a class="profile-logo" href="home.html" aria-label="BottleBloom Dashboard">
+          <img src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom">
+          <span><strong>Bottle<span>Bloom</span></strong><small>Cultura ambiental inteligente</small></span>
+        </a>
+        <button class="profile-collapse" type="button" aria-label="Contraer menu">BB</button>
+      </div>
+
+      <nav class="profile-nav" aria-label="Menu BottleBloom">
+        <a href="home.html"><span>H</span>Dashboard</a>
+        <a href="scan.html"><span>S</span>Escanear botella</a>
+        <a class="active" href="profile.html"><span>P</span>Perfil</a>
+        <a href="registro.html"><span>R</span>Registro</a>
+        <a href="retos.html"><span>D</span>Retos diarios</a>
+        <a href="eightcoins.html"><span>8</span>Eight Coins</a>
+        <a href="nfts.html"><span>N</span>NFTs</a>
+        <a href="impacto.html"><span>I</span>Impacto ecologico</a>
+      </nav>
+
+      <button class="profile-logout" id="logoutBtn" type="button"><span>X</span>Cerrar sesion</button>
+    </aside>
+
+    <main class="profile-main">
+      <header class="profile-header">
+        <div>
+          <h1>Mi <span>Perfil</span></h1>
+          <p>Informacion personal y progreso ambiental.</p>
+        </div>
+        <div class="profile-status-card">
+          <div><img src="assets/EIGHT%20COIN.png" alt="Eight Coins"><strong id="headerCoins">0</strong><span>Eight-Coins</span></div>
+          <div><span class="level-badge">N</span><strong id="headerLevel">Nivel 1</strong><span id="headerRank">EcoGuardián</span></div>
+        </div>
+      </header>
+
+      <section class="profile-hero-card">
+        <div class="profile-avatar-area">
+          <img id="profileAvatar" src="assets/MASCOTA%20PLANTA.png" alt="Avatar EcoGuardián">
+          <input id="avatarInput" type="file" accept="image/*" hidden>
+          <button class="profile-link-button" id="changePhotoBtn" type="button">Cambiar foto</button>
+        </div>
+
+        <div class="profile-identity">
+          <h2 id="ecoName">EcoGuardián</h2>
+          <p>Estudiante comprometido con el planeta.</p>
+          <div class="profile-facts">
+            <div><span>Institucion</span><strong id="profileInstitution">Eight Academy</strong></div>
+            <div><span>Correo</span><strong id="profileEmail">ecoguardian@eightacademy.edu</strong></div>
+          </div>
+        </div>
+
+        <div class="profile-level-card">
+          <div class="level-top"><span>Nivel Ambiental</span><strong id="levelName">Nivel 1</strong></div>
+          <div class="level-core"><span class="level-shield">BG</span><div><h3 id="rankName">EcoGuardián</h3><p><span id="profileXp">0</span> / <span id="neededXp">1000</span> XP</p></div></div>
+          <div class="profile-progress"><i id="xpBar"></i></div>
+          <small>Sigue asi, cada botella cuenta</small>
+        </div>
+      </section>
+
+      <section class="profile-summary-grid">
+        <article class="profile-summary-card">
+          <img src="assets/%C3%ADcono%20botella.png" alt="Botellas registradas">
+          <div><span>Botellas registradas</span><strong id="summaryBottles">0</strong><p>Total entregadas</p></div>
+          <a href="registro.html">Ver historial</a>
+        </article>
+        <article class="profile-summary-card">
+          <img src="assets/EIGHT%20COIN.png" alt="Eight Coins acumulados">
+          <div><span>Eight-Coins acumulados</span><strong id="summaryCoins">0</strong><p>Por tu impacto ambiental</p></div>
+          <a href="eightcoins.html">Ver mis Eight-Coins</a>
+        </article>
+        <article class="profile-summary-card">
+          <img src="assets/%C3%ADcono%20NFTS.png" alt="NFTs obtenidos">
+          <div><span>NFTs obtenidos</span><strong id="summaryNfts">0</strong><p>Coleccion ecologica</p></div>
+          <a href="nfts.html">Ver mis NFTs</a>
+        </article>
+      </section>
+
+      <section class="profile-info-card">
+        <h2>Informacion personal</h2>
+        <div class="personal-grid">
+          <div><span>Nombre completo</span><strong id="personalName">Eco Guerrero</strong></div>
+          <div><span>Fecha de nacimiento</span><strong id="personalBirth">12/05/2010</strong></div>
+          <div><span>Genero</span><strong id="personalGender">Masculino</strong></div>
+        </div>
+        <button class="profile-edit-btn" id="editProfileBtn" type="button">Editar informacion</button>
+      </section>
+    </main>
+  </div>
+
+  <div class="profile-modal" id="profileModal" aria-hidden="true">
+    <form class="profile-modal-card" id="editProfileForm">
+      <div class="modal-head">
+        <h2>Editar informacion</h2>
+        <button type="button" id="closeProfileModal" aria-label="Cerrar">×</button>
+      </div>
+      <div class="modal-grid">
+        <label>Nombre completo<input name="fullName" required></label>
+        <label>Fecha de nacimiento<input name="birthDate" type="date" required></label>
+        <label>Genero<select name="gender"><option>Masculino</option><option>Femenino</option><option>Prefiero no decirlo</option></select></label>
+        <label>Institucion<input name="institution" required></label>
+        <label>Correo<input name="email" type="email" required></label>
+      </div>
+      <button class="profile-save-btn" type="submit">Guardar cambios</button>
+    </form>
+  </div>
+
+  <script src="js/profile.js"></script>
+</body>
+</html>
