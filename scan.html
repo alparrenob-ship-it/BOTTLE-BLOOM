@@ -1,1 +1,124 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>BottleBloom | Scan</title><link rel="stylesheet" href="css/bottlebloom-app.css"></head><body><div class="app-shell"><aside class="sidebar"><div class="side-top"><a class="logo-lockup" href="home.html"><img src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom"><span class="brand-copy brand-name">Bottle<span>Bloom</span></span></a><button class="collapse-btn">BB</button></div><div class="menu-title">Menu</div><nav class="side-nav"><a href="home.html"><span class="nav-icon">H</span><span class="nav-label">Dashboard</span></a><a href="profile.html"><span class="nav-icon">P</span><span class="nav-label">Perfil</span></a><a href="registro.html"><span class="nav-icon">R</span><span class="nav-label">Registro</span></a><a href="retos.html"><span class="nav-icon">D</span><span class="nav-label">Retos diarios</span></a><a href="eightcoins.html"><span class="nav-icon">8</span><span class="nav-label">Eight Coins</span></a><a href="nfts.html"><span class="nav-icon">N</span><span class="nav-label">NFTs</span></a><a href="impacto.html"><span class="nav-icon">I</span><span class="nav-label">Impacto ecologico</span></a></nav></aside><main class="app-main"><header class="topbar"><div class="hello"><h1 id="helloName">Hola, Eco Guerrero</h1><p>Escaneo inteligente de botellas</p></div><div class="top-actions"><span class="pill" id="topCoins">0 Eight Coins</span><span class="pill" id="topLevel">Nivel 1</span><img class="avatar" id="topAvatar" alt="Perfil"></div></header><section class="page-grid two-col"><div class="glass-card"><div class="card-title"><h2>Camara BottleBloom</h2><span class="pill">Vision IA</span></div><div class="camera-box"><video id="cameraVideo" autoplay playsinline muted hidden></video><canvas id="captureCanvas" hidden></canvas><div class="scan-line"></div><div class="camera-empty">Activa la camara o captura una simulacion para analizar la botella.</div></div><div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px"><button class="btn" id="startCamera">Activar camara</button><button class="btn" id="captureBtn">Capturar imagen</button><button class="btn primary" id="analyzeBtn">Simular analisis IA</button></div></div><aside class="glass-card"><div class="card-title"><h2>Resultado</h2><span class="pill">Clasificacion</span></div><div id="scanResult" class="hidden"><div class="result-grid"><div class="result-box"><label>Tipo</label><strong id="rType">PET</strong></div><div class="result-box"><label>Estado</label><strong id="rState">Bueno</strong></div><div class="result-box"><label>Reutilizacion</label><strong id="rReuse">Alta</strong></div><div class="result-box"><label>Resultado</label><strong id="rResult">Botella apta</strong></div><div class="result-box"><label>Coins</label><strong id="rCoins">+8</strong></div><div class="result-box"><label>CO2 evitado</label><strong id="rCo2">0.35 kg</strong></div></div><div style="display:grid;gap:10px;margin-top:16px"><button class="btn primary" id="saveScan">Guardar</button><a class="btn ghost" href="impacto.html">Mas informacion</a><a class="btn ghost" href="home.html">Volver al dashboard</a></div></div><p class="muted">Recompensas: registro +8, reutilizable +15, escaneo excelente +20 Eight Coins.</p></aside></section></main></div><script type="module" src="js/bottlebloom-app.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BottleBloom | Escanear botella</title>
+  <meta name="theme-color" content="#050505">
+  <link rel="stylesheet" href="css/bottlebloom-app.css">
+  <link rel="stylesheet" href="css/sidebar-icons.css">
+  <link rel="stylesheet" href="css/scan.css">
+</head>
+<body class="scan-page">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="side-top">
+        <a class="logo-lockup" href="profile.html">
+          <img src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom">
+          <span class="brand-copy brand-name">Bottle<span>Bloom</span></span>
+        </a>
+        <button class="collapse-btn" type="button">BB</button>
+      </div>
+      <div class="menu-title">Menu</div>
+      <nav class="side-nav" aria-label="Menu BottleBloom">
+        <a href="home.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg></span><span class="nav-label">Dashboard</span></a>
+        <a class="active" href="scan.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M7 3H4v3"/><path d="M17 3h3v3"/><path d="M7 21H4v-3"/><path d="M17 21h3v-3"/><path d="M8 12h8"/><path d="M12 8v8"/></svg></span><span class="nav-label">Escanear botella</span></a>
+        <a href="profile.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.6-4 4.4-6 8-6s6.4 2 8 6"/></svg></span><span class="nav-label">Perfil</span></a>
+        <a href="registro.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M7 3h10v4H7z"/><path d="M5 5h14v16H5z"/><path d="M8 12h8"/><path d="M8 16h6"/></svg></span><span class="nav-label">Registro</span></a>
+        <a href="retos.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M5 4v16"/><path d="M5 5h12l-2 4 2 4H5"/></svg></span><span class="nav-label">Retos diarios</span></a>
+        <a href="eightcoins.html"><span class="nav-icon coin-icon">8</span><span class="nav-label">Eight Coins</span></a>
+        <a href="nfts.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z"/><path d="m12 8 3.5 2v4L12 16l-3.5-2v-4z"/></svg></span><span class="nav-label">NFTs</span></a>
+        <a href="impacto.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 4C12 4 5 9 5 18"/><path d="M20 4c0 8-5 15-13 15"/><path d="M5 18c4-1 7-3 10-7"/></svg></span><span class="nav-label">Impacto ecologico</span></a>
+        <button class="logout-btn" type="button"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M14 4H6v16h8"/><path d="M10 12h10"/><path d="m17 9 3 3-3 3"/></svg></span><span class="nav-label">Cerrar sesión</span></button>
+      </nav>
+    </aside>
+
+    <main class="app-main">
+      <header class="topbar">
+        <div class="hello">
+          <h1 id="helloName">Escanear botella</h1>
+          <p>Captura, valida y registra botellas PET con IA.</p>
+        </div>
+        <div class="top-actions">
+          <span class="pill" id="topCoins">0 Eight Coins</span>
+          <span class="pill" id="topLevel">Nivel 1</span>
+          <img class="avatar" id="topAvatar" src="assets/MASCOTA%20PLANTA.png" alt="Perfil">
+        </div>
+      </header>
+
+      <section class="page-grid scan-stats">
+        <article class="glass-card stat-card scan-stat-card">
+          <span>Progreso de hoy</span>
+          <strong id="statToday">0/3</strong>
+          <div class="progress" id="todayProgressBar" style="--value:0%"><i></i></div>
+        </article>
+        <article class="glass-card stat-card scan-stat-card"><span>Botellas registradas</span><strong id="statBottles">0</strong></article>
+        <article class="glass-card stat-card scan-stat-card"><span>CO2 evitado</span><strong id="statCo2">0.00 kg</strong></article>
+        <article class="glass-card stat-card scan-stat-card"><span>Eight Coins</span><strong id="statCoins">0</strong></article>
+      </section>
+
+      <section class="scan-layout">
+        <article class="glass-card scan-main-card">
+          <div class="card-title">
+            <h2>Escaneo inteligente</h2>
+            <span class="pill scan-status-pill" id="scanStatus">Esperando botella...</span>
+          </div>
+
+          <div class="camera-box scan-camera-box" id="scanCameraBox">
+            <video id="cameraVideo" autoplay playsinline muted hidden></video>
+            <canvas id="captureCanvas" hidden></canvas>
+            <img class="scan-preview" id="scanPreview" alt="Vista previa de botella">
+            <div class="scan-frame-corners"></div>
+            <div class="scan-line"></div>
+            <div class="camera-empty" id="cameraEmpty">Activa la cámara o sube una imagen para iniciar el escaneo.</div>
+          </div>
+
+          <div class="scan-loader" id="scanLoader"><i></i></div>
+          <p class="scan-message" id="scanMessage">Esperando botella...</p>
+
+          <div class="scan-controls">
+            <button class="btn" id="startCamera" type="button">Activar cámara</button>
+            <button class="btn" id="captureBtn" type="button">Capturar botella</button>
+            <button class="btn primary" id="uploadBtn" type="button">Subir imagen</button>
+            <input id="scanUpload" type="file" accept="image/*" hidden>
+          </div>
+        </article>
+
+        <aside class="page-grid">
+          <article class="glass-card scan-result-card hidden" id="scanResult">
+            <div class="card-title">
+              <h2>Resultado del escaneo</h2>
+              <span class="pill">IA</span>
+            </div>
+            <img class="result-preview" id="resultImage" alt="Botella analizada">
+            <div class="result-grid scan-result-grid">
+              <div class="result-box"><label>Resultado IA</label><strong id="resultAi">Botella PET detectada</strong></div>
+              <div class="result-box"><label>Tipo</label><strong id="resultType">Botella PET</strong></div>
+              <div class="result-box"><label>Recompensa</label><strong id="resultReward">+10 Eight Coins</strong></div>
+              <div class="result-box"><label>XP ambiental</label><strong id="resultXp">+50 XP</strong></div>
+              <div class="result-box"><label>CO2 evitado</label><strong id="resultCo2">0.08 kg</strong></div>
+              <div class="result-box"><label>Estado</label><strong>Validada</strong></div>
+            </div>
+            <div class="result-actions">
+              <button class="btn primary" id="registerBottle" type="button">Registrar botella</button>
+              <button class="btn ghost" id="scanAnother" type="button">Escanear otra</button>
+            </div>
+          </article>
+
+          <article class="glass-card scan-history-card">
+            <div class="card-title">
+              <h2>Últimos escaneos</h2>
+              <span class="pill">PET</span>
+            </div>
+            <div class="history-list" id="quickHistory"></div>
+            <a class="btn ghost full" href="registro.html">Ver historial completo</a>
+          </article>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <div class="scan-toast" id="scanToast" role="status" aria-live="polite"></div>
+  <script src="js/scan-module.js"></script>
+</body>
+</html>
