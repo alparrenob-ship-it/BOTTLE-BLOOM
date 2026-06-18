@@ -8,6 +8,7 @@ const defaultProfile = {
   phrase: 'Estudiante comprometido con el planeta.',
   birthDate: '2010-05-12',
   gender: 'Masculino',
+  memberType: 'Estudiante',
   institution: 'Eight Academy',
   email: 'ecoguardian@eightacademy.edu',
   level: 'Nivel 3',
@@ -44,6 +45,7 @@ function loadProfile() {
     fullName: saved.fullName || appUser.name || defaultProfile.fullName,
     email: saved.email || appUser.email || defaultProfile.email,
     institution: saved.institution || appUser.institution || defaultProfile.institution,
+    memberType: saved.memberType || appUser.memberType || defaultProfile.memberType,
     avatar: saved.avatar || appUser.photo || defaultProfile.avatar,
     coins: Number(saved.coins ?? appUser.coins ?? defaultProfile.coins),
     xp: Number(saved.xp ?? appUser.xp ?? defaultProfile.xp),
@@ -59,6 +61,7 @@ function saveProfile() {
     name: userProfile.fullName,
     email: userProfile.email,
     institution: userProfile.institution,
+    memberType: userProfile.memberType,
     photo: userProfile.avatar,
     coins: userProfile.coins,
     xp: userProfile.xp,
@@ -109,6 +112,7 @@ function renderProfile() {
   setText('#personalName', userProfile.fullName);
   setText('#personalBirth', formatDate(userProfile.birthDate));
   setText('#personalGender', userProfile.gender);
+  setText('#personalMember', userProfile.memberType || 'Estudiante');
 
   const avatar = $('#profileAvatar');
   if (avatar) avatar.src = userProfile.avatar || defaultProfile.avatar;
@@ -124,6 +128,7 @@ function openModal() {
   form.fullName.value = userProfile.fullName || '';
   form.birthDate.value = userProfile.birthDate || '';
   form.gender.value = userProfile.gender || 'Masculino';
+  form.memberType.value = userProfile.memberType || 'Estudiante';
   form.institution.value = userProfile.institution || '';
   form.email.value = userProfile.email || '';
   $('#profileModal')?.classList.add('open');
@@ -143,6 +148,7 @@ function saveModalData(event) {
     fullName: form.fullName.value.trim(),
     birthDate: form.birthDate.value,
     gender: form.gender.value,
+    memberType: form.memberType.value,
     institution: form.institution.value.trim(),
     email: form.email.value.trim()
   };
