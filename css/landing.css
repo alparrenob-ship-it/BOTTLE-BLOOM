@@ -130,7 +130,8 @@
 .info-card,
 .team-card,
 .bottle-hero-card,
-.flow-image-card {
+.flow-image-card,
+.system-image-card {
   border: 1px solid rgba(92,255,92,.26);
   border-radius: 18px;
   background: linear-gradient(145deg, rgba(12,24,17,.72), rgba(5,5,5,.78));
@@ -214,7 +215,8 @@
 .section-head h2 span { color: #5cff5c; }
 .section-head p { color: rgba(255,255,255,.68); max-width: 560px; line-height: 1.55; }
 
-.flow-image-card {
+.flow-image-card,
+.system-image-card {
   width: min(100%, 1180px);
   margin: 0 auto;
   padding: clamp(10px, 1.8vw, 18px);
@@ -228,6 +230,22 @@
   object-fit: contain;
   border-radius: 14px;
   filter: drop-shadow(0 0 18px rgba(92,255,92,.18));
+}
+
+.system-image-card {
+  margin-top: 24px;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(66,217,255,.1), transparent 22rem),
+    linear-gradient(145deg, rgba(12,24,17,.72), rgba(5,5,5,.82));
+}
+.system-image-card img {
+  width: min(100%, 980px);
+  max-height: 420px;
+  object-fit: contain;
+  border-radius: 14px;
+  filter: drop-shadow(0 0 18px rgba(92,255,92,.2)) drop-shadow(0 0 16px rgba(66,217,255,.12));
 }
 
 .info-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -275,4 +293,5 @@
   .bottle-hero-card { width: 100%; min-height: 360px; }
   .bottle-hero-card img { width: min(78%, 300px); max-height: 330px; }
   .flow-image-card img { min-width: 680px; max-height: 430px; }
+  .system-image-card img { max-height: 320px; }
 }
