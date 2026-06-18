@@ -35,7 +35,7 @@
         <button class="auth-back" type="button" data-auth-back>‹ Volver</button>
         <img class="panel-logo" src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom" />
         <h2>Iniciar sesión</h2>
-        <p>Entra a tu dashboard Eco Guerrero.</p>
+        <p>Entra a tu perfil Eco Guerrero.</p>
         <form class="auth-card compact" id="loginForm" novalidate>
           <div class="field"><label>Correo electronico</label><input name="email" type="email" autocomplete="email" required /><small></small></div>
           <div class="field"><label>Nombre</label><input name="name" autocomplete="name" placeholder="Eco Guerrero" /><small></small></div>
@@ -51,7 +51,7 @@
         <form class="auth-card" id="registerForm" novalidate>
           <img class="panel-logo" src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom" />
           <h2>Crear perfil Eco Guerrero</h2>
-          <p>Completa tus datos para entrar al dashboard BottleBloom.</p>
+          <p>Completa tus datos para entrar a BottleBloom.</p>
           <div class="form-grid">
             <div class="field"><label>Nombre completo</label><input name="fullName" autocomplete="name" required /><small></small></div>
             <div class="field"><label>Correo electronico</label><input name="email" type="email" autocomplete="email" required /><small></small></div>
@@ -71,9 +71,9 @@
   <script type="module">
     import { setUid, saveUserProfile, getUserProfile } from './js/firebase.js';
 
-    const openDashboard = () => {
-      if (window.top && window.top !== window.self) window.top.location.href = 'home.html';
-      else location.href = 'home.html';
+    const openProfile = () => {
+      if (window.top && window.top !== window.self) window.top.location.href = 'profile.html';
+      else location.href = 'profile.html';
     };
 
     const choice = document.querySelector('#authChoice');
@@ -122,7 +122,7 @@
         currentStreak: current.currentStreak || 1,
         maxStreak: current.maxStreak || 1
       });
-      openDashboard();
+      openProfile();
     });
   </script>
 </body>
