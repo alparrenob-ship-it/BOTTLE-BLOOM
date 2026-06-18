@@ -8,7 +8,7 @@ const defaultProfile = {
   phrase: 'Estudiante comprometido con el planeta.',
   birthDate: '2010-05-12',
   gender: 'Masculino',
-  memberType: 'Estudiante',
+  memberType: 'estudiante',
   institution: 'Eight Academy',
   email: 'ecoguardian@eightacademy.edu',
   level: 'Nivel 3',
@@ -45,7 +45,7 @@ function loadProfile() {
     fullName: saved.fullName || appUser.name || defaultProfile.fullName,
     email: saved.email || appUser.email || defaultProfile.email,
     institution: saved.institution || appUser.institution || defaultProfile.institution,
-    memberType: saved.memberType || appUser.memberType || defaultProfile.memberType,
+    memberType: normalizeMemberType(saved.memberType || appUser.memberType || defaultProfile.memberType),
     avatar: saved.avatar || appUser.photo || defaultProfile.avatar,
     coins: Number(saved.coins ?? appUser.coins ?? defaultProfile.coins),
     xp: Number(saved.xp ?? appUser.xp ?? defaultProfile.xp),
@@ -112,7 +112,7 @@ function renderProfile() {
   setText('#personalName', userProfile.fullName);
   setText('#personalBirth', formatDate(userProfile.birthDate));
   setText('#personalGender', userProfile.gender);
-  setText('#personalMember', userProfile.memberType || 'Estudiante');
+  setText('#personalMember', userProfile.memberType || 'estudiante');
 
   const avatar = $('#profileAvatar');
   if (avatar) avatar.src = userProfile.avatar || defaultProfile.avatar;
@@ -128,7 +128,7 @@ function openModal() {
   form.fullName.value = userProfile.fullName || '';
   form.birthDate.value = userProfile.birthDate || '';
   form.gender.value = userProfile.gender || 'Masculino';
-  form.memberType.value = userProfile.memberType || 'Estudiante';
+  form.memberType.value = normalizeMemberType(userProfile.memberType || 'estudiante');
   form.institution.value = userProfile.institution || '';
   form.email.value = userProfile.email || '';
   $('#profileModal')?.classList.add('open');
@@ -176,6 +176,14 @@ function computeNftCount(bottles, coins) {
   if (coins >= 250) total += 1;
   if (coins >= 1000) total += 1;
   return total || 4;
+}
+
+function normalizeMemberType(value) {
+  const normalized = String(value || '').toLowerCase();
+  if (normalized.includes('docente')) return 'docente';
+  if (normalized.includes('admin')) return 'administrativo';
+  if (normalized.includes('padre') || normalized.includes('familia') || normalized.includes('representante')) return 'padre de familia';
+  return 'estudiante';
 }
 
 function setText(selector, value) {
