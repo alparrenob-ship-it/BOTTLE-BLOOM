@@ -34,33 +34,18 @@
     </aside>
 
     <main class="app-main">
-      <header class="topbar">
-        <div class="hello">
-          <h1 id="helloName">Escanear botella</h1>
-          <p>Captura, valida y registra botellas PET con IA.</p>
+      <header class="scan-titlebar">
+        <div>
+          <h1>Escanear <span>botella</span></h1>
+          <p>Usa la cámara IA para analizar tu botella y obtener recompensas.</p>
         </div>
-        <div class="top-actions">
-          <span class="pill" id="topCoins">0 Eight Coins</span>
-          <span class="pill" id="topLevel">Nivel 1</span>
-          <img class="avatar" id="topAvatar" src="assets/MASCOTA%20PLANTA.png" alt="Perfil">
-        </div>
+        <button class="scan-help" type="button">¿Cómo funciona?</button>
       </header>
 
-      <section class="page-grid scan-stats">
-        <article class="glass-card stat-card scan-stat-card">
-          <span>Progreso de hoy</span>
-          <strong id="statToday">0/3</strong>
-          <div class="progress" id="todayProgressBar" style="--value:0%"><i></i></div>
-        </article>
-        <article class="glass-card stat-card scan-stat-card"><span>Botellas registradas</span><strong id="statBottles">0</strong></article>
-        <article class="glass-card stat-card scan-stat-card"><span>CO2 evitado</span><strong id="statCo2">0.00 kg</strong></article>
-        <article class="glass-card stat-card scan-stat-card"><span>Eight Coins</span><strong id="statCoins">0</strong></article>
-      </section>
-
-      <section class="scan-layout">
+      <section class="scan-layout scanner-dashboard">
         <article class="glass-card scan-main-card">
           <div class="card-title">
-            <h2>Escaneo inteligente</h2>
+            <h2>Cámara IA activada</h2>
             <span class="pill scan-status-pill" id="scanStatus">Esperando botella...</span>
           </div>
 
@@ -70,50 +55,92 @@
             <img class="scan-preview" id="scanPreview" alt="Vista previa de botella">
             <div class="scan-frame-corners"></div>
             <div class="scan-line"></div>
-            <div class="camera-empty" id="cameraEmpty">Activa la cámara o sube una imagen para iniciar el escaneo.</div>
+            <div class="camera-empty" id="cameraEmpty">SCAN</div>
           </div>
 
-          <div class="scan-loader" id="scanLoader"><i></i></div>
-          <p class="scan-message" id="scanMessage">Esperando botella...</p>
+          <p class="scan-focus-note">Enfoca tu botella en el centro del marco.</p>
 
+          <div class="scan-controls-title">Opciones de escaneo</div>
           <div class="scan-controls">
-            <button class="btn" id="startCamera" type="button">Activar cámara</button>
+            <button class="btn" id="startCamera" type="button">Usar cámara</button>
             <button class="btn" id="captureBtn" type="button">Capturar botella</button>
             <button class="btn primary" id="uploadBtn" type="button">Subir imagen</button>
             <input id="scanUpload" type="file" accept="image/*" hidden>
           </div>
+
+          <p class="scan-message scan-tip" id="scanMessage">Asegúrate de que la botella esté limpia y sin líquidos para una clasificación precisa.</p>
         </article>
 
         <aside class="page-grid">
+          <article class="glass-card analysis-card">
+            <div class="card-title">
+              <h2>Análisis IA en proceso</h2>
+              <span class="pill" id="analysisPercent">0%</span>
+            </div>
+            <div class="analysis-list">
+              <div class="analysis-row" data-check="plastic"><span>Tipo de plástico</span><strong>Pendiente</strong><i></i></div>
+              <div class="analysis-row" data-check="state"><span>Estado físico</span><strong>Pendiente</strong><i></i></div>
+              <div class="analysis-row" data-check="clean"><span>Nivel de limpieza</span><strong>Pendiente</strong><i></i></div>
+              <div class="analysis-row" data-check="reuse"><span>Potencial de reutilización</span><strong>Pendiente</strong><i></i></div>
+              <div class="analysis-row" data-check="protocol"><span>Cumplimiento de protocolo</span><strong>Pendiente</strong><i></i></div>
+            </div>
+            <div class="scan-loader analysis-loader" id="scanLoader"><i></i></div>
+            <small id="analysisCopy">Sube o captura una imagen para iniciar el análisis.</small>
+          </article>
+
+          <article class="glass-card classification-preview" id="classificationPreview">
+            <div class="card-title"><h2>Vista previa del resultado</h2><span class="pill">Contenedor</span></div>
+            <div class="container-result" id="containerResult">
+              <div class="container-icon">PET</div>
+              <div>
+                <p>La IA determinará si tu botella es:</p>
+                <ul>
+                  <li><span class="dot green"></span>Apta: contenedor verde</li>
+                  <li><span class="dot yellow"></span>Requiere limpieza: contenedor amarillo</li>
+                  <li><span class="dot red"></span>No apta: contenedor rojo</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
           <article class="glass-card scan-result-card hidden" id="scanResult">
             <div class="card-title">
               <h2>Resultado del escaneo</h2>
-              <span class="pill">IA</span>
+              <span class="pill" id="resultBadge">IA</span>
             </div>
             <img class="result-preview" id="resultImage" alt="Botella analizada">
+            <div class="container-decision" id="containerDecision">
+              <strong id="resultAi">Botella PET detectada</strong>
+              <span id="resultContainer">Contenedor verde</span>
+            </div>
             <div class="result-grid scan-result-grid">
-              <div class="result-box"><label>Resultado IA</label><strong id="resultAi">Botella PET detectada</strong></div>
-              <div class="result-box"><label>Tipo</label><strong id="resultType">Botella PET</strong></div>
+              <div class="result-box"><label>Tipo</label><strong id="resultType">PET</strong></div>
+              <div class="result-box"><label>Estado</label><strong id="resultState">Bueno</strong></div>
+              <div class="result-box"><label>Limpieza</label><strong id="resultClean">Limpia</strong></div>
+              <div class="result-box"><label>Reutilización</label><strong id="resultReuse">Alta</strong></div>
               <div class="result-box"><label>Recompensa</label><strong id="resultReward">+10 Eight Coins</strong></div>
               <div class="result-box"><label>XP ambiental</label><strong id="resultXp">+50 XP</strong></div>
-              <div class="result-box"><label>CO2 evitado</label><strong id="resultCo2">0.08 kg</strong></div>
-              <div class="result-box"><label>Estado</label><strong>Validada</strong></div>
             </div>
             <div class="result-actions">
-              <button class="btn primary" id="registerBottle" type="button">Registrar botella</button>
+              <button class="btn primary" id="registerBottle" type="button">Registrar clasificación</button>
               <button class="btn ghost" id="scanAnother" type="button">Escanear otra</button>
             </div>
           </article>
 
-          <article class="glass-card scan-history-card">
-            <div class="card-title">
-              <h2>Últimos escaneos</h2>
-              <span class="pill">PET</span>
-            </div>
-            <div class="history-list" id="quickHistory"></div>
-            <a class="btn ghost full" href="registro.html">Ver historial completo</a>
+          <article class="glass-card rewards-card">
+            <div><strong>Gana Eight Coins</strong><span>por cada acción correcta</span></div>
+            <div><strong>Desbloquea NFTs</strong><span>y colecciona logros</span></div>
+            <div><strong>Genera impacto</strong><span>positivo en el planeta</span></div>
           </article>
         </aside>
+      </section>
+
+      <section class="glass-card scan-history-card">
+        <div class="card-title">
+          <h2>Últimos escaneos</h2>
+          <a class="btn ghost" href="registro.html">Ver historial completo</a>
+        </div>
+        <div class="history-list" id="quickHistory"></div>
       </section>
     </main>
   </div>
