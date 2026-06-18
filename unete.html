@@ -11,33 +11,114 @@
 </head>
 <body>
   <main class="auth-entry-page">
-    <section class="auth-entry-card" aria-label="Acceso BottleBloom">
-      <img class="auth-entry-logo" src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom" />
-      <h1>Bottle <span>Bloom</span></h1>
-      <p>Transformamos botellas en <strong>vida.</strong></p>
-      <div class="auth-entry-actions">
-        <a class="btn primary full" href="home.html">Iniciar sesion</a>
-        <a class="btn ghost full" href="#crear-cuenta">Crear cuenta</a>
-      </div>
-      <p class="auth-entry-copy">Tecnologia <strong>inteligente</strong><br>para un futuro <span>sostenible.</span></p>
-    </section>
+    <section class="auth-shell" aria-label="Acceso BottleBloom">
+      <div class="auth-choice" id="authChoice">
+        <img class="auth-logo" src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom" />
+        <h1>Bottle<span>Bloom</span></h1>
+        <p class="auth-tagline">Cultivamos un futuro mejor</p>
 
-    <section class="register-panel" id="crear-cuenta">
-      <form class="auth-card" id="registerForm" novalidate>
-        <div class="logo-lockup" style="justify-content:center"><img src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom" /></div>
-        <img class="profile-photo" src="assets/MASCOTA%20PLANTA.png" alt="Foto de perfil Eco Guerrero" />
-        <h2>Crear perfil Eco Guerrero</h2>
-        <p>Completa tus datos para entrar al dashboard BottleBloom.</p>
-        <div class="form-grid">
-          <div class="field"><label>Nombre completo</label><input name="fullName" autocomplete="name" required /><small></small></div>
-          <div class="field"><label>Correo electronico</label><input name="email" type="email" autocomplete="email" required /><small></small></div>
-          <div class="field"><label>Edad</label><input name="age" type="number" min="6" max="100" required /><small></small></div>
-          <div class="field"><label>Institucion</label><input name="institution" required /><small></small></div>
-          <button class="btn primary full hidden" id="nextBtn" type="submit">Siguiente</button>
+        <div class="auth-actions">
+          <button class="auth-action primary" type="button" data-open-auth="login">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>Iniciar sesión</span>
+          </button>
+          <button class="auth-action ghost" type="button" data-open-auth="register">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21a6 6 0 0 0-12 0"/><circle cx="10" cy="7" r="4"/><path d="M19 8v6"/><path d="M22 11h-6"/></svg>
+            <span>Registro</span>
+          </button>
         </div>
-      </form>
+
+        <p class="auth-entry-copy">Tecnologia <strong>inteligente</strong><br>para un futuro <span>sostenible.</span></p>
+      </div>
+
+      <section class="auth-panel hidden" id="loginPanel" aria-label="Iniciar sesion BottleBloom">
+        <button class="auth-back" type="button" data-auth-back>‹ Volver</button>
+        <img class="panel-logo" src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom" />
+        <h2>Iniciar sesión</h2>
+        <p>Entra a tu dashboard Eco Guerrero.</p>
+        <form class="auth-card compact" id="loginForm" novalidate>
+          <div class="field"><label>Correo electronico</label><input name="email" type="email" autocomplete="email" required /><small></small></div>
+          <div class="field"><label>Nombre</label><input name="name" autocomplete="name" placeholder="Eco Guerrero" /><small></small></div>
+          <button class="auth-action primary form-submit" type="submit">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>Entrar</span>
+          </button>
+        </form>
+      </section>
+
+      <section class="auth-panel hidden" id="registerPanel" aria-label="Registro BottleBloom">
+        <button class="auth-back" type="button" data-auth-back>‹ Volver</button>
+        <form class="auth-card" id="registerForm" novalidate>
+          <img class="panel-logo" src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom" />
+          <h2>Crear perfil Eco Guerrero</h2>
+          <p>Completa tus datos para entrar al dashboard BottleBloom.</p>
+          <div class="form-grid">
+            <div class="field"><label>Nombre completo</label><input name="fullName" autocomplete="name" required /><small></small></div>
+            <div class="field"><label>Correo electronico</label><input name="email" type="email" autocomplete="email" required /><small></small></div>
+            <div class="field"><label>Edad</label><input name="age" type="number" min="6" max="100" required /><small></small></div>
+            <div class="field"><label>Institucion</label><input name="institution" required /><small></small></div>
+            <button class="auth-action primary form-submit hidden" id="nextBtn" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+              <span>Siguiente</span>
+            </button>
+          </div>
+        </form>
+      </section>
     </section>
   </main>
+
   <script type="module" src="js/bottlebloom-app.js"></script>
+  <script type="module">
+    import { setUid, saveUserProfile, getUserProfile } from './js/firebase.js';
+
+    const choice = document.querySelector('#authChoice');
+    const panels = {
+      login: document.querySelector('#loginPanel'),
+      register: document.querySelector('#registerPanel')
+    };
+
+    document.querySelectorAll('[data-open-auth]').forEach(button => {
+      button.addEventListener('click', () => {
+        choice.classList.add('hidden');
+        Object.values(panels).forEach(panel => panel.classList.add('hidden'));
+        panels[button.dataset.openAuth].classList.remove('hidden');
+      });
+    });
+
+    document.querySelectorAll('[data-auth-back]').forEach(button => {
+      button.addEventListener('click', () => {
+        Object.values(panels).forEach(panel => panel.classList.add('hidden'));
+        choice.classList.remove('hidden');
+      });
+    });
+
+    const loginForm = document.querySelector('#loginForm');
+    loginForm?.addEventListener('submit', async event => {
+      event.preventDefault();
+      const email = loginForm.email.value.trim();
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      const field = loginForm.email.closest('.field');
+      field.classList.toggle('invalid', !valid);
+      field.querySelector('small').textContent = valid ? '' : 'Ingresa un correo valido.';
+      if (!valid) return;
+
+      const current = await getUserProfile();
+      const uid = current.uid && current.uid !== 'demo-user' ? current.uid : crypto.randomUUID();
+      setUid(uid);
+      await saveUserProfile({
+        ...current,
+        uid,
+        name: loginForm.name.value.trim() || current.name || 'Eco Guerrero',
+        email,
+        photo: current.photo || 'assets/MASCOTA%20PLANTA.png',
+        level: current.level || 'Nivel 1',
+        coins: Number(current.coins || 0),
+        xp: Number(current.xp || 0),
+        currentStreak: current.currentStreak || 1,
+        maxStreak: current.maxStreak || 1
+      });
+      location.href = 'home.html';
+    });
+  </script>
 </body>
 </html>
