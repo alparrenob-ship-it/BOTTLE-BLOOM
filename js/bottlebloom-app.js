@@ -194,7 +194,9 @@ async function saveScan() {
   setTimeout(async () => {
     if (!lastResult) return;
     const image = await uploadBottleImage(capturedImage || $('#captureCanvas')?.toDataURL?.('image/png') || '');
-    await addBottle({ image, ...lastResult });
+    const currentBottles = await getBottles(500);
+    const bottleId = createBottleId(currentBottles.length + 1);
+    await addBottle({ image, bottleId, ...lastResult });
     await addCoins('Botella registrada', lastResult.coins);
     const bottles = await getBottles(500);
     await saveImpact(computeImpact(bottles.length));
@@ -204,34 +206,52 @@ async function saveScan() {
 
 async function initRegistro() {
   await loadTopbar();
-  renderBottleList(await getBottles(20));
+  const bottles = await getBottles(80);
+  const tabs = $$('.bottle-tab');
+  const applyFilter = (filter = 'all') => {
+    tabs.forEach(tab => tab.classList.toggle('active', tab.dataset.filter === filter));
+    const filtered = filter === 'all'
+      ? bottles
+      : bottles.filter(bottle => normalizeText(getBottleCategory(bottle)).includes(filter));
+    renderBottleList(filtered, bottles.length);
+  };
+  tabs.forEach(tab => tab.addEventListener('click', () => applyFilter(tab.dataset.filter)));
+  applyFilter('all');
 }
 
-function renderBottleList(bottles) {
+function renderBottleList(bottles, totalCount = bottles.length) {
   const list = $('#bottleList');
   if (!list) return;
-  list.innerHTML = bottles.map((b, index) => `
-    <article class="bottle-card" data-id="${b.id}">
-      <img src="${b.image || 'assets/MASCOTA%20BOTELLA.png'}" alt="Botella registrada">
-      <h3>Botella ${bottles.length - index}</h3>
-      <div class="meta">
-        <span><strong>Fecha:</strong> ${formatDate(b.date)}</span>
-        <span><strong>Tipo:</strong> ${b.type}</span>
-        <span><strong>Estado:</strong> ${b.state}</span>
-        <span><strong>Reutilizacion:</strong> ${b.reuse}</span>
-        <span><strong>Coins:</strong> +${b.coins}</span>
-      </div>
-    </article>`).join('') || emptyState('Aun no hay botellas registradas.');
-  $$('.bottle-card').forEach(card => card.addEventListener('click', () => openBottleDetail(bottles.find(b => b.id === card.dataset.id))));
+  list.innerHTML = bottles.map((b, index) => {
+    const displayId = getBottleDisplayId(b, index, totalCount);
+    const category = getBottleCategory(b);
+    const image = b.image || 'assets/BOTELLA.png';
+    return `
+      <article class="bottle-row" data-id="${b.id || displayId}">
+        <span class="bottle-thumb-shell"><img src="${image}" alt="${displayId}"></span>
+        <span class="bottle-row-info">
+          <strong class="bottle-id">${displayId}</strong>
+          <span class="bottle-category">${category}</span>
+          <span class="bottle-date">${formatShortDate(b.date)}</span>
+        </span>
+        <span class="bottle-chevron" aria-hidden="true">›</span>
+      </article>`;
+  }).join('') || '<div class="registry-empty">Aun no hay botellas registradas en este filtro.</div>';
+  $$('.bottle-row').forEach(card => {
+    card.addEventListener('click', () => openBottleDetail(bottles.find(b => (b.id || getBottleDisplayId(b)) === card.dataset.id)));
+  });
 }
 
 function openBottleDetail(bottle) {
   if (!bottle) return;
   const modal = $('#detailModal');
+  const displayId = getBottleDisplayId(bottle);
   $('#detailContent').innerHTML = `
     <div class="card-title"><h2>Detalle de botella</h2><button class="btn ghost" data-close>Cerrar</button></div>
-    <img class="camera-preview" src="${bottle.image || 'assets/MASCOTA%20BOTELLA.png'}" alt="Botella">
+    <img class="camera-preview" src="${bottle.image || 'assets/BOTELLA.png'}" alt="Botella ${displayId}">
     <div class="result-grid" style="margin-top:16px">
+      <div class="result-box"><label>ID</label><strong class="detail-id">${displayId}</strong></div>
+      <div class="result-box"><label>Categoria</label><strong>${getBottleCategory(bottle)}</strong></div>
       <div class="result-box"><label>Tipo</label><strong>${bottle.type}</strong></div>
       <div class="result-box"><label>Estado</label><strong>${bottle.state}</strong></div>
       <div class="result-box"><label>Resultado</label><strong>${bottle.result}</strong></div>
@@ -356,5 +376,33 @@ function computeNfts(bottles, coins, streak, completedChallenges) {
   ];
 }
 
+function getBottleCategory(bottle) {
+  if (bottle.category) return bottle.category;
+  if (bottle.reuse === 'Alta') return 'Biofertilizante';
+  if (bottle.reuse === 'Media') return 'Reutilización';
+  if (bottle.state === 'Malo' || bottle.result === 'No apta') return 'Reciclaje';
+  return 'Biofertilizante';
+}
+
+function createBottleId(sequence = 1) {
+  const year = String(new Date().getFullYear()).slice(-2);
+  const serial = String(Math.max(1, sequence + 55)).padStart(5, '0');
+  return `BB-${year}-${serial}`;
+}
+
+function getBottleDisplayId(bottle, index = 0, totalCount = 1) {
+  if (bottle.bottleId) return bottle.bottleId;
+  if (bottle.ecoBottleId) return bottle.ecoBottleId;
+  const sourceDate = new Date(bottle.date || Date.now());
+  const year = String(sourceDate.getFullYear()).slice(-2);
+  const serial = String(Math.max(1, totalCount - index + 55)).padStart(5, '0');
+  return `BB-${year}-${serial}`;
+}
+
+function normalizeText(text) {
+  return String(text || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+}
+
 function formatDate(date) { return new Date(date || Date.now()).toLocaleDateString('es-EC', { day:'2-digit', month:'short', year:'numeric' }); }
+function formatShortDate(date) { return new Date(date || Date.now()).toLocaleDateString('es-EC', { day:'2-digit', month:'2-digit', year:'numeric' }); }
 function emptyState(text) { return `<div class="glass-card"><p>${text}</p></div>`; }
