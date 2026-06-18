@@ -1,0 +1,297 @@
+.scan-page {
+  background:
+    radial-gradient(circle at 20% 12%, rgba(124,255,43,0.13), transparent 24rem),
+    radial-gradient(circle at 88% 18%, rgba(14,223,255,0.11), transparent 24rem),
+    linear-gradient(135deg, #020807, #050b0a 58%, #020807);
+}
+
+.scan-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.55fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.scan-stats {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 18px;
+}
+
+.scan-stat-card {
+  min-height: 132px;
+  position: relative;
+  overflow: hidden;
+}
+
+.scan-stat-card::after {
+  content: "";
+  position: absolute;
+  inset: auto -20% -45% 30%;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(124,255,43,0.22), transparent 68%);
+  filter: blur(12px);
+}
+
+.scan-stat-card strong {
+  position: relative;
+  z-index: 1;
+}
+
+.scan-main-card {
+  padding: clamp(18px, 2.5vw, 28px);
+}
+
+.scan-status-pill {
+  border-color: rgba(14,223,255,0.32);
+  color: #0EDFFF;
+  box-shadow: 0 0 20px rgba(14,223,255,0.12);
+}
+
+.scan-camera-box {
+  min-height: 440px;
+  aspect-ratio: 16 / 10;
+  border-color: rgba(124,255,43,0.22);
+  background:
+    radial-gradient(circle at 50% 48%, rgba(14,223,255,0.14), transparent 13rem),
+    radial-gradient(circle at 50% 50%, rgba(124,255,43,0.13), transparent 17rem),
+    #020807;
+}
+
+.scan-camera-box::before {
+  content: "";
+  position: absolute;
+  width: min(52%, 300px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid rgba(124,255,43,0.72);
+  box-shadow: 0 0 34px rgba(124,255,43,0.28), inset 0 0 28px rgba(14,223,255,0.12);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.scan-camera-box::after {
+  content: "SCAN";
+  position: absolute;
+  z-index: 4;
+  font-family: Orbitron, Inter, sans-serif;
+  font-size: clamp(2.4rem, 6vw, 4.9rem);
+  color: rgba(245,247,246,0.9);
+  letter-spacing: 0;
+  text-shadow: 0 0 20px rgba(124,255,43,0.35);
+  pointer-events: none;
+  animation: scanPulse 2.6s ease-in-out infinite;
+}
+
+.scan-camera-box.has-media::after,
+.scan-camera-box.has-media::before {
+  opacity: 0.32;
+}
+
+.scan-camera-box video,
+.scan-camera-box canvas,
+.scan-camera-box .scan-preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.scan-preview {
+  display: none;
+}
+
+.scan-preview.visible {
+  display: block;
+}
+
+.scan-frame-corners {
+  position: absolute;
+  inset: 26px;
+  border-radius: 20px;
+  pointer-events: none;
+  z-index: 5;
+  background:
+    linear-gradient(#7CFF2B, #7CFF2B) left top / 54px 2px no-repeat,
+    linear-gradient(#7CFF2B, #7CFF2B) left top / 2px 54px no-repeat,
+    linear-gradient(#0EDFFF, #0EDFFF) right top / 54px 2px no-repeat,
+    linear-gradient(#0EDFFF, #0EDFFF) right top / 2px 54px no-repeat,
+    linear-gradient(#7CFF2B, #7CFF2B) left bottom / 54px 2px no-repeat,
+    linear-gradient(#7CFF2B, #7CFF2B) left bottom / 2px 54px no-repeat,
+    linear-gradient(#0EDFFF, #0EDFFF) right bottom / 54px 2px no-repeat,
+    linear-gradient(#0EDFFF, #0EDFFF) right bottom / 2px 54px no-repeat;
+  filter: drop-shadow(0 0 12px rgba(124,255,43,0.48));
+}
+
+.scan-line {
+  z-index: 6;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #7CFF2B, #0EDFFF, transparent);
+  box-shadow: 0 0 22px rgba(124,255,43,0.72);
+}
+
+.scanning .scan-line {
+  animation: scan 1.25s ease-in-out infinite;
+}
+
+.scan-loader {
+  display: none;
+  margin-top: 14px;
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+}
+
+.scan-loader i {
+  display: block;
+  width: 35%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #7CFF2B, #0EDFFF);
+  box-shadow: 0 0 18px rgba(14,223,255,0.45);
+  animation: loaderMove 1s ease-in-out infinite;
+}
+
+.scan-loader.active {
+  display: block;
+}
+
+.scan-controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.scan-controls .btn,
+.result-actions .btn {
+  min-height: 54px;
+}
+
+.scan-message {
+  margin-top: 14px;
+  color: #A8B0AD;
+  line-height: 1.45;
+}
+
+.scan-message.good {
+  color: #7CFF2B;
+}
+
+.scan-message.bad {
+  color: #ff8c8c;
+}
+
+.scan-result-card,
+.scan-history-card {
+  display: grid;
+  gap: 16px;
+}
+
+.result-preview {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 18px;
+  border: 1px solid rgba(14,223,255,0.24);
+  background: rgba(255,255,255,0.04);
+}
+
+.result-grid.scan-result-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.result-actions {
+  display: grid;
+  gap: 10px;
+}
+
+.history-list {
+  display: grid;
+  gap: 10px;
+}
+
+.history-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid rgba(124,255,43,0.16);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.035);
+}
+
+.history-row strong {
+  display: block;
+  font-family: Orbitron, Inter, sans-serif;
+  font-size: 0.86rem;
+}
+
+.history-row span,
+.history-row small {
+  color: #A8B0AD;
+}
+
+.scan-toast {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 90;
+  max-width: min(92vw, 390px);
+  padding: 16px 18px;
+  border: 1px solid rgba(124,255,43,0.36);
+  border-radius: 18px;
+  background: rgba(2,8,7,0.94);
+  color: #F5F7F6;
+  box-shadow: 0 0 34px rgba(124,255,43,0.2);
+  transform: translateY(18px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+}
+
+.scan-toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+@keyframes scanPulse {
+  0%, 100% { opacity: 0.74; text-shadow: 0 0 18px rgba(124,255,43,0.24); }
+  50% { opacity: 1; text-shadow: 0 0 30px rgba(14,223,255,0.35); }
+}
+
+@keyframes loaderMove {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(320%); }
+}
+
+@media (max-width: 1180px) {
+  .scan-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .scan-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .scan-stats,
+  .scan-controls,
+  .result-grid.scan-result-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .scan-camera-box {
+    min-height: 330px;
+  }
+
+  .scan-toast {
+    left: 14px;
+    right: 14px;
+    bottom: 94px;
+  }
+}
