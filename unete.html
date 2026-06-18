@@ -7,23 +7,22 @@
   <meta name="theme-color" content="#050505" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="css/bottlebloom-app.css" />
+  <link rel="stylesheet" href="css/auth-entry.css" />
 </head>
 <body>
-  <main class="auth-page">
-    <section class="auth-shell">
-      <div class="auth-hero">
-        <div class="logo-lockup">
-          <img src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom" />
-          <div class="brand-copy"><div class="brand-name">Bottle<span>Bloom</span></div><div class="brand-subtitle">Cuida hoy, transforma mañana</div></div>
-        </div>
-        <h1>Convierte reciclaje en <span>impacto real</span></h1>
-        <p>Registra botellas, gana Eight Coins, desbloquea NFTs y mide tu impacto ecologico desde una web app futurista.</p>
-        <div class="auth-stats">
-          <div class="auth-stat"><strong>8+</strong><small>coins por registro</small></div>
-          <div class="auth-stat"><strong>0.35</strong><small>kg CO2 por botella</small></div>
-          <div class="auth-stat"><strong>5</strong><small>NFTs ecologicos</small></div>
-        </div>
+  <main class="auth-entry-page">
+    <section class="auth-entry-card" aria-label="Acceso BottleBloom">
+      <img class="auth-entry-logo" src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom" />
+      <h1>Bottle <span>Bloom</span></h1>
+      <p>Transformamos botellas en <strong>vida.</strong></p>
+      <div class="auth-entry-actions">
+        <a class="btn primary full" href="home.html">Iniciar sesion</a>
+        <a class="btn ghost full" href="#crear-cuenta">Crear cuenta</a>
       </div>
+      <p class="auth-entry-copy">Tecnologia <strong>inteligente</strong><br>para un futuro <span>sostenible.</span></p>
+    </section>
+
+    <section class="register-panel" id="crear-cuenta">
       <form class="auth-card" id="registerForm" novalidate>
         <div class="logo-lockup" style="justify-content:center"><img src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom" /></div>
         <img class="profile-photo" src="assets/MASCOTA%20PLANTA.png" alt="Foto de perfil Eco Guerrero" />
