@@ -8,6 +8,7 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="css/bottlebloom-app.css" />
   <link rel="stylesheet" href="css/landing.css" />
+  <link rel="stylesheet" href="css/auth-modal.css" />
 </head>
 <body class="landing-page">
   <header class="landing-nav">
@@ -117,5 +118,41 @@
     <span>BottleBloom. Transformamos botellas en vida.</span>
     <a href="unete.html">Crear perfil Eco Guerrero</a>
   </footer>
+
+  <div class="auth-launch-modal" id="authLaunchModal" aria-hidden="true">
+    <div class="auth-launch-frame" role="dialog" aria-modal="true" aria-label="Acceso BottleBloom">
+      <button class="auth-launch-close" type="button" aria-label="Cerrar acceso">×</button>
+      <iframe id="authLaunchFrame" title="Acceso BottleBloom"></iframe>
+    </div>
+  </div>
+
+  <script>
+    const authModal = document.querySelector('#authLaunchModal');
+    const authFrame = document.querySelector('#authLaunchFrame');
+    const closeAuth = () => {
+      authModal.classList.remove('open');
+      authModal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('auth-modal-open');
+      setTimeout(() => { authFrame.src = ''; }, 180);
+    };
+
+    document.querySelectorAll('a[href="unete.html"]').forEach(link => {
+      link.addEventListener('click', event => {
+        event.preventDefault();
+        authFrame.src = 'unete.html';
+        authModal.classList.add('open');
+        authModal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('auth-modal-open');
+      });
+    });
+
+    document.querySelector('.auth-launch-close')?.addEventListener('click', closeAuth);
+    authModal?.addEventListener('click', event => {
+      if (event.target === authModal) closeAuth();
+    });
+    window.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && authModal.classList.contains('open')) closeAuth();
+    });
+  </script>
 </body>
 </html>
