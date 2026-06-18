@@ -1,0 +1,47 @@
+.side-nav .nav-icon,
+.profile-nav a span,
+.profile-logout span {
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  display: inline-grid;
+  place-items: center;
+  color: rgba(245, 247, 246, 0.62);
+}
+
+.side-nav .nav-icon svg,
+.profile-nav a span svg,
+.profile-logout span svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.side-nav a.active .nav-icon,
+.side-nav a:hover .nav-icon,
+.logout-btn:hover .nav-icon,
+.profile-nav a.active span,
+.profile-nav a:hover span,
+.profile-logout:hover span {
+  color: var(--green, #7CFF2B);
+  filter: drop-shadow(0 0 10px rgba(124, 255, 43, 0.38));
+}
+
+.side-nav a.active,
+.profile-nav a.active {
+  color: #7CFF2B;
+  background: linear-gradient(90deg, rgba(54, 214, 74, 0.18), rgba(54, 214, 74, 0.05));
+  border-color: rgba(124, 255, 43, 0.28);
+  box-shadow: inset 0 0 24px rgba(124, 255, 43, 0.08), 0 0 24px rgba(124, 255, 43, 0.12);
+}
+
+.side-nav .coin-icon,
+.profile-nav .coin-icon {
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  font: 900 0.95rem/1 Orbitron, Inter, sans-serif;
+}
