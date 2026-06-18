@@ -146,6 +146,14 @@
       });
     });
 
+    authFrame?.addEventListener('load', () => {
+      try {
+        if (authFrame.contentWindow.location.pathname.endsWith('/home.html')) {
+          window.location.href = 'home.html';
+        }
+      } catch {}
+    });
+
     document.querySelector('.auth-launch-close')?.addEventListener('click', closeAuth);
     authModal?.addEventListener('click', event => {
       if (event.target === authModal) closeAuth();
