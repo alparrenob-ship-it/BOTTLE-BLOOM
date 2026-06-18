@@ -4,6 +4,7 @@ const bbBottlesKey = 'bb_bottles';
 const bbCoinsKey = 'bb_coins_history';
 
 const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => [...document.querySelectorAll(selector)];
 const readJSON = (key, fallback) => {
   try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); }
   catch { return fallback; }
@@ -20,6 +21,51 @@ const defaultUserData = {
   scanHistory: []
 };
 
+const classifications = [
+  {
+    code: 'green',
+    label: 'Apta para EcoBottle',
+    container: 'Contenedor verde',
+    instruction: 'Deposita la botella en reutilización para limpieza y llenado con biofertilizante.',
+    type: 'PET',
+    state: 'Bueno',
+    clean: 'Limpia',
+    reuse: 'Alta',
+    status: 'Validada',
+    category: 'Biofertilizante',
+    ecoinsEarned: 15,
+    xpEarned: 70
+  },
+  {
+    code: 'yellow',
+    label: 'Requiere limpieza',
+    container: 'Contenedor amarillo',
+    instruction: 'Deposita la botella en limpieza ecológica antes de convertirla en EcoBottle.',
+    type: 'PET',
+    state: 'Regular',
+    clean: 'Requiere limpieza',
+    reuse: 'Media',
+    status: 'Limpieza requerida',
+    category: 'Reutilización',
+    ecoinsEarned: 8,
+    xpEarned: 45
+  },
+  {
+    code: 'red',
+    label: 'No apta',
+    container: 'Contenedor rojo',
+    instruction: 'Deposita la botella en descarte contaminado o reciclaje especial. No debe usarse como EcoBottle.',
+    type: 'PET contaminado',
+    state: 'Malo',
+    clean: 'Contaminada',
+    reuse: 'Baja',
+    status: 'No apta',
+    category: 'Reciclaje',
+    ecoinsEarned: 2,
+    xpEarned: 15
+  }
+];
+
 let stream = null;
 let currentImage = '';
 let currentCaptureId = '';
@@ -32,6 +78,7 @@ window.addEventListener('DOMContentLoaded', () => {
   renderDashboardData();
   renderHistory();
   bindScanActions();
+  resetAnalysisRows();
   setStatus('Esperando botella...');
 });
 
@@ -47,16 +94,11 @@ function bindScanActions() {
   $('#scanUpload')?.addEventListener('change', handleUpload);
   $('#registerBottle')?.addEventListener('click', registerBottle);
   $('#scanAnother')?.addEventListener('click', resetScan);
+  $('.scan-help')?.addEventListener('click', () => showToast('La IA simula cinco criterios: plástico, estado, limpieza, reutilización y protocolo. Luego recomienda el contenedor correcto.'));
 }
 
-function getUserData() {
-  return readJSON(userDataKey, defaultUserData);
-}
-
-function saveUserData(data) {
-  writeJSON(userDataKey, data);
-  return data;
-}
+function getUserData() { return readJSON(userDataKey, defaultUserData); }
+function saveUserData(data) { writeJSON(userDataKey, data); return data; }
 
 function syncFromExistingData() {
   const appUser = readJSON(bbUserKey, {});
@@ -77,8 +119,9 @@ function syncFromExistingData() {
       id: bottle.bottleId || bottle.id || createBottleId(1),
       date: bottle.date || new Date().toISOString(),
       time: new Date(bottle.date || Date.now()).toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit' }),
-      type: bottle.type || 'Botella PET',
+      type: bottle.type || 'PET',
       status: bottle.state || 'Validada',
+      container: bottle.container || 'Contenedor verde',
       ecoinsEarned: Number(bottle.coins || 10),
       xpEarned: Number(bottle.xp || 50),
       image: bottle.image || ''
@@ -90,17 +133,10 @@ function syncFromExistingData() {
 function renderDashboardData() {
   const data = getUserData();
   const co2 = Number(data.bottlesRegistered || 0) * 0.08;
-  setText('#helloName', `Escanear botella`);
   setText('#topCoins', `${Number(data.ecoins || 0).toLocaleString('es-EC')} Eight Coins`);
   setText('#topLevel', `Nivel ${data.level || 1}`);
   const avatar = $('#topAvatar');
   if (avatar) avatar.src = readJSON(bbUserKey, {}).photo || 'assets/MASCOTA%20PLANTA.png';
-  setText('#statToday', `${Math.min(Number(data.todayProgress || 0), 3)}/3`);
-  setText('#statBottles', Number(data.bottlesRegistered || 0).toLocaleString('es-EC'));
-  setText('#statCo2', `${co2.toFixed(2)} kg`);
-  setText('#statCoins', Number(data.ecoins || 0).toLocaleString('es-EC'));
-  const progress = $('#todayProgressBar');
-  if (progress) progress.style.setProperty('--value', `${Math.min(100, (Number(data.todayProgress || 0) / 3) * 100)}%`);
 }
 
 async function startCamera() {
@@ -120,7 +156,7 @@ async function startCamera() {
     $('#scanPreview').classList.remove('visible');
     empty.hidden = true;
     cameraBox.classList.add('has-media');
-    setStatus('Esperando botella...', 'good');
+    setStatus('Cámara activa. Enfoca la botella en el centro.', 'good');
   } catch {
     setStatus('Cámara no disponible. Puedes subir una imagen.', 'bad');
   }
@@ -185,45 +221,72 @@ function simulateBottleDetection() {
     return;
   }
 
+  $('#scanResult').classList.add('hidden');
   setAnalyzing(true);
+  resetAnalysisRows();
   setStatus('Analizando con IA...');
+  setText('#analysisCopy', 'Analizando imagen con inteligencia artificial simulada...');
+
+  const checks = ['plastic', 'state', 'clean', 'reuse', 'protocol'];
+  checks.forEach((key, index) => {
+    setTimeout(() => markAnalysisRow(key, index === checks.length - 1 ? 'loading' : 'done'), 330 * (index + 1));
+    setTimeout(() => markAnalysisRow(key, 'done'), 330 * (index + 1) + 260);
+  });
+
+  let percent = 0;
+  const progress = setInterval(() => {
+    percent = Math.min(100, percent + 13);
+    setText('#analysisPercent', `${percent}%`);
+    if (percent >= 100) clearInterval(progress);
+  }, 220);
 
   setTimeout(() => {
     setAnalyzing(false);
+    clearInterval(progress);
+    setText('#analysisPercent', '100%');
     // Punto de integracion futura: aqui se puede reemplazar la simulacion por una IA real.
-    const valid = Math.random() > 0.08;
-    if (!valid) {
-      detectionResult = null;
-      $('#scanResult').classList.add('hidden');
-      setStatus('No se detectó una botella válida', 'bad');
-      return;
-    }
-
-    detectionResult = {
-      type: 'Botella PET',
-      status: 'Validada',
-      result: 'Botella PET detectada correctamente',
-      ecoinsEarned: 10,
-      xpEarned: 50,
-      co2: 0.08
-    };
-    setStatus('Botella PET detectada', 'good');
+    const choice = Math.random();
+    detectionResult = choice < 0.55 ? classifications[0] : choice < 0.83 ? classifications[1] : classifications[2];
+    setText('#analysisCopy', 'Análisis completado. Revisa el contenedor recomendado.');
+    setStatus(`${detectionResult.label}: ${detectionResult.container}`, detectionResult.code === 'red' ? 'bad' : 'good');
     renderResult();
-  }, 2000);
+  }, 2100);
+}
+
+function resetAnalysisRows() {
+  $$('.analysis-row').forEach(row => {
+    row.classList.remove('done', 'loading');
+    row.querySelector('strong').textContent = 'Pendiente';
+  });
+  setText('#analysisPercent', '0%');
+}
+
+function markAnalysisRow(key, state) {
+  const row = document.querySelector(`[data-check="${key}"]`);
+  if (!row) return;
+  row.classList.remove('done', 'loading');
+  row.classList.add(state);
+  row.querySelector('strong').textContent = state === 'done' ? 'Completado' : 'Analizando...';
 }
 
 function renderResult() {
   if (!detectionResult) return;
   $('#scanResult').classList.remove('hidden');
   $('#resultImage').src = currentImage;
-  setText('#resultAi', detectionResult.result);
+  setText('#resultAi', detectionResult.label);
+  setText('#resultContainer', `${detectionResult.container}. ${detectionResult.instruction}`);
   setText('#resultType', detectionResult.type);
+  setText('#resultState', detectionResult.state);
+  setText('#resultClean', detectionResult.clean);
+  setText('#resultReuse', detectionResult.reuse);
   setText('#resultReward', `+${detectionResult.ecoinsEarned} Eight Coins`);
   setText('#resultXp', `+${detectionResult.xpEarned} XP`);
-  setText('#resultCo2', `${detectionResult.co2.toFixed(2)} kg`);
+  setText('#resultBadge', detectionResult.container);
+  const decision = $('#containerDecision');
+  decision.className = `container-decision ${detectionResult.code}`;
   const registerBtn = $('#registerBottle');
   registerBtn.disabled = false;
-  registerBtn.textContent = 'Registrar botella';
+  registerBtn.textContent = 'Registrar clasificación';
 }
 
 function registerBottle() {
@@ -246,6 +309,9 @@ function registerBottle() {
     time: now.toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit' }),
     type: detectionResult.type,
     status: detectionResult.status,
+    result: detectionResult.label,
+    container: detectionResult.container,
+    category: detectionResult.category,
     ecoinsEarned: detectionResult.ecoinsEarned,
     xpEarned: detectionResult.xpEarned,
     image: currentImage
@@ -264,11 +330,11 @@ function registerBottle() {
   syncAppStorage(record, updated);
   registeredCaptureId = currentCaptureId;
   $('#registerBottle').disabled = true;
-  $('#registerBottle').textContent = 'Registrada';
-  setStatus('Registro exitoso', 'good');
+  $('#registerBottle').textContent = 'Clasificación registrada';
+  setStatus(`Registro exitoso: ${detectionResult.container}`, 'good');
   renderDashboardData();
   renderHistory();
-  showToast('¡Botella registrada con éxito! Ganaste 10 Eight Coins.');
+  showToast(`Clasificación registrada. ${detectionResult.container}. Ganaste ${detectionResult.ecoinsEarned} Eight Coins.`);
 }
 
 function syncAppStorage(record, data) {
@@ -287,22 +353,23 @@ function syncAppStorage(record, data) {
     id: record.id,
     bottleId: record.id,
     date: record.date,
-    type: 'PET',
-    state: 'Validada',
-    reuse: 'Alta',
-    result: 'Botella PET detectada correctamente',
+    type: record.type,
+    state: record.status,
+    reuse: detectionResult.reuse,
+    result: record.result,
+    container: record.container,
     coins: record.ecoinsEarned,
     xp: record.xpEarned,
     co2: 0.08,
     image: record.image,
-    category: 'Biofertilizante'
+    category: record.category
   });
   writeJSON(bbBottlesKey, bottles);
 
   const history = readJSON(bbCoinsKey, []);
   history.unshift({
     id: crypto.randomUUID(),
-    action: 'Botella PET registrada',
+    action: `${record.result} - ${record.container}`,
     coins: record.ecoinsEarned,
     amount: record.ecoinsEarned,
     date: record.date
@@ -317,8 +384,8 @@ function renderHistory() {
   list.innerHTML = history.length ? history.map(item => `
     <article class="history-row">
       <div>
-        <strong>${item.type || 'Botella PET'}</strong>
-        <span>${formatDate(item.date)} · ${item.time || formatTime(item.date)}</span>
+        <strong>${item.result || item.type || 'Botella PET'}</strong>
+        <span>${formatDate(item.date)} · ${item.time || formatTime(item.date)} · ${item.container || 'Contenedor verde'}</span>
       </div>
       <small>+${item.ecoinsEarned || 10} Coins · ${item.status || 'Validada'}</small>
     </article>
@@ -338,6 +405,8 @@ function resetScan() {
   $('#cameraEmpty').hidden = !!stream;
   $('#scanCameraBox').classList.toggle('has-media', !!stream);
   $('#scanUpload').value = '';
+  resetAnalysisRows();
+  setText('#analysisCopy', 'Sube o captura una imagen para iniciar el análisis.');
   setStatus('Esperando botella...');
 }
 
@@ -351,7 +420,7 @@ function setStatus(text, tone = '') {
   const message = $('#scanMessage');
   if (message) {
     message.textContent = text;
-    message.className = `scan-message ${tone}`.trim();
+    message.className = `scan-message scan-tip ${tone}`.trim();
   }
 }
 
@@ -360,7 +429,7 @@ function showToast(text) {
   if (!toast) return;
   toast.textContent = text;
   toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 3200);
+  setTimeout(() => toast.classList.remove('show'), 3600);
 }
 
 function createBottleId(sequence) {
