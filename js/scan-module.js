@@ -62,6 +62,7 @@ let detectionResult = null;
 let registeredCaptureId = '';
 let analysisTimers = [];
 let analysisProgressTimer = null;
+let visionModelPromise = null;
 
 window.addEventListener('DOMContentLoaded', () => {
   setupSidebar();
@@ -85,7 +86,7 @@ function bindScanActions() {
   $('#scanUpload')?.addEventListener('change', handleUpload);
   $('#registerBottle')?.addEventListener('click', registerBottle);
   $('#scanAnother')?.addEventListener('click', resetScan);
-  $('.scan-help')?.addEventListener('click', () => showToast('La IA valida primero que sea una botella PET con 70% minimo de confianza. Luego clasifica el contenedor verde, amarillo o rojo.'));
+  $('.scan-help')?.addEventListener('click', () => showToast('La IA valida con un modelo de vision si hay una botella dentro del marco SCAN. Si no supera 70%, se rechaza.'));
 }
 
 function getUserData() { return readJSON(userDataKey, defaultUserData); }
@@ -220,17 +221,17 @@ async function simulateBottleDetection() {
   resetAnalysisRows();
   detectionResult = null;
   setText('#analysisPercent', '0%');
-  setText('#analysisCopy', 'Validando si el objeto dentro del marco SCAN es una botella PET...');
+  setText('#analysisCopy', 'Cargando modelo IA y validando objeto dentro del marco SCAN...');
 
   const inference = await runModelInference(currentImage);
   if (!isValidPetInference(inference)) {
-    abortInvalidObject();
+    abortInvalidObject(inference?.reason);
     return;
   }
 
   setAnalyzing(true);
   setStatus('Analizando con IA...');
-  setText('#analysisCopy', `Botella PET detectada correctamente (${Math.round(inference.confidence * 100)}%). Analizando variables...`);
+  setText('#analysisCopy', `Botella detectada correctamente (${Math.round(inference.confidence * 100)}%). Analizando variables PET...`);
 
   const checks = ['plastic', 'state', 'clean', 'reuse', 'protocol'];
   checks.forEach((key, index) => {
@@ -256,18 +257,75 @@ async function simulateBottleDetection() {
   }, 2100);
 }
 
-async function runModelInference(imageData) {
-  await new Promise(resolve => setTimeout(resolve, 150));
+async function runModelInference() {
+  const source = getInferenceSource();
+  if (!source) {
+    return { label: 'SIN_IMAGEN', object: 'Sin imagen', type: 'NO_PET', confidence: 0, reason: 'No hay imagen disponible para analizar.' };
+  }
 
-  // Model Inference simulado. Reemplazar este bloque por TensorFlow.js, Roboflow,
-  // Teachable Machine o un endpoint real cuando el modelo entrenado este disponible.
-  const invalidName = /(lata|vidrio|fruta|mano|metal|glass|can|hand|invalid|no-pet|nopet)/i.test(currentUploadName);
-  const lowConfidence = /(borrosa|oscura|duda|low|baja-confianza)/i.test(currentUploadName);
-  if (invalidName) return { label: 'OBJETO_NO_PET', object: 'Objeto no PET', type: 'NO_PET', confidence: 0.91 };
-  if (lowConfidence) return { label: 'BOTELLA_PET', object: 'Botella PET', type: 'PET', confidence: 0.62 };
+  try {
+    const model = await loadVisionModel();
+    const predictions = await model.detect(source);
+    const bottle = predictions
+      .filter(item => item.class === 'bottle')
+      .sort((a, b) => b.score - a.score)
+      .find(item => item.score >= 0.7 && isDetectionInsideScanFrame(item, source));
 
-  const confidence = Math.min(0.98, 0.82 + (hashValue(imageData) % 16) / 100);
-  return { label: 'BOTELLA_PLASTICO_PET', object: 'Botella de plastico PET', type: 'PET', confidence };
+    if (!bottle) {
+      const bestBottle = predictions.filter(item => item.class === 'bottle').sort((a, b) => b.score - a.score)[0];
+      return {
+        label: 'OBJETO_NO_PET',
+        object: bestBottle ? 'Botella fuera de marco o baja confianza' : 'Objeto no identificado',
+        type: 'NO_PET',
+        confidence: bestBottle?.score || 0,
+        predictions,
+        reason: bestBottle ? 'La botella debe estar centrada en el marco SCAN y superar 70%.' : 'El modelo no detecto una botella.'
+      };
+    }
+
+    return {
+      label: 'BOTELLA_PLASTICO_PET',
+      object: 'Botella detectada por modelo de vision',
+      type: 'PET',
+      confidence: bottle.score,
+      bbox: bottle.bbox,
+      predictions
+    };
+  } catch (error) {
+    console.warn('BottleBloom vision model error:', error);
+    return { label: 'MODELO_NO_DISPONIBLE', object: 'Modelo no disponible', type: 'NO_PET', confidence: 0, reason: 'No se pudo cargar el modelo IA.' };
+  }
+}
+
+function loadVisionModel() {
+  if (!window.cocoSsd) return Promise.reject(new Error('COCO-SSD no esta cargado'));
+  if (!visionModelPromise) visionModelPromise = window.cocoSsd.load({ base: 'lite_mobilenet_v2' });
+  return visionModelPromise;
+}
+
+function getInferenceSource() {
+  const canvas = $('#captureCanvas');
+  const preview = $('#scanPreview');
+  const video = $('#cameraVideo');
+  if (canvas && !canvas.hidden && canvas.width && canvas.height) return canvas;
+  if (preview?.classList.contains('visible') && preview.complete && preview.naturalWidth) return preview;
+  if (video && !video.hidden && video.videoWidth) return video;
+  return null;
+}
+
+function isDetectionInsideScanFrame(prediction, source) {
+  const width = source.videoWidth || source.naturalWidth || source.width || 0;
+  const height = source.videoHeight || source.naturalHeight || source.height || 0;
+  if (!width || !height) return false;
+  const [x, y, boxWidth, boxHeight] = prediction.bbox;
+  const centerX = x + boxWidth / 2;
+  const centerY = y + boxHeight / 2;
+  const scanLeft = width * 0.22;
+  const scanRight = width * 0.78;
+  const scanTop = height * 0.10;
+  const scanBottom = height * 0.92;
+  const enoughSize = boxWidth >= width * 0.08 && boxHeight >= height * 0.18;
+  return enoughSize && centerX >= scanLeft && centerX <= scanRight && centerY >= scanTop && centerY <= scanBottom;
 }
 
 function isValidPetInference(inference) {
@@ -276,13 +334,13 @@ function isValidPetInference(inference) {
   return Boolean(inference && inference.confidence >= 0.7 && isPetBottle);
 }
 
-function abortInvalidObject() {
+function abortInvalidObject(reason = '') {
   stopAnalysisFlow();
   detectionResult = null;
   resetAnalysisRows();
   setAnalyzing(false);
   setText('#analysisPercent', '0%');
-  setText('#analysisCopy', 'Analisis abortado. No se alcanzo la confianza minima o el objeto no es PET.');
+  setText('#analysisCopy', reason || 'Analisis abortado. No se detecto una botella PET valida dentro del marco.');
   $('#scanResult')?.classList.add('hidden');
   const message = 'Objeto no identificado. Por favor, enfoca una botella de plastico PET valida.';
   setStatus(message, 'bad');
