@@ -141,6 +141,142 @@
 .scan-message.bad { color: #ff8c8c; }
 .scan-tip { padding: 14px 16px; border: 1px solid rgba(124,255,43,0.16); border-radius: 14px; background: rgba(255,255,255,0.035); }
 
+.container-guide {
+  --guide-color: #7CFF2B;
+  --guide-soft: rgba(124,255,43,0.18);
+  display: grid;
+  grid-template-columns: 1fr minmax(130px, 180px);
+  gap: 18px;
+  align-items: center;
+  margin-top: 18px;
+  min-height: 230px;
+  padding: clamp(18px, 2.3vw, 26px);
+  border: 1px solid color-mix(in srgb, var(--guide-color) 35%, transparent);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 78% 45%, var(--guide-soft), transparent 12rem),
+    linear-gradient(135deg, rgba(255,255,255,0.045), rgba(255,255,255,0.018));
+  box-shadow: 0 0 34px color-mix(in srgb, var(--guide-color) 14%, transparent), inset 0 0 22px rgba(255,255,255,0.025);
+  overflow: hidden;
+  position: relative;
+}
+
+.container-guide::before {
+  content: "";
+  position: absolute;
+  inset: -40% auto auto -20%;
+  width: 55%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--guide-color) 28%, transparent);
+  opacity: .75;
+  animation: orbitGlow 6s linear infinite;
+}
+
+.container-guide.green { --guide-color: #7CFF2B; --guide-soft: rgba(124,255,43,0.20); }
+.container-guide.yellow { --guide-color: #FFC928; --guide-soft: rgba(255,201,40,0.20); }
+.container-guide.red { --guide-color: #FF4040; --guide-soft: rgba(255,64,64,0.18); }
+.container-guide.idle { --guide-color: #0EDFFF; --guide-soft: rgba(14,223,255,0.14); }
+
+.guide-copy { position: relative; z-index: 1; }
+.guide-copy span {
+  display: inline-flex;
+  padding: 8px 12px;
+  border: 1px solid color-mix(in srgb, var(--guide-color) 38%, transparent);
+  border-radius: 999px;
+  color: var(--guide-color);
+  font: 900 .76rem Orbitron, Inter, sans-serif;
+  text-transform: uppercase;
+}
+.guide-copy strong {
+  display: block;
+  margin-top: 14px;
+  color: #F5F7F6;
+  font: 900 clamp(1.3rem, 2.2vw, 2rem) Orbitron, Inter, sans-serif;
+  text-transform: uppercase;
+  line-height: 1.05;
+}
+.guide-copy p { max-width: 36rem; margin-top: 10px; color: #A8B0AD; font-weight: 800; line-height: 1.45; }
+
+.animated-bin {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  min-height: 178px;
+  filter: drop-shadow(0 0 24px color-mix(in srgb, var(--guide-color) 38%, transparent));
+  animation: binFloat 2.9s ease-in-out infinite;
+}
+
+.animated-bin::before {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  width: 128px;
+  height: 20px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--guide-color) 35%, transparent);
+  filter: blur(12px);
+  animation: shadowPulse 2.9s ease-in-out infinite;
+}
+
+.bin-lid {
+  width: 126px;
+  height: 24px;
+  border-radius: 10px 10px 6px 6px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--guide-color) 95%, white 5%), color-mix(in srgb, var(--guide-color) 62%, black 38%));
+  border: 1px solid color-mix(in srgb, var(--guide-color) 72%, white 12%);
+  box-shadow: inset 0 0 10px rgba(255,255,255,0.22), 0 0 22px color-mix(in srgb, var(--guide-color) 34%, transparent);
+}
+
+.bin-body {
+  position: relative;
+  width: 108px;
+  height: 132px;
+  margin-top: 4px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px 12px 18px 18px;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.16), transparent 18%, transparent 82%, rgba(0,0,0,0.25)),
+    linear-gradient(180deg, color-mix(in srgb, var(--guide-color) 88%, white 4%), color-mix(in srgb, var(--guide-color) 48%, black 52%));
+  border: 1px solid color-mix(in srgb, var(--guide-color) 76%, white 12%);
+  box-shadow: inset 0 -18px 30px rgba(0,0,0,0.28), inset 0 14px 18px rgba(255,255,255,0.12);
+  transform-origin: bottom center;
+  animation: binWiggle 3.6s ease-in-out infinite;
+}
+
+.bin-body::before,
+.bin-body::after {
+  content: "";
+  position: absolute;
+  top: 18px;
+  bottom: 18px;
+  width: 6px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.25);
+  box-shadow: inset 0 0 8px rgba(255,255,255,0.18);
+}
+.bin-body::before { left: 24px; }
+.bin-body::after { right: 24px; }
+.bin-body span {
+  position: relative;
+  z-index: 1;
+  width: 62px;
+  height: 62px;
+  display: grid;
+  place-items: center;
+  border: 2px solid rgba(255,255,255,0.76);
+  border-radius: 50%;
+  color: #050b0a;
+  background: rgba(255,255,255,0.82);
+  font: 900 .78rem Orbitron, Inter, sans-serif;
+  text-align: center;
+}
+.bin-wheels { display: flex; gap: 62px; margin-top: -4px; }
+.bin-wheels i { width: 16px; height: 16px; border-radius: 50%; background: #050505; border: 2px solid color-mix(in srgb, var(--guide-color) 70%, white 12%); }
+
 .analysis-card,
 .classification-preview,
 .scan-result-card,
@@ -194,6 +330,10 @@
 @keyframes scanPulse { 0%, 100% { opacity: 0.74; text-shadow: 0 0 18px rgba(124,255,43,0.24); } 50% { opacity: 1; text-shadow: 0 0 30px rgba(14,223,255,0.35); } }
 @keyframes loaderMove { 0% { transform: translateX(-120%); } 100% { transform: translateX(320%); } }
 @keyframes spin { to { transform: rotate(360deg); } }
+@keyframes binFloat { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-10px) scale(1.03); } }
+@keyframes binWiggle { 0%, 100% { transform: rotate(0deg); } 35% { transform: rotate(-2deg); } 65% { transform: rotate(2deg); } }
+@keyframes shadowPulse { 0%, 100% { opacity: .55; transform: scaleX(1); } 50% { opacity: .9; transform: scaleX(.78); } }
+@keyframes orbitGlow { to { transform: rotate(360deg); } }
 
 @media (max-width: 1180px) { .scan-layout { grid-template-columns: 1fr; } .scan-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 680px) { .scan-titlebar { flex-direction: column; } .scan-stats, .scan-controls, .result-grid.scan-result-grid, .rewards-card, .container-result { grid-template-columns: 1fr; } .scan-camera-box { min-height: 330px; } .container-icon { margin: 0 auto; } .scan-toast { left: 14px; right: 14px; bottom: 94px; } }
+@media (max-width: 680px) { .scan-titlebar { flex-direction: column; } .scan-stats, .scan-controls, .result-grid.scan-result-grid, .rewards-card, .container-result, .container-guide { grid-template-columns: 1fr; } .scan-camera-box { min-height: 330px; } .container-icon { margin: 0 auto; } .animated-bin { min-height: 150px; } .scan-toast { left: 14px; right: 14px; bottom: 94px; } }
