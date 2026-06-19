@@ -15,7 +15,7 @@
       <div class="auth-choice" id="authChoice">
         <img class="auth-logo" src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom" />
         <h1>Bottle<span>Bloom</span></h1>
-        <p class="auth-tagline">Cultivamos un futuro mejor</p>
+        <p class="auth-tagline">Transformamos botellas en vida</p>
 
         <div class="auth-actions">
           <button class="auth-action primary" type="button" data-open-auth="login">
@@ -37,8 +37,8 @@
         <h2>Iniciar sesión</h2>
         <p>Entra a tu perfil Eco Guerrero.</p>
         <form class="auth-card compact" id="loginForm" novalidate>
-          <div class="field"><label>Correo electronico</label><input name="email" type="email" autocomplete="email" required /><small></small></div>
-          <div class="field"><label>Nombre</label><input name="name" autocomplete="name" placeholder="Eco Guerrero" /><small></small></div>
+          <div class="field"><label>Correo electrónico</label><input name="email" type="email" autocomplete="email" required /><small></small></div>
+          <div class="field"><label>Contraseña</label><input name="password" type="password" autocomplete="current-password" required minlength="6" /><small></small></div>
           <button class="auth-action primary form-submit" type="submit">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
             <span>Entrar</span>
@@ -50,16 +50,16 @@
         <button class="auth-back" type="button" data-auth-back>‹ Volver</button>
         <form class="auth-card" id="registerForm" novalidate>
           <img class="panel-logo" src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom" />
-          <h2>Crear perfil Eco Guerrero</h2>
-          <p>Completa tus datos para entrar a BottleBloom.</p>
+          <h2>Crear cuenta</h2>
+          <p>Registra tu perfil para entrar a BottleBloom.</p>
           <div class="form-grid">
             <div class="field"><label>Nombre completo</label><input name="fullName" autocomplete="name" required /><small></small></div>
-            <div class="field"><label>Correo electronico</label><input name="email" type="email" autocomplete="email" required /><small></small></div>
-            <div class="field"><label>Edad</label><input name="age" type="number" min="6" max="100" required /><small></small></div>
-            <div class="field"><label>Institucion</label><input name="institution" required /><small></small></div>
-            <button class="auth-action primary form-submit hidden" id="nextBtn" type="submit">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
-              <span>Siguiente</span>
+            <div class="field"><label>Correo</label><input name="email" type="email" autocomplete="email" required /><small></small></div>
+            <div class="field"><label>Contraseña</label><input name="password" type="password" autocomplete="new-password" required minlength="6" /><small></small></div>
+            <div class="field"><label>Rol</label><select name="role" required><option value="">Selecciona un rol</option><option>Estudiante</option><option>Docente</option><option>Bar</option><option>Admin</option></select><small></small></div>
+            <button class="auth-action primary form-submit" id="createAccountBtn" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21a6 6 0 0 0-12 0"/><circle cx="10" cy="7" r="4"/><path d="M19 8v6"/><path d="M22 11h-6"/></svg>
+              <span>Crear cuenta</span>
             </button>
           </div>
         </form>
@@ -67,19 +67,26 @@
     </section>
   </main>
 
-  <script type="module" src="js/bottlebloom-app.js"></script>
   <script type="module">
     import { setUid, saveUserProfile, getUserProfile } from './js/firebase.js';
+
+    const profileStorageKey = 'bb_profile_module';
+    const panels = {
+      login: document.querySelector('#loginPanel'),
+      register: document.querySelector('#registerPanel')
+    };
+    const choice = document.querySelector('#authChoice');
 
     const openProfile = () => {
       if (window.top && window.top !== window.self) window.top.location.href = 'profile.html';
       else location.href = 'profile.html';
     };
 
-    const choice = document.querySelector('#authChoice');
-    const panels = {
-      login: document.querySelector('#loginPanel'),
-      register: document.querySelector('#registerPanel')
+    const validEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const setInvalid = (input, invalid, message = '') => {
+      const field = input.closest('.field');
+      field.classList.toggle('invalid', invalid);
+      field.querySelector('small').textContent = invalid ? message : '';
     };
 
     document.querySelectorAll('[data-open-auth]').forEach(button => {
@@ -97,15 +104,69 @@
       });
     });
 
-    const loginForm = document.querySelector('#loginForm');
-    loginForm?.addEventListener('submit', async event => {
+    document.querySelector('#registerForm')?.addEventListener('submit', async event => {
       event.preventDefault();
-      const email = loginForm.email.value.trim();
-      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      const field = loginForm.email.closest('.field');
-      field.classList.toggle('invalid', !valid);
-      field.querySelector('small').textContent = valid ? '' : 'Ingresa un correo valido.';
-      if (!valid) return;
+      const form = event.currentTarget;
+      const fullName = form.fullName.value.trim();
+      const email = form.email.value.trim();
+      const password = form.password.value.trim();
+      const role = form.role.value;
+      let ok = true;
+
+      setInvalid(form.fullName, fullName.length < 3, 'Escribe tu nombre completo.');
+      setInvalid(form.email, !validEmail(email), 'Ingresa un correo válido.');
+      setInvalid(form.password, password.length < 6, 'Mínimo 6 caracteres.');
+      setInvalid(form.role, !role, 'Selecciona un rol.');
+      ok = fullName.length >= 3 && validEmail(email) && password.length >= 6 && !!role;
+      if (!ok) return;
+
+      const uid = crypto.randomUUID();
+      setUid(uid);
+      const profile = {
+        uid,
+        name: fullName,
+        fullName,
+        email,
+        role,
+        memberType: role,
+        institution: 'Unidad Educativa Eight Academy',
+        photo: 'assets/MASCOTA%20PLANTA.png',
+        avatar: 'assets/MASCOTA%20PLANTA.png',
+        coins: 0,
+        xp: 0,
+        level: 'Nivel 1',
+        currentStreak: 1,
+        maxStreak: 1,
+        createdAt: new Date().toISOString()
+      };
+      await saveUserProfile(profile);
+      localStorage.setItem(profileStorageKey, JSON.stringify({
+        fullName,
+        ecoName: 'EcoGuardián',
+        phrase: 'Estudiante comprometido con el planeta.',
+        email,
+        role,
+        memberType: role,
+        institution: profile.institution,
+        level: 'Nivel 1',
+        rank: 'EcoGuardián',
+        xp: 0,
+        neededXp: 1000,
+        coins: 0,
+        nfts: 0,
+        avatar: profile.avatar
+      }));
+      openProfile();
+    });
+
+    document.querySelector('#loginForm')?.addEventListener('submit', async event => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const email = form.email.value.trim();
+      const password = form.password.value.trim();
+      setInvalid(form.email, !validEmail(email), 'Ingresa un correo válido.');
+      setInvalid(form.password, password.length < 6, 'Mínimo 6 caracteres.');
+      if (!validEmail(email) || password.length < 6) return;
 
       const current = await getUserProfile();
       const uid = current.uid && current.uid !== 'demo-user' ? current.uid : crypto.randomUUID();
@@ -113,14 +174,12 @@
       await saveUserProfile({
         ...current,
         uid,
-        name: loginForm.name.value.trim() || current.name || 'Eco Guerrero',
         email,
+        name: current.name || 'Eco Guerrero',
         photo: current.photo || 'assets/MASCOTA%20PLANTA.png',
         level: current.level || 'Nivel 1',
         coins: Number(current.coins || 0),
-        xp: Number(current.xp || 0),
-        currentStreak: current.currentStreak || 1,
-        maxStreak: current.maxStreak || 1
+        xp: Number(current.xp || 0)
       });
       openProfile();
     });
