@@ -147,7 +147,7 @@ Indicadores medidos en la plataforma:
 
 ### Pitch Deck
 
-Material de presentación del proyecto Bottle Bloom.
+[Ver Pitch Deck BOTTLE BLOOM](https://github.com/alparrenob-ship-it/BOTTLE-BLOOM/blob/main/assets/PRESENTACI%C3%93N.pdf)
 
 ### Whitepaper
 
@@ -155,7 +155,7 @@ Material de presentación del proyecto Bottle Bloom.
 
 ### Infografía
 
-Material visual de síntesis del problema, solución, flujo y beneficios de Bottle Bloom.
+[Ver Infografía BOTTLE BLOOM](https://github.com/alparrenob-ship-it/BOTTLE-BLOOM/blob/main/assets/INFOGRAF%C3%8DABOTTLE.png)
 
 ---
 
