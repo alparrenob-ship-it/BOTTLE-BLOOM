@@ -1,1 +1,105 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>BottleBloom | Eight Coins</title><link rel="stylesheet" href="css/bottlebloom-app.css"></head><body><div class="app-shell"><aside class="sidebar"><div class="side-top"><a class="logo-lockup" href="home.html"><img src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom"><span class="brand-copy brand-name">Bottle<span>Bloom</span></span></a><button class="collapse-btn">BB</button></div><nav class="side-nav"><a href="home.html"><span class="nav-icon">H</span><span class="nav-label">Dashboard</span></a><a href="profile.html"><span class="nav-icon">P</span><span class="nav-label">Perfil</span></a><a href="registro.html"><span class="nav-icon">R</span><span class="nav-label">Registro</span></a><a href="retos.html"><span class="nav-icon">D</span><span class="nav-label">Retos</span></a><a href="eightcoins.html"><span class="nav-icon">8</span><span class="nav-label">Eight Coins</span></a><a href="nfts.html"><span class="nav-icon">N</span><span class="nav-label">NFTs</span></a><a href="impacto.html"><span class="nav-icon">I</span><span class="nav-label">Impacto</span></a></nav></aside><main class="app-main"><header class="topbar"><div class="hello"><h1 id="helloName">Hola, Eco Guerrero</h1><p>Historial de ganancias</p></div><div class="top-actions"><span class="pill" id="topLevel"></span><img class="avatar" id="topAvatar" alt="Perfil"></div></header><section class="page-grid two-col"><article class="glass-card stat-card"><span>Saldo actual</span><strong id="coinBalance">0</strong><p>Eight Coins acumulados por registros, retos y rachas.</p></article><article class="glass-card"><div class="card-title"><h2>Reglas</h2><span class="pill">Sistema</span></div><div class="meta"><span>Registrar botella: +8</span><span>Botella reutilizable: +15</span><span>Reto diario: +25</span><span>Racha diaria: +5</span><span>Escaneo excelente: +20</span></div></article></section><section class="glass-card" style="margin-top:18px"><div class="card-title"><h2>Historial</h2><span class="pill">Coins</span></div><div class="page-grid" id="coinHistory"></div></section></main></div><script type="module" src="js/bottlebloom-app.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BottleBloom | Eight Coins</title>
+  <meta name="theme-color" content="#050505">
+  <link rel="stylesheet" href="css/bottlebloom-app.css">
+  <link rel="stylesheet" href="css/sidebar-icons.css">
+  <link rel="stylesheet" href="css/eightcoins.css">
+</head>
+<body class="coins-page">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="side-top">
+        <a class="logo-lockup" href="profile.html">
+          <img src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom">
+          <span class="brand-copy brand-name">Bottle<span>Bloom</span></span>
+        </a>
+        <button class="collapse-btn" type="button">BB</button>
+      </div>
+      <div class="menu-title">Menu</div>
+      <nav class="side-nav" aria-label="Menu BottleBloom">
+        <a href="scan.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M7 3H4v3"/><path d="M17 3h3v3"/><path d="M7 21H4v-3"/><path d="M17 21h3v-3"/><path d="M8 12h8"/><path d="M12 8v8"/></svg></span><span class="nav-label">Escanear botella</span></a>
+        <a href="profile.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.6-4 4.4-6 8-6s6.4 2 8 6"/></svg></span><span class="nav-label">Perfil</span></a>
+        <a href="registro.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M7 3h10v4H7z"/><path d="M5 5h14v16H5z"/><path d="M8 12h8"/><path d="M8 16h6"/></svg></span><span class="nav-label">Registro</span></a>
+        <a href="retos.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M5 4v16"/><path d="M5 5h12l-2 4 2 4H5"/></svg></span><span class="nav-label">Retos diarios</span></a>
+        <a class="active" href="eightcoins.html"><span class="nav-icon coin-icon">8</span><span class="nav-label">Eight Coins</span></a>
+        <a href="nfts.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z"/><path d="m12 8 3.5 2v4L12 16l-3.5-2v-4z"/></svg></span><span class="nav-label">NFTs</span></a>
+        <a href="impacto.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 4C12 4 5 9 5 18"/><path d="M20 4c0 8-5 15-13 15"/><path d="M5 18c4-1 7-3 10-7"/></svg></span><span class="nav-label">Impacto ecológico</span></a>
+        <button class="logout-btn" type="button"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M14 4H6v16h8"/><path d="M10 12h10"/><path d="m17 9 3 3-3 3"/></svg></span><span class="nav-label">Cerrar sesión</span></button>
+      </nav>
+    </aside>
+
+    <main class="app-main coins-main">
+      <header class="coins-header">
+        <div class="section-title">
+          <img src="assets/EIGHT%20COIN.png" alt="Eight Coins">
+          <div>
+            <h1>Eight <span>Coins</span></h1>
+            <p>Gana, acumula y usa tus Eight Coins</p>
+          </div>
+        </div>
+        <button class="help-btn" id="helpCoins" type="button">¿Cómo funcionan?</button>
+      </header>
+
+      <section class="coins-top-grid">
+        <article class="balance-card glass-card">
+          <span>Tu saldo actual</span>
+          <div class="balance-core"><img src="assets/EIGHT%20COIN.png" alt="Saldo Eight Coins"><strong id="coinBalance">0</strong></div>
+          <p>Eight Coins</p>
+          <small>Por tu impacto ambiental</small>
+          <button class="ghost-action" id="scrollHistory" type="button">Historial de transacciones</button>
+        </article>
+        <article class="summary-card glass-card">
+          <h2>Resumen</h2>
+          <div class="summary-grid">
+            <div class="summary-item"><span class="summary-icon green">G</span><strong id="monthEarned">0</strong><small>Ganados<br>Este mes</small></div>
+            <div class="summary-item"><span class="summary-icon blue">U</span><strong id="monthUsed">0</strong><small>Usados<br>Este mes</small></div>
+            <div class="summary-item"><span class="summary-icon purple">C</span><strong id="monthRedeemed">0</strong><small>Canjeados<br>Este mes</small></div>
+          </div>
+          <div class="summary-note">Cada Eight Coin representa tu compromiso con el planeta. Sigue escaneando y generando impacto.</div>
+        </article>
+      </section>
+
+      <section class="coins-layout">
+        <aside class="earn-card glass-card">
+          <h2>¿Cómo ganar Eight Coins?</h2>
+          <div id="earningRules" class="earning-list"></div>
+          <a class="green-link" href="retos.html">Ver todos los retos</a>
+        </aside>
+        <article class="transactions-card glass-card" id="historyPanel">
+          <div class="card-title"><h2>Historial de transacciones</h2><button class="mini-action" id="clearDemo" type="button">Reiniciar demo</button></div>
+          <div class="transactions-table">
+            <div class="table-head"><span>Fecha</span><span>Descripción</span><span>Tipo</span><span>Eight Coins</span></div>
+            <div id="coinHistory" class="coin-history"></div>
+          </div>
+          <button class="green-link as-button" id="showAllTransactions" type="button">Ver todas las transacciones</button>
+        </article>
+        <aside class="level-column">
+          <article class="level-card glass-card">
+            <h2>Tu nivel actual</h2>
+            <div class="level-seal">N</div>
+            <strong id="currentLevel">Nivel 1</strong>
+            <span id="currentRank">EcoGuardián</span>
+            <div class="level-progress"><i id="levelProgress"></i></div>
+            <small><b id="currentXp">0</b> / <b id="nextXp">1000</b> XP</small>
+          </article>
+          <article class="next-level-card glass-card">
+            <h2>Próximo nivel</h2>
+            <strong id="nextLevel">Nivel 2</strong>
+            <span id="nextRank">Protector Verde</span>
+            <p>Recompensa:</p>
+            <div class="next-reward"><img src="assets/EIGHT%20COIN.png" alt="Recompensa"><b id="nextReward">+50</b> Eight Coins</div>
+            <button class="green-link as-button" id="openLevels" type="button">Ver todos los niveles</button>
+          </article>
+        </aside>
+      </section>
+      <section class="security-strip"><div><strong>Tus Eight Coins están seguras</strong><span>Todas tus acciones quedan registradas en la app.</span></div><div><strong>Impacto que se convierte en recompensas</strong><span>Más impacto, más Eight Coins, más futuro.</span></div></section>
+    </main>
+  </div>
+  <div class="coins-toast" id="coinsToast" role="status" aria-live="polite"></div>
+  <script src="js/eightcoins-module.js"></script>
+</body>
+</html>
