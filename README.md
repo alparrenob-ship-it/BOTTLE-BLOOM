@@ -1,163 +1,164 @@
-# Bottle Bloom
+<div align="center">
+  <img src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="Bottle Bloom" width="180">
 
-Sistema ecológico inteligente para clasificar, reutilizar y transformar botellas PET en EcoBottles con biofertilizantes. El proyecto combina una experiencia web interactiva, generación de QR, dashboard ambiental, gamificación con EcoCoins y una simulación de trazabilidad tipo blockchain para presentar el flujo completo de la solución.
+# BOTTLE BLOOM
 
-> Estado actual: prototipo web/demo interactiva. La clasificación IA y el registro Blockchain Flow están representados como simulaciones locales para explicar el concepto y validar la experiencia de usuario.
+## Transformamos botellas en vida
 
-## Resumen
+**Tema:** Sistema Inteligente de Cultura Ambiental para la Recolección, Validación, Reutilización y Transformación de Botellas PET en EcoBottles con Biofertilizantes mediante Inteligencia Artificial, Blockchain y Gamificación Educativa en Eight Academy.
+</div>
 
-Bottle Bloom nace para reducir el desperdicio de botellas PET dentro del campus ZooBotánica de Eight Academy. La propuesta convierte el reciclaje en una experiencia educativa, visual y medible: cada botella escaneada recibe una clasificación, suma impacto ecológico, genera EcoCoins y puede obtener un pasaporte QR.
+---
+
+## Equipo Bottle Bloom
+
+| Imagen | Integrante | Rol |
+| --- | --- | --- |
+| <img src="assets/PAMELA%20RUBIO.jpeg" alt="Pamela Rubio" width="90"> | Pamela Rubio | Líder |
+| <img src="assets/EMILY%20OROZCO.jpeg" alt="Emily Orozco" width="90"> | Emily Orozco | Secretaria |
+| <img src="assets/THOMAS%20HERMIDA.jpeg" alt="Thomas Hermida" width="90"> | Thomas Hermida | Expositor |
+| <img src="assets/EMANUEL%20GERARDO.jpeg" alt="Emanuel Gerardo" width="90"> | Emanuel Gerardo | Diseñador |
+| <img src="assets/JUAN%20DIEGO%20MORENO.jpeg" alt="Juan Diego Moreno" width="90"> | Juan Diego Moreno | Investigador |
+
+**Institución:** Unidad Educativa Eight Academy  
+**Campus:** ZooBotánica  
+**Nivel:** Séptimo EGB  
+**Mentora:** Lcda. Anita Parreño
+
+---
 
 ## Problema
 
-En muchas instituciones educativas se generan grandes cantidades de residuos plásticos, especialmente botellas PET. Aunque existen campañas de reciclaje, muchas no logran mantener la participación estudiantil porque no integran tecnología, trazabilidad ni retroalimentación inmediata.
+En las instituciones educativas se consumen diariamente bebidas en botellas plásticas PET que muchas veces son desechadas sin una adecuada clasificación, sin seguimiento ambiental y sin aprovechamiento posterior. Esto genera contaminación, dificulta el reciclaje y limita la formación de hábitos sostenibles dentro de la comunidad educativa.
 
-Esto provoca tres retos principales:
+Además, la falta de trazabilidad impide que los estudiantes visualicen el impacto real de sus acciones. Al mismo tiempo, ZooBotánica produce biofertilizantes que podrían distribuirse de forma más sostenible reutilizando botellas PET aptas como EcoBottles.
 
-- acumulación de residuos plásticos,
-- baja reutilización de materiales con potencial ecológico,
-- poca visibilidad del impacto ambiental generado por cada estudiante.
+<img src="assets/PROBLEMA.png" alt="Problema Bottle Bloom" width="100%">
+
+---
 
 ## Solución
 
-Bottle Bloom propone una estación ecológica inteligente que guía el proceso desde el depósito de una botella hasta su transformación en una EcoBottle con biofertilizante.
+Bottle Bloom propone una web app conectada a una estación inteligente que valida botellas PET con Inteligencia Artificial, indica el contenedor correcto, registra la participación del usuario, recompensa con Eight Coins, desbloquea NFTs educativos y mide el impacto ambiental acumulado.
 
-La solución contempla:
+Las botellas clasificadas como aptas se reutilizan como EcoBottles para contener biofertilizantes producidos en ZooBotánica. Cada EcoBottle puede recibir un código QR único con historial, impacto y trazabilidad digital.
 
-- escaneo de la botella mediante una interfaz web,
-- clasificación en tres categorías ambientales,
-- generación de un pasaporte QR,
-- registro de trazabilidad simulado,
-- dashboard con métricas ecológicas,
-- recompensas con EcoCoins para motivar la participación.
+<img src="assets/SOLUCI%C3%93N.png" alt="Solución Bottle Bloom" width="100%">
 
-## Flujo de uso
+---
 
-1. El estudiante deposita o presenta una botella PET.
-2. La interfaz permite simular el análisis o cargar una imagen.
-3. El sistema muestra una clasificación ambiental.
-4. La botella recibe EcoCoins según su categoría.
-5. Se genera un pasaporte ecológico en QR.
-6. Se simula un registro de trazabilidad tipo blockchain.
-7. El dashboard muestra impacto, ranking y registros recientes.
+## Cómo funciona
 
-## Funcionalidades
+1. El usuario inicia sesión o crea su perfil Eco Guerrero.
+2. Presenta una botella PET frente al módulo de escaneo.
+3. La IA valida si el objeto es una botella PET y analiza su estado.
+4. El sistema clasifica el resultado:
+   - **Contenedor Verde:** botella apta para reutilización.
+   - **Contenedor Amarillo:** botella PET que requiere limpieza.
+   - **Contenedor Rojo:** botella no apta o dañada.
+5. La acción se registra en el historial del usuario.
+6. El usuario gana Eight Coins, XP y progreso en retos diarios.
+7. Las botellas aptas se transforman en EcoBottles con biofertilizante.
+8. La plataforma muestra impacto ambiental, NFTs, rachas y métricas acumuladas.
 
-- Landing page del proyecto.
-- Escáner demo de botellas PET.
-- Carga de imagen o uso de cámara del dispositivo.
-- Clasificación visual: reutilizable, reciclaje industrial o descarte contaminado.
-- Generación y descarga de QR.
-- Registro blockchain simulado en navegador.
-- Dashboard ecológico con métricas, gráficas y ranking.
-- Historial local usando `localStorage`.
-- Gamificación con EcoCoins y logros.
+---
 
-## Tecnologías
+## ODS vinculados
+
+Bottle Bloom contribuye directamente a los siguientes Objetivos de Desarrollo Sostenible:
+
+| ODS | Vinculación |
+| --- | --- |
+| **ODS 4 - Educación de calidad** | Promueve aprendizaje práctico sobre reciclaje, sostenibilidad, tecnología y economía circular. |
+| **ODS 11 - Ciudades y comunidades sostenibles** | Fortalece la gestión responsable de residuos dentro de la comunidad educativa. |
+| **ODS 12 - Producción y consumo responsables** | Impulsa la reutilización de botellas PET y la reducción de residuos. |
+| **ODS 13 - Acción por el clima** | Contribuye a disminuir el impacto ambiental asociado a la acumulación de plástico. |
+
+---
+
+## Tecnologías utilizadas
+
+### MVP Web actual
 
 - HTML5
 - CSS3
 - JavaScript
-- Chart.js
-- qrcode.js
-- Figma
-- Canva
-- GitHub
+- LocalStorage para datos demo persistentes
+- TensorFlow.js y COCO-SSD para validación visual inicial de botellas
+- Cámara web con `getUserMedia`
+- QR y pasaporte ecológico simulado
+- GitHub Pages para publicación web
 
-Tecnologías proyectadas para una versión completa:
+### Arquitectura proyectada
 
-- modelo de visión artificial real,
-- Firebase o base de datos en la nube,
-- integración real con Flow Blockchain,
-- backend para usuarios, registros e historial persistente.
+- Firebase Authentication
+- Firebase Firestore
+- Firebase Storage
+- Flow Blockchain
+- Modelos de visión artificial entrenados para botellas PET
+- Dashboard ambiental en tiempo real
+- Integración con estación física Bottle Bloom
 
-## Estructura del proyecto
+---
 
-```text
-BOTTLE-BLOOM/
-├── index.html          # Página principal
-├── scanner.html        # Escáner demo y generación de QR
-├── dashboard.html      # Métricas ecológicas y gamificación
-├── css/
-│   └── style.css       # Estilos globales
-├── js/
-│   ├── app.js          # Funciones globales y estadísticas
-│   ├── scanner.js      # Lógica del escáner demo
-│   └── dashboard.js    # Gráficas, ranking y registros
-├── README.md
-└── assets visuales     # Logos, prototipos, manual visual y mockups
-```
+## Funciones principales
 
-## Cómo ejecutar
+- Registro e inicio de sesión de usuarios.
+- Perfil Eco Guerrero editable.
+- Escaneo de botellas con cámara o imagen subida.
+- Validación de botella PET con IA.
+- Clasificación por contenedores: verde, amarillo y rojo.
+- Registro de botellas con ID único.
+- Historial de entregas y detalle de clasificación.
+- Eight Coins como sistema de recompensas.
+- Retos diarios con progreso y rachas.
+- NFTs educativos desbloqueables.
+- Dashboard de impacto ecológico.
+- Métricas ambientales: botellas recuperadas, CO2 evitado, agua ahorrada y árboles equivalentes.
+- Simulación de trazabilidad con QR y blockchain.
 
-Este proyecto es una web estática. No requiere instalación.
+---
 
-1. Descarga o clona el repositorio.
-2. Abre `index.html` en tu navegador.
-3. Entra a `scanner.html` para probar el flujo de escaneo.
-4. Entra a `dashboard.html` para revisar las métricas.
+## Impacto
 
-Para una mejor experiencia, usa un navegador moderno. La cámara puede requerir HTTPS o ejecución desde un entorno local compatible.
+Bottle Bloom transforma una acción cotidiana, desechar una botella, en una experiencia educativa, tecnológica y medible. El proyecto fortalece la cultura ambiental en Eight Academy y convierte a los estudiantes en protagonistas activos del cambio.
 
-## Modo demo
+Indicadores medidos en la plataforma:
 
-La versión actual está pensada para presentación y validación del concepto. Por eso:
+- Botellas PET recuperadas.
+- EcoBottles generadas.
+- CO2 evitado.
+- Plantas beneficiadas.
+- Biofertilizante producido.
+- Eight Coins generadas.
+- Retos completados.
+- NFTs desbloqueados.
 
-- la clasificación se genera mediante una simulación ponderada,
-- el hash blockchain se crea localmente como demostración,
-- los datos se guardan en `localStorage` del navegador,
-- las métricas base son datos de ejemplo para mostrar el potencial del dashboard.
-
-Esta decisión permite explicar el producto completo sin depender todavía de hardware, backend, modelo IA o red blockchain real.
-
-## Impacto esperado
-
-Bottle Bloom contribuye al ODS 13: Acción por el Clima, promoviendo:
-
-- reducción de residuos plásticos,
-- educación ambiental activa,
-- economía circular,
-- cultura de reutilización,
-- medición del impacto ecológico escolar.
-
-## Próximos pasos
-
-- Conectar un modelo real de visión artificial para analizar botellas PET.
-- Crear una base de datos en la nube para usuarios, botellas y recompensas.
-- Integrar transacciones reales con Flow Blockchain.
-- Diseñar el flujo físico de limpieza y llenado con biofertilizante.
-- Crear perfiles de estudiantes y ranking por cursos.
-- Publicar la demo en GitHub Pages.
-
-## Equipo
-
-| Integrante | Rol |
-| --- | --- |
-| Pamela Rubio | Líder |
-| Emily Orozco | Secretaria |
-| Thomas Hermida | Expositor |
-| Emanuel Gerardo | Diseñador |
-| Juan Diego Moreno | Investigador |
-| Anita Parreño | Mentora |
+---
 
 ## Entregable 3
 
 ### MVP Web
+
 [Abrir Plataforma BOTTLE BLOOM](https://alparrenob-ship-it.github.io/BOTTLE-BLOOM/)
 
 ### Video Demo
+
 [Ver Video Demo BOTTLE BLOOM](https://www.youtube.com/shorts/YNOrElG3D5c?feature=share)
 
 ### Pitch Deck
 
-
+Material de presentación del proyecto Bottle Bloom.
 
 ### Whitepaper
 
-
+[Leer Whitepaper BOTTLE BLOOM V.2.1](https://github.com/alparrenob-ship-it/BOTTLE-BLOOM/blob/main/WHITEPAPER%20BOTTLE%20BLOOM%20V.2.1.pdf)
 
 ### Infografía
 
+Material visual de síntesis del problema, solución, flujo y beneficios de Bottle Bloom.
+
+---
 
 ## Créditos
 
