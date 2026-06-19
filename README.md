@@ -21,7 +21,6 @@
 | <img src="assets/JUAN%20DIEGO%20MORENO.jpeg" alt="Juan Diego Moreno" width="90"> | Juan Diego Moreno | Investigador |
 
 **Institución:** Unidad Educativa Eight Academy  
-**Campus:** ZooBotánica  
 **Nivel:** Séptimo EGB  
 **Mentora:** Lcda. Anita Parreño
 
