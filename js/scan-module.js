@@ -71,6 +71,7 @@ window.addEventListener('DOMContentLoaded', () => {
   renderHistory();
   bindScanActions();
   resetAnalysisRows();
+  updateContainerGuide();
   setStatus('Esperando botella...');
 });
 
@@ -178,6 +179,7 @@ function captureBottle() {
   canvas.hidden = false;
   video.hidden = true;
   cameraBox.classList.add('has-media');
+  updateContainerGuide();
   setStatus('Imagen capturada. Validando botella PET...');
   simulateBottleDetection();
 }
@@ -204,6 +206,7 @@ function handleUpload(event) {
     $('#captureCanvas').hidden = true;
     $('#cameraEmpty').hidden = true;
     $('#scanCameraBox').classList.add('has-media');
+    updateContainerGuide();
     setStatus('Imagen cargada. Validando botella PET...');
     simulateBottleDetection();
   };
@@ -220,6 +223,7 @@ async function simulateBottleDetection() {
   $('#scanResult')?.classList.add('hidden');
   resetAnalysisRows();
   detectionResult = null;
+  updateContainerGuide();
   setText('#analysisPercent', '0%');
   setText('#analysisCopy', 'Cargando modelo IA y validando objeto dentro del marco SCAN...');
 
@@ -342,6 +346,7 @@ function abortInvalidObject(reason = '') {
   setText('#analysisPercent', '0%');
   setText('#analysisCopy', reason || 'Analisis abortado. No se detecto una botella PET valida dentro del marco.');
   $('#scanResult')?.classList.add('hidden');
+  updateContainerGuide();
   const message = 'Objeto no identificado. Por favor, enfoca una botella de plastico PET valida.';
   setStatus(message, 'bad');
   showToast(message);
@@ -428,9 +433,21 @@ function renderResult() {
   setText('#resultBadge', detectionResult.container);
   const decision = $('#containerDecision');
   decision.className = `container-decision ${detectionResult.code}`;
+  updateContainerGuide(detectionResult);
   const registerBtn = $('#registerBottle');
   registerBtn.disabled = false;
   registerBtn.textContent = 'REGISTRAR CLASIFICACION';
+}
+
+function updateContainerGuide(result = null) {
+  const guide = $('#containerGuide');
+  if (!guide) return;
+  const code = result?.code || 'idle';
+  guide.className = `container-guide ${code}`;
+  setText('#guideKicker', result ? 'Destino recomendado' : 'Destino pendiente');
+  setText('#guideTitle', result ? result.container : 'Escanea una botella PET');
+  setText('#guideText', result ? result.instruction : 'Cuando la IA clasifique la botella, aquí aparecerá el contenedor correcto.');
+  setText('#binLabel', result ? result.colorName : 'PET');
 }
 
 function registerBottle() {
@@ -560,6 +577,7 @@ function resetScan() {
   $('#scanCameraBox').classList.toggle('has-media', !!stream);
   $('#scanUpload').value = '';
   resetAnalysisRows();
+  updateContainerGuide();
   setText('#analysisCopy', 'Sube o captura una imagen para iniciar el analisis.');
   setStatus('Esperando botella...');
 }
