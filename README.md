@@ -151,10 +151,10 @@ Bottle Bloom contribuye al ODS 13: Acción por el Clima, promoviendo:
 ## Entregable 3
 
 ### MVP Web
-[Abrir Plataforma WOLVES](https://alparrenob-ship-it.github.io/LOS-WOLVES/)
+[Abrir Plataforma BOTTLE BLOOM](https://alparrenob-ship-it.github.io/BOTTLE-BLOOM/)
 
 ### Video Demo
-[Ver Video Demo WOLVES](https://www.youtube.com/shorts/YNOrElG3D5c?feature=share)
+[Ver Video Demo BOTTLE BLOOM](https://www.youtube.com/shorts/YNOrElG3D5c?feature=share)
 
 ### Pitch Deck
 
