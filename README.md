@@ -148,6 +148,25 @@ Bottle Bloom contribuye al ODS 13: Acción por el Clima, promoviendo:
 | Juan Diego Moreno | Investigador |
 | Anita Parreño | Mentora |
 
+## Entregable 3
+
+### MVP Web
+[Abrir Plataforma WOLVES](https://alparrenob-ship-it.github.io/LOS-WOLVES/)
+
+### Video Demo
+[Ver Video Demo WOLVES](https://www.youtube.com/shorts/YNOrElG3D5c?feature=share)
+
+### Pitch Deck
+
+
+
+### Whitepaper
+
+
+
+### Infografía
+
+
 ## Créditos
 
 Proyecto desarrollado para Eight Academy, campus ZooBotánica, como propuesta de innovación ambiental, educación sostenible y tecnología aplicada al reciclaje PET.
