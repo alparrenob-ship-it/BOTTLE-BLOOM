@@ -68,6 +68,19 @@
           </div>
 
           <p class="scan-message scan-tip" id="scanMessage">Asegúrate de que la botella esté limpia y sin líquidos para una clasificación precisa.</p>
+
+          <section class="container-guide idle" id="containerGuide" aria-live="polite">
+            <div class="guide-copy">
+              <span id="guideKicker">Destino pendiente</span>
+              <strong id="guideTitle">Escanea una botella PET</strong>
+              <p id="guideText">Cuando la IA clasifique la botella, aquí aparecerá el contenedor correcto.</p>
+            </div>
+            <div class="animated-bin" id="animatedBin" aria-label="Contenedor recomendado">
+              <div class="bin-lid"></div>
+              <div class="bin-body"><span id="binLabel">PET</span></div>
+              <div class="bin-wheels"><i></i><i></i></div>
+            </div>
+          </section>
         </article>
 
         <aside class="page-grid">
