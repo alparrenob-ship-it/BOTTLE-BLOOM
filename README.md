@@ -31,14 +31,6 @@ La solución contempla:
 - dashboard con métricas ecológicas,
 - recompensas con EcoCoins para motivar la participación.
 
-## Clasificación
-
-| Categoría | Descripción | Recompensa |
-| --- | --- | --- |
-| Reutilizable | Botella en buen estado, apta para limpieza ecológica y transformación en EcoBottle. | +50 EcoCoins |
-| Reciclaje industrial | Botella deformada o dañada, destinada a reciclaje especializado. | +25 EcoCoins |
-| Descarte contaminado | Botella con contaminación alta, requiere disposición especial. | +10 EcoCoins |
-
 ## Flujo de uso
 
 1. El estudiante deposita o presenta una botella PET.
