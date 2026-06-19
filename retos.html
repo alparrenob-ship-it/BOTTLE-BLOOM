@@ -1,1 +1,88 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>BottleBloom | Retos</title><link rel="stylesheet" href="css/bottlebloom-app.css"></head><body><div class="app-shell"><aside class="sidebar"><div class="side-top"><a class="logo-lockup" href="home.html"><img src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom"><span class="brand-copy brand-name">Bottle<span>Bloom</span></span></a><button class="collapse-btn">BB</button></div><nav class="side-nav"><a href="home.html"><span class="nav-icon">H</span><span class="nav-label">Dashboard</span></a><a href="profile.html"><span class="nav-icon">P</span><span class="nav-label">Perfil</span></a><a href="registro.html"><span class="nav-icon">R</span><span class="nav-label">Registro</span></a><a href="retos.html"><span class="nav-icon">D</span><span class="nav-label">Retos</span></a><a href="eightcoins.html"><span class="nav-icon">8</span><span class="nav-label">Eight Coins</span></a><a href="nfts.html"><span class="nav-icon">N</span><span class="nav-label">NFTs</span></a><a href="impacto.html"><span class="nav-icon">I</span><span class="nav-label">Impacto</span></a></nav></aside><main class="app-main"><header class="topbar"><div class="hello"><h1 id="helloName">Hola, Eco Guerrero</h1><p>Retos diarios dinamicos</p></div><div class="top-actions"><span class="pill">Nuevos retos en <b class="timer" id="challengeTimer">00:00:00</b></span><span class="pill" id="topCoins"></span><img class="avatar" id="topAvatar" alt="Perfil"></div></header><section class="page-grid" id="challengeList"></section></main></div><script type="module" src="js/bottlebloom-app.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BottleBloom | Retos diarios</title>
+  <meta name="theme-color" content="#050505">
+  <link rel="stylesheet" href="css/bottlebloom-app.css">
+  <link rel="stylesheet" href="css/sidebar-icons.css">
+  <link rel="stylesheet" href="css/retos.css">
+</head>
+<body class="challenges-page">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="side-top">
+        <a class="logo-lockup" href="profile.html">
+          <img src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom">
+          <span class="brand-copy brand-name">Bottle<span>Bloom</span></span>
+        </a>
+        <button class="collapse-btn" type="button">BB</button>
+      </div>
+      <div class="menu-title">Menu</div>
+      <nav class="side-nav" aria-label="Menu BottleBloom">
+        <a href="scan.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M7 3H4v3"/><path d="M17 3h3v3"/><path d="M7 21H4v-3"/><path d="M17 21h3v-3"/><path d="M8 12h8"/><path d="M12 8v8"/></svg></span><span class="nav-label">Escanear botella</span></a>
+        <a href="profile.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.6-4 4.4-6 8-6s6.4 2 8 6"/></svg></span><span class="nav-label">Perfil</span></a>
+        <a href="registro.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M7 3h10v4H7z"/><path d="M5 5h14v16H5z"/><path d="M8 12h8"/><path d="M8 16h6"/></svg></span><span class="nav-label">Registro</span></a>
+        <a class="active" href="retos.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M5 4v16"/><path d="M5 5h12l-2 4 2 4H5"/></svg></span><span class="nav-label">Retos diarios</span></a>
+        <a href="eightcoins.html"><span class="nav-icon coin-icon">8</span><span class="nav-label">Eight Coins</span></a>
+        <a href="nfts.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z"/><path d="m12 8 3.5 2v4L12 16l-3.5-2v-4z"/></svg></span><span class="nav-label">NFTs</span></a>
+        <a href="impacto.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 4C12 4 5 9 5 18"/><path d="M20 4c0 8-5 15-13 15"/><path d="M5 18c4-1 7-3 10-7"/></svg></span><span class="nav-label">Impacto ecológico</span></a>
+        <button class="logout-btn" type="button"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M14 4H6v16h8"/><path d="M10 12h10"/><path d="m17 9 3 3-3 3"/></svg></span><span class="nav-label">Cerrar sesión</span></button>
+      </nav>
+    </aside>
+
+    <main class="app-main challenges-main">
+      <header class="challenges-header">
+        <div class="section-title">
+          <span class="title-icon"><svg viewBox="0 0 24 24"><path d="M7 3v4"/><path d="M17 3v4"/><path d="M4 8h16"/><rect x="4" y="5" width="16" height="16" rx="3"/><path d="m8 14 2 2 5-5"/></svg></span>
+          <div>
+            <h1>Retos <span>diarios</span></h1>
+            <p>Completa retos y gana Eight Coins + NFTs</p>
+          </div>
+        </div>
+        <div class="challenge-wallet">
+          <div class="wallet-block coin-pop" id="coinBlock"><img src="assets/EIGHT%20COIN.png" alt="Eight Coins"><strong id="headerCoins">125</strong><span>Eight Coins</span></div>
+          <div class="wallet-block"><span class="level-mark">N</span><strong id="headerLevel">3</strong><span>Nivel actual</span></div>
+        </div>
+      </header>
+
+      <section class="challenges-layout">
+        <div class="challenge-left">
+          <article class="progress-panel glass-card">
+            <div class="target-orb"><span></span></div>
+            <div class="daily-progress">
+              <span>Tu progreso hoy</span>
+              <strong><b id="completedCount">0</b> / <b id="totalChallenges">5</b></strong>
+              <div class="challenge-progress"><i id="dailyProgressBar"></i></div>
+              <small>Sigue así, cada botella cuenta</small>
+            </div>
+            <div class="streak-box"><span>Racha actual</span><strong id="currentStreak">3</strong><small>días</small></div>
+            <div class="streak-box"><span>Mejor racha</span><strong id="bestStreak">7</strong><small>días</small></div>
+          </article>
+
+          <div class="challenge-list-head">Retos disponibles</div>
+          <section class="challenge-list" id="challengeList"></section>
+
+          <article class="reset-note">
+            <span>Nuevos retos todos los días a las 00:00 hrs</span>
+            <b id="resetTimer">00:00:00</b>
+          </article>
+        </div>
+
+        <aside class="challenge-right">
+          <article class="active-challenge-card glass-card" id="activeChallenge"></article>
+          <article class="completed-panel glass-card">
+            <div class="panel-title"><h2>Retos completados hoy</h2><span id="completedBadge">0</span></div>
+            <div id="completedList" class="completed-list"></div>
+            <a class="history-button" href="registro.html">Ver historial de retos</a>
+          </article>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <div class="challenge-toast" id="challengeToast" role="status" aria-live="polite"></div>
+  <script src="js/retos-module.js"></script>
+</body>
+</html>
