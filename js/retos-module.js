@@ -11,64 +11,20 @@ const readJSON = (key, fallback) => {
   catch { return fallback; }
 };
 const writeJSON = (key, value) => localStorage.setItem(key, JSON.stringify(value));
-
 const todayKey = () => new Date().toISOString().slice(0, 10);
 
 const challengeDefinitions = [
-  {
-    id: 'seed',
-    title: 'Reto Semilla',
-    type: 'green',
-    icon: 'B',
-    description: 'Deposita 3 botellas aptas',
-    detail: 'Deposita 3 botellas aptas en el contenedor verde.',
-    target: 3,
-    reward: 15,
-    fallbackProgress: 2,
-    match: bottle => isAptBottle(bottle)
-  },
-  {
-    id: 'clean',
-    title: 'Reto Limpieza',
-    type: 'yellow',
-    icon: 'L',
-    description: 'Deposita 2 botellas que requieren limpieza',
-    detail: 'Deposita botellas PET que necesitan limpieza ecológica.',
-    target: 2,
-    reward: 10,
-    fallbackProgress: 0,
-    match: bottle => isCleanBottle(bottle)
-  },
-  {
-    id: 'recycle',
-    title: 'Reto Reciclaje',
-    type: 'red',
-    icon: 'R',
-    description: 'Deposita 1 botella no apta',
-    detail: 'Deposita una botella no apta en el contenedor rojo.',
-    target: 1,
-    reward: 5,
-    fallbackProgress: 1,
-    match: bottle => isBadBottle(bottle)
-  },
-  {
-    id: 'scanner',
-    title: 'Reto Scanner',
-    type: 'purple',
-    icon: 'IA',
-    description: 'Usa el escáner IA 2 veces',
-    detail: 'Usa el escáner IA para validar dos botellas PET.',
-    target: 2,
-    reward: 8,
-    fallbackProgress: 1,
-    match: bottle => Boolean(bottle)
-  }
+  { id: 'seed', title: 'Reto Semilla', type: 'green', icon: 'B', description: 'Deposita 3 botellas aptas', detail: 'Deposita 3 botellas aptas en el contenedor verde.', target: 3, reward: 15, fallbackProgress: 2, match: bottle => isAptBottle(bottle) },
+  { id: 'clean', title: 'Reto Limpieza', type: 'yellow', icon: 'L', description: 'Deposita 2 botellas que requieren limpieza', detail: 'Deposita botellas PET que necesitan limpieza ecológica.', target: 2, reward: 10, fallbackProgress: 0, match: bottle => isCleanBottle(bottle) },
+  { id: 'recycle', title: 'Reto Reciclaje', type: 'red', icon: 'R', description: 'Deposita 1 botella no apta', detail: 'Deposita una botella no apta en el contenedor rojo.', target: 1, reward: 5, fallbackProgress: 1, match: bottle => isBadBottle(bottle) },
+  { id: 'scanner', title: 'Reto Scanner', type: 'purple', icon: 'IA', description: 'Usa el escáner IA 2 veces', detail: 'Usa el escáner IA para validar dos botellas PET.', target: 2, reward: 8, fallbackProgress: 1, match: bottle => Boolean(bottle) }
 ];
 
 window.addEventListener('DOMContentLoaded', () => {
   setupShell();
   ensureDailyState();
   updateStreakState();
+  autoRewardRealCompletions();
   renderChallenges();
   startResetTimer();
 });
@@ -81,23 +37,11 @@ function setupShell() {
 function ensureDailyState() {
   const state = readJSON(challengeStateKey, {});
   if (state.date !== todayKey()) {
-    writeJSON(challengeStateKey, {
-      date: todayKey(),
-      claimed: {},
-      selected: 'seed',
-      lastResetAt: new Date().toISOString()
-    });
+    writeJSON(challengeStateKey, { date: todayKey(), claimed: {}, selected: 'seed', lastResetAt: new Date().toISOString() });
   }
 }
-
-function getChallengeState() {
-  ensureDailyState();
-  return readJSON(challengeStateKey, { date: todayKey(), claimed: {}, selected: 'seed' });
-}
-
-function saveChallengeState(state) {
-  writeJSON(challengeStateKey, { ...state, date: todayKey() });
-}
+function getChallengeState() { ensureDailyState(); return readJSON(challengeStateKey, { date: todayKey(), claimed: {}, selected: 'seed' }); }
+function saveChallengeState(state) { writeJSON(challengeStateKey, { ...state, date: todayKey() }); }
 
 function getUserWallet() {
   const appUser = readJSON(bbUserKey, {});
@@ -106,7 +50,6 @@ function getUserWallet() {
   const levelNumber = Number(String(appUser.level || legacyUser.level || 3).replace(/\D/g, '')) || 3;
   return { appUser, legacyUser, coins, levelNumber };
 }
-
 function setUserWallet(coins) {
   const { appUser, legacyUser, levelNumber } = getUserWallet();
   writeJSON(bbUserKey, { ...appUser, coins, level: `Nivel ${levelNumber}` });
@@ -119,38 +62,50 @@ function getTodayBottles() {
   return all.filter(bottle => String(bottle.date || '').slice(0, 10) === key);
 }
 
-function getProgress(definition, bottles) {
-  const realProgress = bottles.filter(definition.match).length;
-  return Math.min(definition.target, Math.max(realProgress, definition.fallbackProgress));
-}
-
 function buildChallenges() {
   const bottles = getTodayBottles();
   const state = getChallengeState();
   return challengeDefinitions.map(definition => {
-    const progress = getProgress(definition, bottles);
+    const realProgress = bottles.filter(definition.match).length;
+    const progress = Math.min(definition.target, Math.max(realProgress, definition.fallbackProgress));
     const completed = progress >= definition.target;
+    const completedByRealData = realProgress >= definition.target;
     const claimed = Boolean(state.claimed?.[definition.id]);
-    return { ...definition, progress, completed, claimed };
+    return { ...definition, realProgress, progress, completed, completedByRealData, claimed };
   });
+}
+
+function autoRewardRealCompletions() {
+  const state = getChallengeState();
+  const challenges = buildChallenges();
+  const toReward = challenges.filter(challenge => challenge.completedByRealData && !state.claimed?.[challenge.id]);
+  if (!toReward.length) return;
+  let wallet = getUserWallet();
+  const claimed = { ...(state.claimed || {}) };
+  toReward.forEach(challenge => {
+    wallet.coins += challenge.reward;
+    claimed[challenge.id] = true;
+    addCoinHistory(challenge);
+  });
+  setUserWallet(wallet.coins);
+  saveChallengeState({ ...state, claimed, selected: toReward[0].id });
+  animateCoins();
+  showToast(`Retos actualizados. Ganaste +${toReward.reduce((sum, item) => sum + item.reward, 0)} Eight Coins.`);
 }
 
 function renderChallenges() {
   const wallet = getUserWallet();
   setText('#headerCoins', wallet.coins.toLocaleString('es-EC'));
   setText('#headerLevel', wallet.levelNumber);
-
   const streak = readJSON(streakKey, { current: 3, best: 7, lastVisit: todayKey() });
   setText('#currentStreak', streak.current || 3);
   setText('#bestStreak', streak.best || 7);
-
   const challenges = buildChallenges();
   const completed = challenges.filter(challenge => challenge.completed);
   setText('#completedCount', completed.length);
   setText('#totalChallenges', challenges.length + 1);
   setText('#completedBadge', completed.length);
   $('#dailyProgressBar')?.style.setProperty('--value', `${Math.round((completed.length / (challenges.length + 1)) * 100)}%`);
-
   renderChallengeList(challenges);
   renderActiveChallenge(challenges);
   renderCompleted(challenges);
@@ -162,7 +117,7 @@ function renderChallengeList(challenges) {
   list.innerHTML = challenges.map(challenge => {
     const percent = Math.round((challenge.progress / challenge.target) * 100);
     const button = challenge.completed
-      ? `<button class="challenge-action" data-claim="${challenge.id}" ${challenge.claimed ? 'disabled' : ''}>${challenge.claimed ? 'Completado' : 'Cobrar'}</button>`
+      ? '<button class="challenge-action" disabled>¡Completado!</button>'
       : `<button class="challenge-action ${challenge.id === 'seed' ? 'primary' : ''}" data-select="${challenge.id}">${challenge.id === 'seed' ? 'Continuar' : 'Ver reto'}</button>`;
     return `
       <article class="challenge-card ${challenge.type} ${challenge.completed ? 'completed' : ''}" data-id="${challenge.id}">
@@ -176,13 +131,7 @@ function renderChallengeList(challenges) {
         ${button}
       </article>`;
   }).join('');
-
-  list.querySelectorAll('[data-select]').forEach(button => {
-    button.addEventListener('click', () => selectChallenge(button.dataset.select));
-  });
-  list.querySelectorAll('[data-claim]').forEach(button => {
-    button.addEventListener('click', () => claimReward(button.dataset.claim));
-  });
+  list.querySelectorAll('[data-select]').forEach(button => button.addEventListener('click', () => selectChallenge(button.dataset.select)));
 }
 
 function renderActiveChallenge(challenges) {
@@ -195,10 +144,7 @@ function renderActiveChallenge(challenges) {
     <div class="active-label">Reto activo</div>
     <div class="active-visual">
       <div class="active-bottle">${active.icon}</div>
-      <div class="active-copy">
-        <h2>${active.title} <span class="daily-tag">Diario</span></h2>
-        <p>${active.detail}</p>
-      </div>
+      <div class="active-copy"><h2>${active.title} <span class="daily-tag">Diario</span></h2><p>${active.detail}</p></div>
     </div>
     <div class="active-count">${active.progress} / ${active.target}</div>
     <div class="challenge-progress"><i style="--value:${percent}%"></i></div>
@@ -213,51 +159,16 @@ function renderCompleted(challenges) {
   completedList.innerHTML = completed.length ? completed.map(challenge => `
     <article class="completed-card ${challenge.type}">
       <div class="challenge-icon">${challenge.icon}</div>
-      <div>
-        <h3>${challenge.title} <span class="daily-tag">Diario</span></h3>
-        <p>${challenge.description}</p>
-        <b>${challenge.claimed ? 'Recompensa cobrada' : 'Completado'}</b>
-      </div>
+      <div><h3>${challenge.title} <span class="daily-tag">Diario</span></h3><p>${challenge.description}</p><b>${challenge.claimed ? 'Recompensa cobrada' : 'Completado'}</b></div>
       <small>+${challenge.reward}</small>
-    </article>
-  `).join('') : '<p class="empty-completed">Aún no hay retos completados hoy.</p>';
+    </article>`).join('') : '<p class="empty-completed">Aún no hay retos completados hoy.</p>';
 }
 
-function selectChallenge(id) {
-  const state = getChallengeState();
-  saveChallengeState({ ...state, selected: id });
-  renderChallenges();
-}
-
-function claimReward(id) {
-  const challenges = buildChallenges();
-  const challenge = challenges.find(item => item.id === id);
-  const state = getChallengeState();
-  if (!challenge?.completed || state.claimed?.[id]) return;
-
-  const wallet = getUserWallet();
-  const newCoins = wallet.coins + challenge.reward;
-  setUserWallet(newCoins);
-  saveChallengeState({
-    ...state,
-    claimed: { ...(state.claimed || {}), [id]: true },
-    selected: id
-  });
-  addCoinHistory(challenge);
-  animateCoins();
-  showToast(`${challenge.title} completado. Ganaste +${challenge.reward} Eight Coins.`);
-  renderChallenges();
-}
+function selectChallenge(id) { const state = getChallengeState(); saveChallengeState({ ...state, selected: id }); renderChallenges(); }
 
 function addCoinHistory(challenge) {
   const history = readJSON(bbCoinsKey, []);
-  history.unshift({
-    id: crypto.randomUUID(),
-    action: `Reto diario: ${challenge.title}`,
-    coins: challenge.reward,
-    amount: challenge.reward,
-    date: new Date().toISOString()
-  });
+  history.unshift({ id: crypto.randomUUID(), action: `Reto diario: ${challenge.title}`, coins: challenge.reward, amount: challenge.reward, date: new Date().toISOString() });
   writeJSON(bbCoinsKey, history);
 }
 
@@ -267,11 +178,7 @@ function updateStreakState() {
   if (current.lastVisit === today) return;
   const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
   const nextCurrent = current.lastVisit === yesterday ? Number(current.current || 0) + 1 : 1;
-  writeJSON(streakKey, {
-    current: nextCurrent,
-    best: Math.max(Number(current.best || 0), nextCurrent, 7),
-    lastVisit: today
-  });
+  writeJSON(streakKey, { current: nextCurrent, best: Math.max(Number(current.best || 0), nextCurrent, 7), lastVisit: today });
 }
 
 function startResetTimer() {
@@ -295,27 +202,10 @@ function startResetTimer() {
   setInterval(tick, 1000);
 }
 
-function isAptBottle(bottle) {
-  const text = normalizeBottleText(bottle);
-  return text.includes('apta') || text.includes('verde') || text.includes('biofertilizante');
-}
-
-function isCleanBottle(bottle) {
-  const text = normalizeBottleText(bottle);
-  return text.includes('limpieza') || text.includes('amarillo') || text.includes('sucia') || text.includes('residuos');
-}
-
-function isBadBottle(bottle) {
-  const text = normalizeBottleText(bottle);
-  return text.includes('no apta') || text.includes('rojo') || text.includes('danado') || text.includes('dañado') || text.includes('reciclaje especial');
-}
-
-function normalizeBottleText(bottle) {
-  return [bottle?.result, bottle?.container, bottle?.colorName, bottle?.category, bottle?.state, bottle?.clean]
-    .filter(Boolean)
-    .join(' ')
-    .toLowerCase();
-}
+function isAptBottle(bottle) { const text = normalizeBottleText(bottle); return text.includes('apta') || text.includes('verde') || text.includes('biofertilizante'); }
+function isCleanBottle(bottle) { const text = normalizeBottleText(bottle); return text.includes('limpieza') || text.includes('amarillo') || text.includes('sucia') || text.includes('residuos'); }
+function isBadBottle(bottle) { const text = normalizeBottleText(bottle); return text.includes('no apta') || text.includes('rojo') || text.includes('danado') || text.includes('dañado') || text.includes('reciclaje especial'); }
+function normalizeBottleText(bottle) { return [bottle?.result, bottle?.container, bottle?.colorName, bottle?.category, bottle?.state, bottle?.clean].filter(Boolean).join(' ').toLowerCase(); }
 
 function animateCoins() {
   const block = $('#coinBlock');
@@ -324,7 +214,6 @@ function animateCoins() {
   void block.offsetWidth;
   block.classList.add('adding');
 }
-
 function showToast(text) {
   const toast = $('#challengeToast');
   if (!toast) return;
@@ -332,8 +221,4 @@ function showToast(text) {
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 3600);
 }
-
-function setText(selector, value) {
-  const element = $(selector);
-  if (element) element.textContent = value;
-}
+function setText(selector, value) { const element = $(selector); if (element) element.textContent = value; }
