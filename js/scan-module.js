@@ -21,56 +21,47 @@ const defaultUserData = {
   scanHistory: []
 };
 
-const classifications = [
-  {
+const CLASSIFICATION_RULES = {
+  green: {
     code: 'green',
-    label: 'Apta para EcoBottle',
-    container: 'Contenedor verde',
-    instruction: 'Deposita la botella en reutilización para limpieza y llenado con biofertilizante.',
-    type: 'PET',
-    state: 'Bueno',
-    clean: 'Limpia',
-    reuse: 'Alta',
-    status: 'Validada',
+    colorName: 'Verde',
+    label: 'APTA',
+    container: 'Contenedor Verde',
+    instruction: 'La botella cumple el protocolo: PET, buen estado, limpia y alta reutilizacion.',
     category: 'Biofertilizante',
-    ecoinsEarned: 15,
-    xpEarned: 70
+    ecoinsEarned: 10,
+    xpEarned: 50
   },
-  {
+  yellow: {
     code: 'yellow',
-    label: 'Requiere limpieza',
-    container: 'Contenedor amarillo',
-    instruction: 'Deposita la botella en limpieza ecológica antes de convertirla en EcoBottle.',
-    type: 'PET',
-    state: 'Regular',
-    clean: 'Requiere limpieza',
-    reuse: 'Media',
-    status: 'Limpieza requerida',
-    category: 'Reutilización',
-    ecoinsEarned: 8,
-    xpEarned: 45
+    colorName: 'Amarillo',
+    label: 'REQUIERE LIMPIEZA',
+    container: 'Contenedor Amarillo',
+    instruction: 'La botella es PET, pero necesita limpieza ecologica antes de reutilizarse.',
+    category: 'Limpieza',
+    ecoinsEarned: 10,
+    xpEarned: 50
   },
-  {
+  red: {
     code: 'red',
-    label: 'No apta',
-    container: 'Contenedor rojo',
-    instruction: 'Deposita la botella en descarte contaminado o reciclaje especial. No debe usarse como EcoBottle.',
-    type: 'PET contaminado',
-    state: 'Malo',
-    clean: 'Contaminada',
-    reuse: 'Baja',
-    status: 'No apta',
-    category: 'Reciclaje',
-    ecoinsEarned: 2,
-    xpEarned: 15
+    colorName: 'Rojo',
+    label: 'NO APTA',
+    container: 'Contenedor Rojo',
+    instruction: 'La botella esta danada o no cumple el protocolo basico de reciclaje.',
+    category: 'Reciclaje especial',
+    ecoinsEarned: 10,
+    xpEarned: 50
   }
-];
+};
 
 let stream = null;
 let currentImage = '';
 let currentCaptureId = '';
+let currentUploadName = '';
 let detectionResult = null;
 let registeredCaptureId = '';
+let analysisTimers = [];
+let analysisProgressTimer = null;
 
 window.addEventListener('DOMContentLoaded', () => {
   setupSidebar();
@@ -94,7 +85,7 @@ function bindScanActions() {
   $('#scanUpload')?.addEventListener('change', handleUpload);
   $('#registerBottle')?.addEventListener('click', registerBottle);
   $('#scanAnother')?.addEventListener('click', resetScan);
-  $('.scan-help')?.addEventListener('click', () => showToast('La IA simula cinco criterios: plástico, estado, limpieza, reutilización y protocolo. Luego recomienda el contenedor correcto.'));
+  $('.scan-help')?.addEventListener('click', () => showToast('La IA valida primero que sea una botella PET con 70% minimo de confianza. Luego clasifica el contenedor verde, amarillo o rojo.'));
 }
 
 function getUserData() { return readJSON(userDataKey, defaultUserData); }
@@ -115,13 +106,15 @@ function syncFromExistingData() {
     scanHistory: Array.isArray(data.scanHistory) ? data.scanHistory : []
   };
   if (!synced.scanHistory.length && bottles.length) {
-    synced.scanHistory = bottles.slice(0, 12).map((bottle) => ({
-      id: bottle.bottleId || bottle.id || createBottleId(1),
+    synced.scanHistory = bottles.slice(0, 12).map((bottle, index) => ({
+      id: bottle.bottleId || bottle.id || createBottleId(index + 1),
       date: bottle.date || new Date().toISOString(),
       time: new Date(bottle.date || Date.now()).toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit' }),
       type: bottle.type || 'PET',
-      status: bottle.state || 'Validada',
-      container: bottle.container || 'Contenedor verde',
+      status: 'Validada',
+      result: bottle.result || bottle.state || 'APTA',
+      container: normalizeContainer(bottle.container || 'Contenedor Verde'),
+      colorName: containerToColor(bottle.container || 'Contenedor Verde'),
       ecoinsEarned: Number(bottle.coins || 10),
       xpEarned: Number(bottle.xp || 50),
       image: bottle.image || ''
@@ -132,7 +125,6 @@ function syncFromExistingData() {
 
 function renderDashboardData() {
   const data = getUserData();
-  const co2 = Number(data.bottlesRegistered || 0) * 0.08;
   setText('#topCoins', `${Number(data.ecoins || 0).toLocaleString('es-EC')} Eight Coins`);
   setText('#topLevel', `Nivel ${data.level || 1}`);
   const avatar = $('#topAvatar');
@@ -144,7 +136,7 @@ async function startCamera() {
   const cameraBox = $('#scanCameraBox');
   const empty = $('#cameraEmpty');
   if (!navigator.mediaDevices?.getUserMedia) {
-    setStatus('Cámara no disponible. Puedes subir una imagen.', 'bad');
+    setStatus('Camara no disponible. Puedes subir una imagen.', 'bad');
     return;
   }
 
@@ -156,9 +148,9 @@ async function startCamera() {
     $('#scanPreview').classList.remove('visible');
     empty.hidden = true;
     cameraBox.classList.add('has-media');
-    setStatus('Cámara activa. Enfoca la botella en el centro.', 'good');
+    setStatus('Camara activa. Enfoca una botella PET en el centro.', 'good');
   } catch {
-    setStatus('Cámara no disponible. Puedes subir una imagen.', 'bad');
+    setStatus('Camara no disponible. Puedes subir una imagen.', 'bad');
   }
 }
 
@@ -170,7 +162,7 @@ function captureBottle() {
 
   const hasLiveVideo = video && !video.hidden && video.videoWidth;
   if (!hasLiveVideo) {
-    setStatus('Primero activa la cámara o sube una imagen.', 'bad');
+    setStatus('Primero activa la camara o sube una imagen.', 'bad');
     return;
   }
 
@@ -178,13 +170,14 @@ function captureBottle() {
   canvas.height = video.videoHeight;
   canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
   currentImage = canvas.toDataURL('image/png');
+  currentUploadName = '';
   currentCaptureId = crypto.randomUUID();
   registeredCaptureId = '';
   detectionResult = null;
   canvas.hidden = false;
   video.hidden = true;
   cameraBox.classList.add('has-media');
-  setStatus('Imagen capturada. Analizando con IA...');
+  setStatus('Imagen capturada. Validando botella PET...');
   simulateBottleDetection();
 }
 
@@ -192,10 +185,11 @@ function handleUpload(event) {
   const file = event.target.files?.[0];
   if (!file) return;
   if (!file.type.startsWith('image/')) {
-    setStatus('Imagen no válida', 'bad');
+    setStatus('Imagen no valida', 'bad');
     return;
   }
 
+  currentUploadName = file.name.toLowerCase();
   const reader = new FileReader();
   reader.onload = () => {
     currentImage = reader.result;
@@ -209,48 +203,124 @@ function handleUpload(event) {
     $('#captureCanvas').hidden = true;
     $('#cameraEmpty').hidden = true;
     $('#scanCameraBox').classList.add('has-media');
-    setStatus('Imagen cargada. Analizando con IA...');
+    setStatus('Imagen cargada. Validando botella PET...');
     simulateBottleDetection();
   };
   reader.readAsDataURL(file);
 }
 
-function simulateBottleDetection() {
+async function simulateBottleDetection() {
   if (!currentImage) {
     setStatus('Necesitas una captura o imagen antes de analizar.', 'bad');
     return;
   }
 
-  $('#scanResult').classList.add('hidden');
-  setAnalyzing(true);
+  stopAnalysisFlow();
+  $('#scanResult')?.classList.add('hidden');
   resetAnalysisRows();
+  detectionResult = null;
+  setText('#analysisPercent', '0%');
+  setText('#analysisCopy', 'Validando si el objeto dentro del marco SCAN es una botella PET...');
+
+  const inference = await runModelInference(currentImage);
+  if (!isValidPetInference(inference)) {
+    abortInvalidObject();
+    return;
+  }
+
+  setAnalyzing(true);
   setStatus('Analizando con IA...');
-  setText('#analysisCopy', 'Analizando imagen con inteligencia artificial simulada...');
+  setText('#analysisCopy', `Botella PET detectada correctamente (${Math.round(inference.confidence * 100)}%). Analizando variables...`);
 
   const checks = ['plastic', 'state', 'clean', 'reuse', 'protocol'];
   checks.forEach((key, index) => {
-    setTimeout(() => markAnalysisRow(key, index === checks.length - 1 ? 'loading' : 'done'), 330 * (index + 1));
-    setTimeout(() => markAnalysisRow(key, 'done'), 330 * (index + 1) + 260);
+    queueAnalysisTimer(() => markAnalysisRow(key, 'loading'), 260 * index);
   });
 
   let percent = 0;
-  const progress = setInterval(() => {
-    percent = Math.min(100, percent + 13);
+  analysisProgressTimer = setInterval(() => {
+    percent = Math.min(100, percent + 5);
     setText('#analysisPercent', `${percent}%`);
-    if (percent >= 100) clearInterval(progress);
-  }, 220);
+    if (percent >= 100) clearInterval(analysisProgressTimer);
+  }, 100);
 
-  setTimeout(() => {
+  queueAnalysisTimer(() => {
+    const variables = analyzeBottleProperties(inference);
+    detectionResult = classifyPetScan(variables, inference);
+    applyFinalAnalysisRows(detectionResult);
     setAnalyzing(false);
-    clearInterval(progress);
     setText('#analysisPercent', '100%');
-    // Punto de integracion futura: aqui se puede reemplazar la simulacion por una IA real.
-    const choice = Math.random();
-    detectionResult = choice < 0.55 ? classifications[0] : choice < 0.83 ? classifications[1] : classifications[2];
-    setText('#analysisCopy', 'Análisis completado. Revisa el contenedor recomendado.');
+    setText('#analysisCopy', 'Analisis completado. Revisa el contenedor recomendado.');
     setStatus(`${detectionResult.label}: ${detectionResult.container}`, detectionResult.code === 'red' ? 'bad' : 'good');
     renderResult();
   }, 2100);
+}
+
+async function runModelInference(imageData) {
+  await new Promise(resolve => setTimeout(resolve, 150));
+
+  // Model Inference simulado. Reemplazar este bloque por TensorFlow.js, Roboflow,
+  // Teachable Machine o un endpoint real cuando el modelo entrenado este disponible.
+  const invalidName = /(lata|vidrio|fruta|mano|metal|glass|can|hand|invalid|no-pet|nopet)/i.test(currentUploadName);
+  const lowConfidence = /(borrosa|oscura|duda|low|baja-confianza)/i.test(currentUploadName);
+  if (invalidName) return { label: 'OBJETO_NO_PET', object: 'Objeto no PET', type: 'NO_PET', confidence: 0.91 };
+  if (lowConfidence) return { label: 'BOTELLA_PET', object: 'Botella PET', type: 'PET', confidence: 0.62 };
+
+  const confidence = Math.min(0.98, 0.82 + (hashValue(imageData) % 16) / 100);
+  return { label: 'BOTELLA_PLASTICO_PET', object: 'Botella de plastico PET', type: 'PET', confidence };
+}
+
+function isValidPetInference(inference) {
+  const classText = `${inference?.label || ''} ${inference?.object || ''} ${inference?.type || ''}`.toLowerCase();
+  const isPetBottle = classText.includes('pet') && classText.includes('botella');
+  return Boolean(inference && inference.confidence >= 0.7 && isPetBottle);
+}
+
+function abortInvalidObject() {
+  stopAnalysisFlow();
+  detectionResult = null;
+  resetAnalysisRows();
+  setAnalyzing(false);
+  setText('#analysisPercent', '0%');
+  setText('#analysisCopy', 'Analisis abortado. No se alcanzo la confianza minima o el objeto no es PET.');
+  $('#scanResult')?.classList.add('hidden');
+  const message = 'Objeto no identificado. Por favor, enfoca una botella de plastico PET valida.';
+  setStatus(message, 'bad');
+  showToast(message);
+}
+
+function analyzeBottleProperties(inference) {
+  const seed = hashValue(`${currentImage}|${currentCaptureId}|${Math.round(inference.confidence * 100)}`);
+  const mode = seed % 10;
+  if (mode <= 5) {
+    return { type: 'PET', state: 'Bueno', clean: 'Limpia', reuse: 'Alta', protocolOk: true };
+  }
+  if (mode <= 7) {
+    return { type: 'PET', state: 'Bueno', clean: mode === 6 ? 'Sucia' : 'Con residuos', reuse: 'Media', protocolOk: true };
+  }
+  return { type: 'PET', state: 'Danado/Roto', clean: 'Con residuos', reuse: 'Baja', protocolOk: false };
+}
+
+function classifyPetScan(variables, inference) {
+  let rule = CLASSIFICATION_RULES.red;
+  if (variables.state === 'Danado/Roto' || !variables.protocolOk) {
+    rule = CLASSIFICATION_RULES.red;
+  } else if (variables.clean === 'Sucia' || variables.clean === 'Con residuos') {
+    rule = CLASSIFICATION_RULES.yellow;
+  } else if (variables.type === 'PET' && variables.state === 'Bueno' && variables.clean === 'Limpia' && variables.reuse === 'Alta') {
+    rule = CLASSIFICATION_RULES.green;
+  }
+
+  return {
+    ...rule,
+    type: variables.type,
+    state: variables.state,
+    clean: variables.clean,
+    reuse: variables.reuse,
+    protocolOk: variables.protocolOk,
+    confidence: inference.confidence,
+    status: 'Validada'
+  };
 }
 
 function resetAnalysisRows() {
@@ -269,11 +339,27 @@ function markAnalysisRow(key, state) {
   row.querySelector('strong').textContent = state === 'done' ? 'Completado' : 'Analizando...';
 }
 
+function applyFinalAnalysisRows(result) {
+  setAnalysisValue('plastic', result.type);
+  setAnalysisValue('state', result.state);
+  setAnalysisValue('clean', result.clean);
+  setAnalysisValue('reuse', result.reuse);
+  setAnalysisValue('protocol', result.protocolOk ? 'Cumple' : 'No cumple');
+}
+
+function setAnalysisValue(key, value) {
+  const row = document.querySelector(`[data-check="${key}"]`);
+  if (!row) return;
+  row.classList.remove('loading');
+  row.classList.add('done');
+  row.querySelector('strong').textContent = value;
+}
+
 function renderResult() {
   if (!detectionResult) return;
   $('#scanResult').classList.remove('hidden');
   $('#resultImage').src = currentImage;
-  setText('#resultAi', detectionResult.label);
+  setText('#resultAi', `Botella PET detectada correctamente - ${detectionResult.label}`);
   setText('#resultContainer', `${detectionResult.container}. ${detectionResult.instruction}`);
   setText('#resultType', detectionResult.type);
   setText('#resultState', detectionResult.state);
@@ -286,12 +372,12 @@ function renderResult() {
   decision.className = `container-decision ${detectionResult.code}`;
   const registerBtn = $('#registerBottle');
   registerBtn.disabled = false;
-  registerBtn.textContent = 'Registrar clasificación';
+  registerBtn.textContent = 'REGISTRAR CLASIFICACION';
 }
 
 function registerBottle() {
   if (!currentImage || !detectionResult) {
-    setStatus('Necesitas una botella detectada antes de registrar.', 'bad');
+    setStatus('Necesitas una botella PET detectada antes de registrar.', 'bad');
     return;
   }
   if (registeredCaptureId === currentCaptureId) {
@@ -308,19 +394,21 @@ function registerBottle() {
     date: now.toISOString(),
     time: now.toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit' }),
     type: detectionResult.type,
-    status: detectionResult.status,
+    status: 'Validada',
     result: detectionResult.label,
     container: detectionResult.container,
+    colorName: detectionResult.colorName,
     category: detectionResult.category,
-    ecoinsEarned: detectionResult.ecoinsEarned,
+    ecoinsEarned: 10,
     xpEarned: detectionResult.xpEarned,
+    co2: 0.08,
     image: currentImage
   };
 
   const updated = {
     ...data,
-    ecoins: Number(data.ecoins || 0) + detectionResult.ecoinsEarned,
-    xp: Number(data.xp || 0) + detectionResult.xpEarned,
+    ecoins: Number(data.ecoins || 0) + record.ecoinsEarned,
+    xp: Number(data.xp || 0) + record.xpEarned,
     bottlesRegistered: bottleNumber,
     todayProgress: Math.min(3, Number(data.todayProgress || 0) + 1),
     scanHistory: [record, ...(data.scanHistory || [])]
@@ -330,11 +418,11 @@ function registerBottle() {
   syncAppStorage(record, updated);
   registeredCaptureId = currentCaptureId;
   $('#registerBottle').disabled = true;
-  $('#registerBottle').textContent = 'Clasificación registrada';
-  setStatus(`Registro exitoso: ${detectionResult.container}`, 'good');
+  $('#registerBottle').textContent = 'CLASIFICACION REGISTRADA';
+  setStatus('Registro exitoso', 'good');
   renderDashboardData();
   renderHistory();
-  showToast(`Clasificación registrada. ${detectionResult.container}. Ganaste ${detectionResult.ecoinsEarned} Eight Coins.`);
+  showToast(`Botella registrada con exito. Contenedor ${record.colorName} | +10 Coins · Validada`);
 }
 
 function syncAppStorage(record, data) {
@@ -358,9 +446,10 @@ function syncAppStorage(record, data) {
     reuse: detectionResult.reuse,
     result: record.result,
     container: record.container,
+    colorName: record.colorName,
     coins: record.ecoinsEarned,
     xp: record.xpEarned,
-    co2: 0.08,
+    co2: record.co2,
     image: record.image,
     category: record.category
   });
@@ -381,20 +470,27 @@ function renderHistory() {
   const list = $('#quickHistory');
   if (!list) return;
   const history = (getUserData().scanHistory || []).slice(0, 3);
-  list.innerHTML = history.length ? history.map(item => `
-    <article class="history-row">
-      <div>
-        <strong>${item.result || item.type || 'Botella PET'}</strong>
-        <span>${formatDate(item.date)} · ${item.time || formatTime(item.date)} · ${item.container || 'Contenedor verde'}</span>
-      </div>
-      <small>+${item.ecoinsEarned || 10} Coins · ${item.status || 'Validada'}</small>
-    </article>
-  `).join('') : '<p class="muted">Aun no hay escaneos registrados.</p>';
+  list.innerHTML = history.length ? history.map(item => {
+    const date = formatDate(item.date);
+    const time = item.time || formatTime(item.date);
+    const color = item.colorName || containerToColor(item.container || 'Contenedor Verde');
+    return `
+      <article class="history-row">
+        <div>
+          <strong>${date} - ${time}</strong>
+          <span>Contenedor ${color} | +${item.ecoinsEarned || 10} Coins · ${item.status || 'Validada'}</span>
+        </div>
+        <small>${item.result || 'Botella PET'} · ${item.id || ''}</small>
+      </article>
+    `;
+  }).join('') : '<p class="muted">Aun no hay escaneos registrados.</p>';
 }
 
 function resetScan() {
+  stopAnalysisFlow();
   currentImage = '';
   currentCaptureId = '';
+  currentUploadName = '';
   detectionResult = null;
   registeredCaptureId = '';
   $('#scanResult').classList.add('hidden');
@@ -406,7 +502,7 @@ function resetScan() {
   $('#scanCameraBox').classList.toggle('has-media', !!stream);
   $('#scanUpload').value = '';
   resetAnalysisRows();
-  setText('#analysisCopy', 'Sube o captura una imagen para iniciar el análisis.');
+  setText('#analysisCopy', 'Sube o captura una imagen para iniciar el analisis.');
   setStatus('Esperando botella...');
 }
 
@@ -432,9 +528,43 @@ function showToast(text) {
   setTimeout(() => toast.classList.remove('show'), 3600);
 }
 
+function queueAnalysisTimer(callback, delay) {
+  const timer = setTimeout(callback, delay);
+  analysisTimers.push(timer);
+}
+
+function stopAnalysisFlow() {
+  analysisTimers.forEach(clearTimeout);
+  analysisTimers = [];
+  if (analysisProgressTimer) clearInterval(analysisProgressTimer);
+  analysisProgressTimer = null;
+  setAnalyzing(false);
+}
+
 function createBottleId(sequence) {
   const year = String(new Date().getFullYear()).slice(-2);
   return `BB-${year}-${String(sequence + 55).padStart(5, '0')}`;
+}
+
+function normalizeContainer(container) {
+  const color = containerToColor(container);
+  return `Contenedor ${color}`;
+}
+
+function containerToColor(container) {
+  const value = String(container || '').toLowerCase();
+  if (value.includes('amarillo')) return 'Amarillo';
+  if (value.includes('rojo')) return 'Rojo';
+  return 'Verde';
+}
+
+function hashValue(value) {
+  let hash = 0;
+  const text = String(value || '');
+  for (let index = 0; index < text.length; index += 1) {
+    hash = ((hash << 5) - hash + text.charCodeAt(index)) | 0;
+  }
+  return Math.abs(hash);
 }
 
 function setText(selector, value) {
