@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BottleBloom | EcoBottles</title>
+  <meta name="theme-color" content="#050505">
+  <link rel="stylesheet" href="css/bottlebloom-app.css">
+  <link rel="stylesheet" href="css/sidebar-icons.css">
+  <link rel="stylesheet" href="css/ecobottles.css">
+</head>
+<body class="ecobottles-page">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="side-top">
+        <a class="logo-lockup" href="profile.html">
+          <img src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom">
+          <span class="brand-copy brand-name">Bottle<span>Bloom</span></span>
+        </a>
+        <button class="collapse-btn" type="button">BB</button>
+      </div>
+      <div class="menu-title">Menu</div>
+      <nav class="side-nav" aria-label="Menu BottleBloom">
+        <a href="scan.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M7 3H4v3"/><path d="M17 3h3v3"/><path d="M7 21H4v-3"/><path d="M17 21h3v-3"/><path d="M8 12h8"/><path d="M12 8v8"/></svg></span><span class="nav-label">Escanear botella</span></a>
+        <a href="profile.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.6-4 4.4-6 8-6s6.4 2 8 6"/></svg></span><span class="nav-label">Perfil</span></a>
+        <a href="registro.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M7 3h10v4H7z"/><path d="M5 5h14v16H5z"/><path d="M8 12h8"/><path d="M8 16h6"/></svg></span><span class="nav-label">Registro</span></a>
+        <a href="retos.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M5 4v16"/><path d="M5 5h12l-2 4 2 4H5"/></svg></span><span class="nav-label">Retos diarios</span></a>
+        <a href="eightcoins.html"><span class="nav-icon coin-icon">8</span><span class="nav-label">Eight Coins</span></a>
+        <a href="nfts.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z"/><path d="m12 8 3.5 2v4L12 16l-3.5-2v-4z"/></svg></span><span class="nav-label">NFTs</span></a>
+        <a class="active" href="ecobottles.html"><span class="nav-icon eco-bottle-icon">E</span><span class="nav-label">EcoBottles</span></a>
+        <a href="impacto.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 4C12 4 5 9 5 18"/><path d="M20 4c0 8-5 15-13 15"/><path d="M5 18c4-1 7-3 10-7"/></svg></span><span class="nav-label">Impacto ecológico</span></a>
+        <button class="logout-btn" type="button"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M14 4H6v16h8"/><path d="M10 12h10"/><path d="m17 9 3 3-3 3"/></svg></span><span class="nav-label">Cerrar sesión</span></button>
+      </nav>
+    </aside>
+
+    <main class="app-main ecobottles-main">
+      <section class="eco-hero glass-card">
+        <div class="eco-hero-copy">
+          <span class="eyebrow">BottleBloom Station</span>
+          <h1><span>EcoBottles</span> con Biofertilizantes</h1>
+          <p>Descubre cómo las botellas PET reutilizables se transforman en EcoBottles con biofertilizantes para generar un impacto positivo en nuestro planeta.</p>
+          <div class="hero-actions"><a href="scan.html">Escanear botella</a><button id="showQrInfo" type="button">Ver pasaporte QR</button></div>
+        </div>
+        <div class="eco-bottle-stage" aria-label="EcoBottle con biofertilizante">
+          <div class="qr-card"><span>Escanea para ver el impacto de tu EcoBottle</span><div class="fake-qr"></div></div>
+          <div class="eco-bottle-visual"><span>EcoBottle</span><strong>Biofertilizante<br>100% orgánico</strong><small>Hecho en Eight Academy</small></div>
+        </div>
+      </section>
+
+      <section class="process-panel glass-card">
+        <div class="section-head"><h2>El proceso en <span>7 pasos</span></h2><p>De botella PET recuperada a EcoBottle lista para distribuir biofertilizante.</p></div>
+        <div class="process-steps" id="processSteps"></div>
+      </section>
+
+      <section class="conversion-panel glass-card">
+        <div class="section-head"><h2>Conversión de botellas reutilizables en <span>EcoBottles</span></h2><p>Cada etapa cuida la limpieza, trazabilidad y calidad del producto final.</p></div>
+        <div class="conversion-list" id="conversionList"></div>
+      </section>
+
+      <section class="eco-info-grid">
+        <article class="content-panel glass-card">
+          <div class="section-head"><h2>¿Qué contiene cada <span>EcoBottle?</span></h2></div>
+          <div class="content-layout">
+            <div class="mini-bottle"><span>EcoBottle</span><small>Orgánico</small></div>
+            <div class="content-list" id="contentList"></div>
+          </div>
+        </article>
+        <article class="benefits-panel glass-card">
+          <div class="section-head"><h2>Beneficios del <span>biofertilizante</span></h2></div>
+          <div class="benefit-visual"></div>
+          <div id="benefitList" class="benefit-list"></div>
+        </article>
+      </section>
+
+      <section class="eco-cta glass-card">
+        <div class="mascot-orb"><img src="assets/MASCOTAS.png" alt="Mascotas BottleBloom"></div>
+        <div>
+          <h2>Cada botella <span>cuenta</span>. Cada acción <span>transforma</span>. Cada vida <span>florece</span>.</h2>
+          <p>Recolectamos, transformamos y florecemos junto a la comunidad Eight Academy.</p>
+        </div>
+        <a href="impacto.html">Ver impacto ecológico</a>
+      </section>
+    </main>
+  </div>
+
+  <div class="eco-toast" id="ecoToast" role="status" aria-live="polite"></div>
+  <script src="js/ecobottles-module.js"></script>
+</body>
+</html>
