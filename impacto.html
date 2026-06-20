@@ -1,1 +1,103 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>BottleBloom | Impacto</title><link rel="stylesheet" href="css/bottlebloom-app.css"></head><body><div class="app-shell"><aside class="sidebar"><div class="side-top"><a class="logo-lockup" href="home.html"><img src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom"><span class="brand-copy brand-name">Bottle<span>Bloom</span></span></a><button class="collapse-btn">BB</button></div><nav class="side-nav"><a href="home.html"><span class="nav-icon">H</span><span class="nav-label">Dashboard</span></a><a href="profile.html"><span class="nav-icon">P</span><span class="nav-label">Perfil</span></a><a href="registro.html"><span class="nav-icon">R</span><span class="nav-label">Registro</span></a><a href="retos.html"><span class="nav-icon">D</span><span class="nav-label">Retos</span></a><a href="eightcoins.html"><span class="nav-icon">8</span><span class="nav-label">Eight Coins</span></a><a href="nfts.html"><span class="nav-icon">N</span><span class="nav-label">NFTs</span></a><a href="impacto.html"><span class="nav-icon">I</span><span class="nav-label">Impacto</span></a></nav></aside><main class="app-main"><header class="topbar"><div class="hello"><h1 id="helloName">Hola, Eco Guerrero</h1><p>Impacto ecologico acumulado</p></div><div class="top-actions"><span class="pill" id="topCoins"></span><span class="pill" id="topLevel"></span><img class="avatar" id="topAvatar" alt="Perfil"></div></header><section class="page-grid dashboard-grid"><article class="glass-card stat-card"><span>Botellas recuperadas</span><strong id="impactBottles">0</strong></article><article class="glass-card stat-card"><span>CO2 evitado</span><strong id="impactCo2">0 kg</strong></article><article class="glass-card stat-card"><span>Arboles equivalentes</span><strong id="impactTrees">0</strong></article><article class="glass-card stat-card"><span>Agua ahorrada</span><strong id="impactWater">0 L</strong></article><article class="glass-card stat-card"><span>Kilometros no recorridos</span><strong id="impactKm">0 km</strong></article></section><section class="glass-card" style="margin-top:18px"><div class="card-title"><h2>Graficos simples</h2><span class="pill">Impacto</span></div><div class="chart-bars" id="impactChart"></div></section></main></div><script type="module" src="js/bottlebloom-app.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BottleBloom | Impacto ecológico</title>
+  <meta name="theme-color" content="#050505">
+  <link rel="stylesheet" href="css/bottlebloom-app.css">
+  <link rel="stylesheet" href="css/sidebar-icons.css">
+  <link rel="stylesheet" href="css/impacto.css">
+</head>
+<body class="impact-page">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="side-top">
+        <a class="logo-lockup" href="profile.html">
+          <img src="assets/LOGOTIPO%20FONDO%20NEGRO.png" alt="BottleBloom">
+          <span class="brand-copy brand-name">Bottle<span>Bloom</span></span>
+        </a>
+        <button class="collapse-btn" type="button">BB</button>
+      </div>
+      <div class="menu-title">Menu</div>
+      <nav class="side-nav" aria-label="Menu BottleBloom">
+        <a href="scan.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M7 3H4v3"/><path d="M17 3h3v3"/><path d="M7 21H4v-3"/><path d="M17 21h3v-3"/><path d="M8 12h8"/><path d="M12 8v8"/></svg></span><span class="nav-label">Escanear botella</span></a>
+        <a href="profile.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.6-4 4.4-6 8-6s6.4 2 8 6"/></svg></span><span class="nav-label">Perfil</span></a>
+        <a href="registro.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M7 3h10v4H7z"/><path d="M5 5h14v16H5z"/><path d="M8 12h8"/><path d="M8 16h6"/></svg></span><span class="nav-label">Registro</span></a>
+        <a href="retos.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M5 4v16"/><path d="M5 5h12l-2 4 2 4H5"/></svg></span><span class="nav-label">Retos diarios</span></a>
+        <a href="eightcoins.html"><span class="nav-icon coin-icon">8</span><span class="nav-label">Eight Coins</span></a>
+        <a href="nfts.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z"/><path d="m12 8 3.5 2v4L12 16l-3.5-2v-4z"/></svg></span><span class="nav-label">NFTs</span></a>
+        <a class="active" href="impacto.html"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 4C12 4 5 9 5 18"/><path d="M20 4c0 8-5 15-13 15"/><path d="M5 18c4-1 7-3 10-7"/></svg></span><span class="nav-label">Impacto ecológico</span></a>
+        <button class="logout-btn" type="button"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M14 4H6v16h8"/><path d="M10 12h10"/><path d="m17 9 3 3-3 3"/></svg></span><span class="nav-label">Cerrar sesión</span></button>
+      </nav>
+    </aside>
+
+    <main class="app-main impact-main">
+      <header class="impact-header">
+        <div>
+          <h1>Impacto <span>ecológico</span></h1>
+          <p>Tu acción de hoy, el cambio del mañana.</p>
+        </div>
+        <div class="impact-actions">
+          <span id="currentDate">Hoy</span>
+          <button id="methodBtn" type="button">¿Cómo se calcula?</button>
+        </div>
+      </header>
+
+      <section class="impact-stats">
+        <article class="impact-card glass-card"><span class="impact-icon bottle">B</span><div><small>Botellas reutilizadas</small><strong id="statBottles">0</strong><p>Total acumulado</p></div><em>Menos residuos, más futuro.</em></article>
+        <article class="impact-card glass-card"><span class="impact-icon co2">CO2</span><div><small>CO2 evitado</small><strong id="statCo2">0 kg</strong><p>Equivale a <b id="statKmMini">0 km</b> en auto</p></div></article>
+        <article class="impact-card glass-card"><span class="impact-icon tree">A</span><div><small>Árboles beneficiados</small><strong id="statTrees">0</strong><p>Gracias a tu impacto</p></div><em>Sigamos plantando vida.</em></article>
+        <article class="impact-card glass-card"><span class="impact-icon fert">F</span><div><small>Biofertilizante</small><strong id="statFert">0 kg</strong><p>Generado con botellas</p></div><em>Transformando residuos.</em></article>
+      </section>
+
+      <section class="impact-grid">
+        <article class="timeline-card glass-card">
+          <div class="card-title"><div><h2>Evolución de tu impacto</h2><p>Tu progreso ambiental a lo largo del tiempo.</p></div><select id="rangeSelect"><option value="30">Últimos 30 días</option><option value="7">Últimos 7 días</option><option value="90">Últimos 90 días</option></select></div>
+          <div class="line-chart" id="lineChart"></div>
+          <div class="chart-tabs"><button class="active" data-chart="co2">CO2 evitado</button><button data-chart="bottles">Botellas</button><button data-chart="trees">Árboles</button><button data-chart="fert">Biofertilizante</button></div>
+        </article>
+        <article class="breakdown-card glass-card">
+          <div class="card-title"><div><h2>Desglose de tu impacto</h2><p>Así se distribuye tu contribución.</p></div></div>
+          <div class="donut-layout"><div class="donut" id="impactDonut"><span></span></div><div class="breakdown-list" id="breakdownList"></div></div>
+          <button class="ghost-button" id="openMethod" type="button">Ver metodología</button>
+        </article>
+      </section>
+
+      <section class="impact-grid small">
+        <article class="equivalence-card glass-card">
+          <h2>Equivalencias ambientales</h2>
+          <p>Tu impacto en números que importan.</p>
+          <div class="equiv-grid" id="equivGrid"></div>
+        </article>
+        <article class="ranking-card glass-card">
+          <div class="card-title"><div><h2>Tu impacto por institución</h2><p>Comparativa con otros EcoGuardianes.</p></div><span>Ranking: <b id="rankingPosition">#12</b> de 145</span></div>
+          <div class="ranking-bar"><i id="rankingBar"></i><b>Tú</b></div>
+          <div class="ranking-labels"><span>Promedio escuela<br><b id="schoolAverage">4.2 kg CO2</b></span><span>Mejores estudiantes<br><b id="topAverage">12.8 kg CO2</b></span></div>
+          <a class="ghost-button" href="retos.html">Ver ranking completo</a>
+        </article>
+      </section>
+
+      <section class="impact-cta glass-card">
+        <div><strong>Cada botella cuenta, cada acción transforma.</strong><span>Sigue escaneando y generando un impacto real en nuestro planeta.</span></div>
+        <a href="scan.html">Ir a escanear botella</a>
+      </section>
+    </main>
+  </div>
+
+  <dialog class="method-modal" id="methodModal">
+    <button class="modal-close" id="closeMethod" type="button">×</button>
+    <h2>Metodología de impacto</h2>
+    <p>Los indicadores se calculan a partir de tus botellas registradas en BottleBloom. Si todavía no hay registros, la web muestra datos demo para presentación.</p>
+    <ul>
+      <li>1 botella PET = 0.35 kg de CO2 evitado.</li>
+      <li>5 botellas = 1 árbol equivalente.</li>
+      <li>1 botella = 10 litros de agua ahorrada.</li>
+      <li>4 botellas = 1 km no recorrido en auto.</li>
+      <li>1 botella apta = 0.055 kg de biofertilizante estimado.</li>
+    </ul>
+  </dialog>
+  <div class="impact-toast" id="impactToast" role="status" aria-live="polite"></div>
+  <script src="js/impacto-module.js"></script>
+</body>
+</html>
