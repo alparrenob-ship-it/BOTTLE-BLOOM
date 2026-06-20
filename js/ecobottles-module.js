@@ -9,13 +9,13 @@ const processSteps = [
 ];
 
 const conversionSteps = [
-  ['Selección', 'Las botellas PET que cumplen con los criterios de reutilización son seleccionadas.', 'Criterios: sin roturas, sin deformaciones, limpias y secas, aptas para rellenar.'],
-  ['Limpieza profunda', 'Se realiza un lavado industrial con agua y productos biodegradables.', 'Resultado: botellas limpias y listas para ser transformadas.'],
-  ['Preparación', 'Si es necesario, las botellas se trituran en escamas pequeñas para facilitar el llenado o compactación.', 'Tecnología: control de calidad del material.'],
-  ['Llenado con biofertilizante', 'Se llenan con biofertilizante orgánico producido por ZooBotánica.', 'Biofertilizante: rico en nutrientes y mejora la calidad del suelo.'],
-  ['Sellado hermético', 'Las botellas se sellan herméticamente para garantizar la conservación.', 'Seguridad: evita derrames y conserva el producto por más tiempo.'],
-  ['Identificación con QR', 'Cada EcoBottle recibe una etiqueta con código QR único.', 'QR contiene: ID único, fecha, biofertilizante utilizado e impacto generado.'],
-  ['Distribución y uso', 'Las EcoBottles se distribuyen para ser utilizadas en huertos, jardines y áreas verdes.', 'Uso recomendado: fertilizante líquido natural para plantas y reforestación.']
+  ['Selección', 'Las botellas PET que cumplen con los criterios de reutilización son seleccionadas.', 'Criterios: sin roturas, sin deformaciones, limpias y secas, aptas para rellenar.', 'assets/1.%20SELECCI%C3%93N.png'],
+  ['Limpieza profunda', 'Se realiza un lavado industrial con agua y productos biodegradables.', 'Resultado: botellas limpias y listas para ser transformadas.', 'assets/2.%20LIMPIEZA%20PROFUNDA.png'],
+  ['Preparación', 'Si es necesario, las botellas se trituran en escamas pequeñas para facilitar el llenado o compactación.', 'Tecnología: control de calidad del material.', 'assets/3.%20PREPARACI%C3%93N.png'],
+  ['Llenado con biofertilizante', 'Se llenan con biofertilizante orgánico producido por ZooBotánica.', 'Biofertilizante: rico en nutrientes y mejora la calidad del suelo.', 'assets/4.%20LLENADO.png'],
+  ['Sellado hermético', 'Las botellas se sellan herméticamente para garantizar la conservación.', 'Seguridad: evita derrames y conserva el producto por más tiempo.', 'assets/5.%20SELLADO.png'],
+  ['Identificación con QR', 'Cada EcoBottle recibe una etiqueta con código QR único.', 'QR contiene: ID único, fecha, biofertilizante utilizado e impacto generado.', 'assets/6.%20QR.png'],
+  ['Distribución y uso', 'Las EcoBottles se distribuyen para ser utilizadas en huertos, jardines y áreas verdes.', 'Uso recomendado: fertilizante líquido natural para plantas y reforestación.', 'assets/7.%20DISTRIBUCI%C3%93N%20Y%20USO.png']
 ];
 
 const contents = [
@@ -51,9 +51,8 @@ function renderConversion() {
   $('#conversionList').innerHTML = conversionSteps.map((step, index) => `
     <article class="conversion-item">
       <span class="conversion-index">${index + 1}</span>
-      <div class="conversion-photo" aria-label="Espacio para foto del paso ${index + 1}">
-        <span>Foto del paso</span>
-        <small>${step[0]}</small>
+      <div class="conversion-photo" aria-label="Foto del paso ${index + 1}: ${step[0]}">
+        <img src="${step[3]}" alt="${index + 1}. ${step[0]}">
       </div>
       <div><h3>${step[0]}</h3><p>${step[1]}</p></div>
       <div class="detail-card"><strong>${step[2].split(':')[0]}:</strong><p>${step[2].split(':').slice(1).join(':').trim()}</p></div>
