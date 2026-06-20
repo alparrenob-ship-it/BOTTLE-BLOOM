@@ -51,6 +51,10 @@ function renderConversion() {
   $('#conversionList').innerHTML = conversionSteps.map((step, index) => `
     <article class="conversion-item">
       <span class="conversion-index">${index + 1}</span>
+      <div class="conversion-photo" aria-label="Espacio para foto del paso ${index + 1}">
+        <span>Foto del paso</span>
+        <small>${step[0]}</small>
+      </div>
       <div><h3>${step[0]}</h3><p>${step[1]}</p></div>
       <div class="detail-card"><strong>${step[2].split(':')[0]}:</strong><p>${step[2].split(':').slice(1).join(':').trim()}</p></div>
     </article>
