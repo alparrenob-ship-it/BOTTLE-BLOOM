@@ -37,7 +37,9 @@ const benefits = [
 const $ = (selector) => document.querySelector(selector);
 
 function renderProcess() {
-  $('#processSteps').innerHTML = processSteps.map((step, index) => `
+  const container = $('#processSteps');
+  if (!container) return;
+  container.innerHTML = processSteps.map((step, index) => `
     <article class="process-step">
       <span class="step-number">${index + 1}</span>
       <div class="step-orb">${String(index + 1).padStart(2, '0')}</div>
@@ -48,7 +50,9 @@ function renderProcess() {
 }
 
 function renderConversion() {
-  $('#conversionList').innerHTML = conversionSteps.map((step, index) => `
+  const container = $('#conversionList');
+  if (!container) return;
+  container.innerHTML = conversionSteps.map((step, index) => `
     <article class="conversion-item">
       <span class="conversion-index">${index + 1}</span>
       <div class="conversion-photo" aria-label="Foto del paso ${index + 1}: ${step[0]}">
@@ -61,27 +65,23 @@ function renderConversion() {
 }
 
 function renderLists() {
-  $('#contentList').innerHTML = contents.map((item, index) => `
-    <div class="content-item"><span>${index + 1}</span><div><strong>${item[0]}</strong><p>${item[1]}</p></div></div>
-  `).join('');
-  $('#benefitList').innerHTML = benefits.map((item, index) => `
-    <div class="benefit-item"><span>${index + 1}</span><div><strong>${item[0]}</strong><p>${item[1]}</p></div></div>
-  `).join('');
-}
-
-function showToast(message) {
-  const toast = $('#ecoToast');
-  if (!toast) return;
-  toast.textContent = message;
-  toast.classList.add('show');
-  window.clearTimeout(showToast.timer);
-  showToast.timer = window.setTimeout(() => toast.classList.remove('show'), 3000);
+  const contentList = $('#contentList');
+  const benefitList = $('#benefitList');
+  if (contentList) {
+    contentList.innerHTML = contents.map((item, index) => `
+      <div class="content-item"><span>${index + 1}</span><div><strong>${item[0]}</strong><p>${item[1]}</p></div></div>
+    `).join('');
+  }
+  if (benefitList) {
+    benefitList.innerHTML = benefits.map((item, index) => `
+      <div class="benefit-item"><span>${index + 1}</span><div><strong>${item[0]}</strong><p>${item[1]}</p></div></div>
+    `).join('');
+  }
 }
 
 function bindActions() {
   $('.collapse-btn')?.addEventListener('click', () => document.body.classList.toggle('sidebar-collapsed'));
   $('.logout-btn')?.addEventListener('click', () => { window.location.href = 'index.html'; });
-  $('#showQrInfo')?.addEventListener('click', () => showToast('El QR conecta cada EcoBottle con su ID, fecha, biofertilizante usado e impacto generado.'));
 }
 
 document.addEventListener('DOMContentLoaded', () => {
