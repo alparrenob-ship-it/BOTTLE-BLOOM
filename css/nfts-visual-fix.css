@@ -10,12 +10,12 @@
 
 .nft-art {
   height: clamp(250px, 24vw, 320px) !important;
-  padding: 14px;
+  padding: 8px;
   overflow: hidden;
   border-bottom: 1px solid rgba(14, 223, 255, 0.14);
   background:
-    radial-gradient(circle at 50% 38%, rgba(124, 255, 43, 0.28), transparent 44%),
-    radial-gradient(circle at 50% 70%, rgba(14, 223, 255, 0.12), transparent 52%),
+    radial-gradient(circle at 50% 43%, rgba(124, 255, 43, 0.34), transparent 45%),
+    radial-gradient(circle at 50% 70%, rgba(14, 223, 255, 0.16), transparent 54%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(2, 8, 7, 0.38));
 }
 
@@ -24,9 +24,14 @@
   height: 100% !important;
   object-fit: contain !important;
   object-position: center center !important;
-  padding: 4px;
-  transform: scale(0.98);
-  filter: drop-shadow(0 0 18px rgba(124, 255, 43, 0.2)) drop-shadow(0 0 14px rgba(14, 223, 255, 0.14));
+  padding: 0;
+  transform: scale(1.55);
+  transform-origin: center center;
+  filter: drop-shadow(0 0 20px rgba(124, 255, 43, 0.26)) drop-shadow(0 0 16px rgba(14, 223, 255, 0.16));
+}
+
+.nft-card:hover .nft-art img {
+  transform: scale(1.62);
 }
 
 .nft-card.locked {
@@ -34,8 +39,13 @@
 }
 
 .nft-card.locked .nft-art img {
-  opacity: 0.86 !important;
-  filter: grayscale(0.18) brightness(0.82) drop-shadow(0 0 18px rgba(124, 255, 43, 0.14)) !important;
+  opacity: 0.92 !important;
+  transform: scale(1.52);
+  filter: grayscale(0.1) brightness(0.9) drop-shadow(0 0 18px rgba(124, 255, 43, 0.18)) !important;
+}
+
+.nft-card.locked:hover .nft-art img {
+  transform: scale(1.58);
 }
 
 .locked-banner {
@@ -77,13 +87,24 @@
   aspect-ratio: 1 / 1;
   object-fit: contain;
   background: radial-gradient(circle, rgba(124, 255, 43, 0.13), rgba(2, 8, 7, 0.65));
-  padding: 14px;
+  padding: 8px;
   border: 1px solid rgba(124, 255, 43, 0.18);
+  transform: scale(1.12);
 }
 
 @media (max-width: 1180px) {
   .nft-art {
     height: clamp(260px, 36vw, 340px) !important;
+  }
+
+  .nft-art img,
+  .nft-card.locked .nft-art img {
+    transform: scale(1.48);
+  }
+
+  .nft-card:hover .nft-art img,
+  .nft-card.locked:hover .nft-art img {
+    transform: scale(1.55);
   }
 
   .locked-banner {
@@ -98,6 +119,16 @@
 
   .nft-art {
     height: min(78vw, 360px) !important;
+  }
+
+  .nft-art img,
+  .nft-card.locked .nft-art img {
+    transform: scale(1.42);
+  }
+
+  .nft-card:hover .nft-art img,
+  .nft-card.locked:hover .nft-art img {
+    transform: scale(1.48);
   }
 
   .locked-banner {
