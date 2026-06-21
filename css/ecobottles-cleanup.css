@@ -1,0 +1,137 @@
+.eco-bottle-stage {
+  min-height: 390px;
+  display: grid;
+  grid-template-columns: 1fr !important;
+  place-items: center;
+  padding: 18px;
+}
+
+.eco-bottle-visual {
+  width: min(100%, 430px) !important;
+  height: 390px !important;
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+  animation: ecoBottleFloat 4.8s ease-in-out infinite;
+}
+
+.eco-bottle-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 8px !important;
+  filter: drop-shadow(0 0 24px rgba(124, 255, 43, 0.24)) drop-shadow(0 0 18px rgba(66, 217, 255, 0.16));
+}
+
+.eco-cta {
+  display: grid !important;
+  grid-template-columns: minmax(120px, 180px) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(18px, 3vw, 34px);
+  padding: clamp(18px, 2.6vw, 30px) !important;
+  overflow: hidden;
+}
+
+.eco-cta .mascot-orb {
+  width: clamp(118px, 14vw, 170px) !important;
+  height: clamp(118px, 14vw, 170px) !important;
+  margin: 0 !important;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle, rgba(124, 255, 43, 0.12), rgba(2, 8, 7, 0.16) 70%);
+  border-radius: 28px;
+  box-shadow: 0 0 34px rgba(124, 255, 43, 0.16);
+}
+
+.eco-cta .mascot-orb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.45));
+}
+
+.eco-cta-copy {
+  min-width: 0;
+}
+
+.eco-cta h2 {
+  max-width: 760px;
+  margin: 0;
+  font-size: clamp(1.75rem, 4.2vw, 4.25rem) !important;
+  line-height: 0.98 !important;
+  letter-spacing: 0 !important;
+  text-wrap: balance;
+}
+
+.eco-cta h2 span {
+  color: #7cff2b;
+  text-shadow: 0 0 18px rgba(124, 255, 43, 0.35);
+}
+
+.eco-cta p {
+  max-width: 720px;
+  margin: 12px 0 0;
+  font-size: clamp(0.95rem, 1.35vw, 1.2rem) !important;
+  line-height: 1.35;
+  color: #a8b0ad;
+}
+
+.eco-cta > a {
+  justify-self: end;
+  white-space: nowrap;
+  min-width: 210px;
+  text-align: center;
+}
+
+@keyframes ecoBottleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@media (max-width: 1180px) {
+  .eco-bottle-stage {
+    min-height: 340px;
+  }
+
+  .eco-bottle-visual {
+    width: min(100%, 370px) !important;
+    height: 340px !important;
+  }
+
+  .eco-cta {
+    grid-template-columns: 130px 1fr;
+  }
+
+  .eco-cta > a {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+}
+
+@media (max-width: 720px) {
+  .eco-bottle-stage {
+    min-height: 300px;
+    padding: 12px;
+  }
+
+  .eco-bottle-visual {
+    width: min(100%, 315px) !important;
+    height: 300px !important;
+  }
+
+  .eco-cta {
+    grid-template-columns: 1fr;
+    text-align: center;
+    justify-items: center;
+  }
+
+  .eco-cta .mascot-orb {
+    width: 150px !important;
+    height: 150px !important;
+  }
+
+  .eco-cta > a {
+    justify-self: stretch;
+    min-width: 0;
+  }
+}
