@@ -45,3 +45,36 @@
   border: 2px solid currentColor;
   font: 900 0.95rem/1 Orbitron, Inter, sans-serif;
 }
+
+.side-nav,
+.profile-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.side-nav a[href="profile.html"],
+.profile-nav a[href="profile.html"] { order: 1; }
+
+.side-nav a[href="scan.html"],
+.profile-nav a[href="scan.html"] { order: 2; }
+
+.side-nav a[href="registro.html"],
+.profile-nav a[href="registro.html"] { order: 3; }
+
+.side-nav a[href="retos.html"],
+.profile-nav a[href="retos.html"] { order: 4; }
+
+.side-nav a[href="eightcoins.html"],
+.profile-nav a[href="eightcoins.html"] { order: 5; }
+
+.side-nav a[href="nfts.html"],
+.profile-nav a[href="nfts.html"] { order: 6; }
+
+.side-nav a[href="impacto.html"],
+.profile-nav a[href="impacto.html"] { order: 7; }
+
+.side-nav a[href="ecobottles.html"],
+.profile-nav a[href="ecobottles.html"] { order: 8; }
+
+.logout-btn,
+.profile-logout { order: 20; }
