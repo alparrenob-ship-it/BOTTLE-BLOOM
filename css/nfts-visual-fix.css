@@ -1,0 +1,106 @@
+.nft-grid {
+  align-items: stretch;
+}
+
+.nft-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 470px;
+}
+
+.nft-art {
+  height: clamp(250px, 24vw, 320px) !important;
+  padding: 14px;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(14, 223, 255, 0.14);
+  background:
+    radial-gradient(circle at 50% 38%, rgba(124, 255, 43, 0.28), transparent 44%),
+    radial-gradient(circle at 50% 70%, rgba(14, 223, 255, 0.12), transparent 52%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(2, 8, 7, 0.38));
+}
+
+.nft-art img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  padding: 4px;
+  transform: scale(0.98);
+  filter: drop-shadow(0 0 18px rgba(124, 255, 43, 0.2)) drop-shadow(0 0 14px rgba(14, 223, 255, 0.14));
+}
+
+.nft-card.locked {
+  filter: none !important;
+}
+
+.nft-card.locked .nft-art img {
+  opacity: 0.86 !important;
+  filter: grayscale(0.18) brightness(0.82) drop-shadow(0 0 18px rgba(124, 255, 43, 0.14)) !important;
+}
+
+.locked-banner {
+  inset: auto 14px 184px 14px !important;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 210, 63, 0.28);
+  border-radius: 12px;
+  background: rgba(2, 8, 7, 0.72) !important;
+  backdrop-filter: blur(6px) !important;
+  color: #FFD23F !important;
+  font-size: 0.78rem !important;
+  box-shadow: 0 0 18px rgba(255, 210, 63, 0.12);
+}
+
+.nft-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 7px;
+  padding: 16px !important;
+}
+
+.nft-info h2 {
+  min-height: 2.4em;
+  line-height: 1.2;
+}
+
+.nft-info p {
+  flex: 1;
+  line-height: 1.35;
+}
+
+.reward-chip {
+  margin-top: auto !important;
+}
+
+.modal-card img {
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  background: radial-gradient(circle, rgba(124, 255, 43, 0.13), rgba(2, 8, 7, 0.65));
+  padding: 14px;
+  border: 1px solid rgba(124, 255, 43, 0.18);
+}
+
+@media (max-width: 1180px) {
+  .nft-art {
+    height: clamp(260px, 36vw, 340px) !important;
+  }
+
+  .locked-banner {
+    bottom: 184px !important;
+  }
+}
+
+@media (max-width: 740px) {
+  .nft-card {
+    min-height: auto;
+  }
+
+  .nft-art {
+    height: min(78vw, 360px) !important;
+  }
+
+  .locked-banner {
+    inset: auto 14px 176px 14px !important;
+  }
+}
